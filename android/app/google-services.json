@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "265228302970",
+    "project_id": "keylol-app",
+    "storage_bucket": "keylol-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265228302970:android:32e79747f7d001a94699c3",
+        "android_client_info": {
+          "package_name": "com.cdgeass.keylol_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265228302970-gq7ptbt0103hkkel29q2cc3jlhteivtl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_-ZbZzS4bG50qbmeLf3YEWqWvXEfZ1aI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "265228302970-gq7ptbt0103hkkel29q2cc3jlhteivtl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "265228302970-0hbni52vh1c5tueci166dnbt1kqh3m6t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cdgeass.keylolFlutter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
