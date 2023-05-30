@@ -1,0 +1,96 @@
+import 'package:flutter/material.dart';
+import 'package:keylol_flutter/screen/index/index_page.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  var _index = 0;
+  final _controller = PageController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: PageView(
+        controller: _controller,
+        physics: const NeverScrollableScrollPhysics(),
+        children: const [
+          IndexPage(),
+        ],
+      ),
+      bottomNavigationBar: _buildBottomNavigationBar(context),
+    );
+  }
+
+  Widget _buildBottomNavigationBar(BuildContext context) {
+    return SalomonBottomBar(
+      currentIndex: _index,
+      onTap: (index) {
+        setState(() {
+          _index = index;
+          _controller.animateToPage(
+            index,
+            duration: const Duration(microseconds: 500),
+            curve: Curves.linear,
+          );
+        });
+      },
+      items: [
+        SalomonBottomBarItem(
+          icon: const Icon(
+            Icons.home_outlined,
+          ),
+          activeIcon: const Icon(
+            Icons.home,
+          ),
+          title: const Text('聚焦'),
+        ),
+        SalomonBottomBarItem(
+          icon: const Icon(
+            Icons.camera_outlined,
+          ),
+          activeIcon: const Icon(
+            Icons.camera,
+          ),
+          title: const Text('导读'),
+        ),
+        SalomonBottomBarItem(
+          icon: const Icon(
+            Icons.dashboard_outlined,
+          ),
+          activeIcon: const Icon(
+            Icons.dashboard,
+          ),
+          title: const Text('版块'),
+        ),
+        SalomonBottomBarItem(
+          icon: const Badge(
+            // isLabelVisible: noticeCount != 0,
+            child: Icon(
+              Icons.notifications_outlined,
+            ),
+          ),
+          activeIcon: const Badge(
+            // isLabelVisible: noticeCount != 0,
+            child: Icon(
+              Icons.notifications,
+            ),
+          ),
+          title: const Text('提醒'),
+        ),
+      ],
+    );
+  }
+}
