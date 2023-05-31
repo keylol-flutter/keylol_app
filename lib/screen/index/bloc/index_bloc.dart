@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:keylol_api/keylol.dart';
-import 'package:keylol_api/models/index.dart';
+import 'package:keylol_api/keylol_api.dart';
 
 part 'index_event.dart';
 
