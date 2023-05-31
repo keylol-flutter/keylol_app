@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keylol_flutter/screen/index/index_page.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,7 +23,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: PageView(
         controller: _controller,
         physics: const NeverScrollableScrollPhysics(),
@@ -30,7 +30,34 @@ class _HomePageState extends State<HomePage> {
           IndexPage(),
         ],
       ),
+      drawer: _buildDrawer(context),
       bottomNavigationBar: _buildBottomNavigationBar(context),
+    );
+  }
+
+  Widget _buildDrawer(BuildContext context) {
+    final destinations = <NavigationDrawerDestination>[
+      NavigationDrawerDestination(
+        icon: const Icon(Icons.home_outlined),
+        selectedIcon: const Icon(Icons.home),
+        label: Text(
+          AppLocalizations.of(context)!.homePageDrawerListTileHome,
+        ),
+      )
+    ];
+
+    return NavigationDrawer(
+      selectedIndex: -1,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
+          child: Text(
+            AppLocalizations.of(context)!.homePageDrawerHeader,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+        ),
+        for (final destination in destinations) destination,
+      ],
     );
   }
 

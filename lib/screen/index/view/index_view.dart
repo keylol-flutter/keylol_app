@@ -30,23 +30,27 @@ class _IndexViewState extends State<IndexView> {
       },
       builder: (context, state) {
         final index = state.index;
-        return RefreshIndicator(
-          onRefresh: () async {
-            context.read<IndexBloc>().add(IndexFetched());
-          },
-          child: index == null
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : NestedScrollView(
-                  headerSliverBuilder: (context, innerBoxIsScrolled) {
-                    return [
-                      SliverToBoxAdapter(child: _buildCarousel(context, index)),
-                      SliverToBoxAdapter(child: _buildTab(context, index)),
-                    ];
-                  },
-                  body: _buildPageView(context, index),
-                ),
+        return Scaffold(
+          appBar: AppBar(),
+          body: RefreshIndicator(
+            onRefresh: () async {
+              context.read<IndexBloc>().add(IndexFetched());
+            },
+            child: index == null
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : NestedScrollView(
+                    headerSliverBuilder: (context, innerBoxIsScrolled) {
+                      return [
+                        SliverToBoxAdapter(
+                            child: _buildCarousel(context, index)),
+                        SliverToBoxAdapter(child: _buildTab(context, index)),
+                      ];
+                    },
+                    body: _buildPageView(context, index),
+                  ),
+          ),
         );
       },
     );

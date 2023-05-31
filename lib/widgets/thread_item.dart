@@ -27,9 +27,18 @@ class ThreadItem extends StatelessWidget {
         thread.subject,
         style: Theme.of(context).textTheme.bodyLarge,
       ),
-      subtitle: Text(
-        '${thread.author} • ${thread.dateline}',
-        style: Theme.of(context).textTheme.bodyMedium,
+      subtitle: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            thread.author,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          Text(
+            thread.dateline,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ],
       ),
       onTap: () {
         Navigator.of(context).pushNamed(

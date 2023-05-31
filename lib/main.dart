@@ -8,6 +8,7 @@ import 'package:keylol_flutter/bloc/theme_color/theme_color_bloc.dart';
 import 'package:keylol_flutter/config/firebase_options.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keylol_flutter/config/router.dart';
+import 'package:keylol_flutter/repository/authentication_repository.dart';
 import 'package:keylol_flutter/repository/config_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,12 +28,17 @@ void main() async {
 
   final prefs = await SharedPreferences.getInstance();
   final keylol = await Keylol.create();
+  final authenticationRepository = AuthenticationRepository();
+  final authenticationInterceptor =
+      AuthenticationInterceptor(authenticationRepository);
+  keylol.addInterceptor(authenticationInterceptor);
 
   runApp(
     MultiRepositoryProvider(
       providers: [
         RepositoryProvider(create: (context) => ConfigRepository(prefs)),
         RepositoryProvider.value(value: keylol),
+        RepositoryProvider.value(value: authenticationRepository),
       ],
       child: const MyApp(),
     ),
