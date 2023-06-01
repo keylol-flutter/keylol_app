@@ -668,16 +668,8 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.4"
-  mockito:
-    dependency: "direct dev"
-    description:
-      name: mockito
-      sha256: "8b46d7eb40abdda92d62edd01546051f0c27365e65608c284de336dccfef88cc"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "5.4.1"
   mocktail:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: mocktail
       sha256: "80a996cd9a69284b3dc521ce185ffe9150cde69767c2d3a0720147d93c0cef53"
@@ -953,14 +945,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  source_gen:
-    dependency: transitive
-    description:
-      name: source_gen
-      sha256: "373f96cf5a8744bc9816c1ff41cf5391bbdbe3d7a96fe98c622b6738a8a7bd33"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.3.2"
   source_map_stack_trace:
     dependency: transitive
     description:
