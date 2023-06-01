@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/screen/index/bloc/index_bloc.dart';
 import 'package:keylol_flutter/screen/index/widgets/carousel.dart';
+import 'package:keylol_flutter/screen/index/widgets/search.dart';
 import 'package:keylol_flutter/widgets/thread_item.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:skeletons/skeletons.dart';
 
 class IndexView extends StatefulWidget {
   const IndexView({super.key});
@@ -26,30 +29,40 @@ class _IndexViewState extends State<IndexView> {
   Widget build(BuildContext context) {
     return BlocConsumer<IndexBloc, IndexState>(
       listener: (context, state) {
-        if (state.status == IndexStatus.failure) {}
+        if (state.status == IndexStatus.failure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.networkError),
+            ),
+          );
+        }
       },
       builder: (context, state) {
         final index = state.index;
-        return Scaffold(
-          appBar: AppBar(),
-          body: RefreshIndicator(
-            onRefresh: () async {
-              context.read<IndexBloc>().add(IndexFetched());
-            },
-            child: index == null
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : NestedScrollView(
-                    headerSliverBuilder: (context, innerBoxIsScrolled) {
-                      return [
-                        SliverToBoxAdapter(
-                            child: _buildCarousel(context, index)),
-                        SliverToBoxAdapter(child: _buildTab(context, index)),
-                      ];
-                    },
-                    body: _buildPageView(context, index),
+        return RefreshIndicator(
+          onRefresh: () async {
+            context.read<IndexBloc>().add(IndexFetched());
+          },
+          child: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return [
+                SliverAppBar(
+                  automaticallyImplyLeading: false,
+                  title: Search(
+                    barLeading: IconButton(
+                      icon: const Icon(Icons.menu),
+                      onPressed: () async {
+                        Scaffold.of(context).openDrawer();
+                      },
+                    ),
                   ),
+                  titleSpacing: 16.0,
+                ),
+                SliverToBoxAdapter(child: _buildCarousel(context, index)),
+                SliverToBoxAdapter(child: _buildTab(context, index)),
+              ];
+            },
+            body: _buildPageView(context, index),
           ),
         );
       },
@@ -57,7 +70,24 @@ class _IndexViewState extends State<IndexView> {
   }
 
   /// 轮播图
-  Widget _buildCarousel(BuildContext context, Index index) {
+  Widget _buildCarousel(BuildContext context, Index? index) {
+    if (index == null) {
+      final screenWidth = MediaQuery.of(context).size.width;
+      final carouselHeight = ((screenWidth - 32) / 16 * 9).abs();
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+        child: SkeletonItem(
+          child: SkeletonAvatar(
+            style: SkeletonAvatarStyle(
+              width: double.infinity,
+              height: carouselHeight,
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+          ),
+        ),
+      );
+    }
+
     final threads = index.slideViewThreads;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
@@ -93,7 +123,26 @@ class _IndexViewState extends State<IndexView> {
     );
   }
 
-  Widget _buildTab(BuildContext context, Index index) {
+  Widget _buildTab(BuildContext context, Index? index) {
+    if (index == null) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+        child: SkeletonItem(
+          child: SkeletonParagraph(
+            style: SkeletonParagraphStyle(
+              padding: EdgeInsets.zero,
+              lines: 1,
+              lineStyle: SkeletonLineStyle(
+                width: 96.0,
+                height: 32.0,
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
     final threadMap = index.tabThreadMap;
     final hasLogin = threadMap.containsKey('最新回复');
 
@@ -113,7 +162,46 @@ class _IndexViewState extends State<IndexView> {
     );
   }
 
-  Widget _buildPageView(BuildContext context, Index index) {
+  Widget _buildPageView(BuildContext context, Index? index) {
+    if (index == null) {
+      return ListView(
+        children: List<Widget>.generate(10, (index) {
+          return SkeletonItem(
+            child: ListTile(
+              leading: const SkeletonAvatar(
+                style: SkeletonAvatarStyle(
+                  shape: BoxShape.circle,
+                  width: 40.0,
+                  height: 40.0,
+                ),
+              ),
+              title: SkeletonParagraph(
+                style: SkeletonParagraphStyle(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+                  lines: 1,
+                  lineStyle: SkeletonLineStyle(
+                    height: 26.0,
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
+              ),
+              subtitle: SkeletonParagraph(
+                style: SkeletonParagraphStyle(
+                  padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
+                  lines: 1,
+                  lineStyle: SkeletonLineStyle(
+                    height: 20.0,
+                    width: 120.0,
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }),
+      );
+    }
+
     final threadMap = index.tabThreadMap;
     final newThreads = threadMap['最新主题'];
     final newReplies = threadMap['最新回复'];
