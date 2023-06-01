@@ -88,6 +88,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - images/carousel_placeholder.jpg
+    - images/unknown_avatar.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

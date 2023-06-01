@@ -2,5 +2,6 @@
   "title": "Keylol Flutter",
   "networkError": "连接出错了，请稍后重试~",
   "homePageDrawerHeader": "Keylol Flutter",
-  "homePageDrawerListTileHome": "主页"
+  "homePageDrawerListTileHome": "主页",
+  "indexPageTitle": "聚焦"
 }

@@ -10,6 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keylol_flutter/config/router.dart';
 import 'package:keylol_flutter/repository/authentication_repository.dart';
 import 'package:keylol_flutter/repository/config_repository.dart';
+import 'package:keylol_flutter/repository/search_history_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -39,6 +40,7 @@ void main() async {
         RepositoryProvider(create: (context) => ConfigRepository(prefs)),
         RepositoryProvider.value(value: keylol),
         RepositoryProvider.value(value: authenticationRepository),
+        RepositoryProvider(create: (context) => SearchHistoryRepository()),
       ],
       child: const MyApp(),
     ),
@@ -61,9 +63,14 @@ class MyApp extends StatelessWidget {
           return MaterialApp.router(
             routerConfig: routerConfig,
             theme: ThemeData(
-              useMaterial3: true,
-              colorScheme: ColorScheme.fromSeed(seedColor: themeColor),
-            ),
+                useMaterial3: true,
+                colorScheme: ColorScheme.fromSeed(seedColor: themeColor),
+                searchBarTheme: SearchBarThemeData(
+                  elevation: MaterialStateProperty.all(6.0),
+                  backgroundColor: MaterialStateProperty.all(
+                      Theme.of(context).colorScheme.surface),
+                  shadowColor: MaterialStateProperty.all(Colors.transparent),
+                )),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
           );

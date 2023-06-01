@@ -4,6 +4,7 @@ import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/screen/index/bloc/index_bloc.dart';
 import 'package:keylol_flutter/screen/index/widgets/carousel.dart';
 import 'package:keylol_flutter/screen/index/widgets/search.dart';
+import 'package:keylol_flutter/widgets/avatar.dart';
 import 'package:keylol_flutter/widgets/thread_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:skeletons/skeletons.dart';
@@ -47,16 +48,14 @@ class _IndexViewState extends State<IndexView> {
             headerSliverBuilder: (context, innerBoxIsScrolled) {
               return [
                 SliverAppBar(
-                  automaticallyImplyLeading: false,
-                  title: Search(
-                    barLeading: IconButton(
-                      icon: const Icon(Icons.menu),
-                      onPressed: () async {
-                        Scaffold.of(context).openDrawer();
-                      },
-                    ),
-                  ),
-                  titleSpacing: 16.0,
+                  pinned: true,
+                  title: Text(AppLocalizations.of(context)!.indexPageTitle),
+                  actions: const [
+                    Search(),
+                    // TODO
+                    Avatar(uid: '', width: 30, height: 30),
+                    SizedBox(width: 16.0),
+                  ],
                 ),
                 SliverToBoxAdapter(child: _buildCarousel(context, index)),
                 SliverToBoxAdapter(child: _buildTab(context, index)),
@@ -71,6 +70,7 @@ class _IndexViewState extends State<IndexView> {
 
   /// 轮播图
   Widget _buildCarousel(BuildContext context, Index? index) {
+    // skeleton
     if (index == null) {
       final screenWidth = MediaQuery.of(context).size.width;
       final carouselHeight = ((screenWidth - 32) / 16 * 9).abs();
