@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/screen/index/bloc/index_bloc.dart';
+import 'package:keylol_flutter/screen/index/bloc/search_bloc.dart';
 import 'package:keylol_flutter/screen/index/widgets/carousel.dart';
-import 'package:keylol_flutter/screen/index/widgets/search.dart';
 import 'package:keylol_flutter/widgets/avatar.dart';
 import 'package:keylol_flutter/widgets/thread_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -18,11 +19,13 @@ class IndexView extends StatefulWidget {
 
 class _IndexViewState extends State<IndexView> {
   var _index = 0;
-  final PageController _controller = PageController();
+  final _controller = PageController();
+  final _searchController = SearchController();
 
   @override
   void dispose() {
     _controller.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -41,6 +44,9 @@ class _IndexViewState extends State<IndexView> {
       builder: (context, state) {
         final index = state.index;
         return RefreshIndicator(
+          notificationPredicate: (notification) {
+            return notification.depth == 2;
+          },
           onRefresh: () async {
             context.read<IndexBloc>().add(IndexFetched());
           },
@@ -48,14 +54,8 @@ class _IndexViewState extends State<IndexView> {
             headerSliverBuilder: (context, innerBoxIsScrolled) {
               return [
                 SliverAppBar(
-                  pinned: true,
-                  title: Text(AppLocalizations.of(context)!.indexPageTitle),
-                  actions: const [
-                    Search(),
-                    // TODO
-                    Avatar(uid: '', width: 30, height: 30),
-                    SizedBox(width: 16.0),
-                  ],
+                  automaticallyImplyLeading: false,
+                  title: _buildSearchBar(context),
                 ),
                 SliverToBoxAdapter(child: _buildCarousel(context, index)),
                 SliverToBoxAdapter(child: _buildTab(context, index)),
@@ -68,6 +68,76 @@ class _IndexViewState extends State<IndexView> {
     );
   }
 
+  Widget _buildSearchBar(BuildContext context) {
+    return BlocConsumer<SearchBloc, SearchState>(
+      listener: (context, state) {
+        if (state.status == SearchStatus.success) {
+          if (_searchController.isOpen) {
+            _searchController.closeView(null);
+          }
+          _searchController.openView();
+        }
+      },
+      builder: (context, state) {
+        return SearchAnchor(
+          searchController: _searchController,
+          builder: (context, controller) {
+            final focusNode = FocusNode(
+              onKeyEvent: (node, event) {
+                if (event.logicalKey == LogicalKeyboardKey.enter) {
+                  final text = controller.text;
+                  if (text.isEmpty) {
+                    return KeyEventResult.ignored;
+                  }
+                  context.read<SearchBloc>()
+                    ..add(SearchResultsFetching())
+                    ..add(SearchResultsFetched(text));
+                  return KeyEventResult.handled;
+                }
+                return KeyEventResult.ignored;
+              },
+            );
+            return SearchBar(
+              focusNode: focusNode,
+              controller: _searchController,
+              leading: IconButton(
+                icon: const Icon(Icons.menu),
+                onPressed: () async {
+                  Scaffold.of(context).openDrawer();
+                },
+              ),
+              trailing: [
+                if (state.status == SearchStatus.searching)
+                  const SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(),
+                  ),
+                const Avatar(uid: '', width: 30, height: 30),
+              ],
+            );
+          },
+          suggestionsBuilder: (context, controller) {
+            if (state.status != SearchStatus.success) {
+              return [Container()];
+            }
+            final results = state.results;
+            return List.generate(
+              results.length,
+              (index) {
+                final result = results[index];
+                return ListTile(
+                  title: Text(result['title']),
+                  trailing: const Icon(Icons.turn_slight_right),
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
   /// 轮播图
   Widget _buildCarousel(BuildContext context, Index? index) {
     // skeleton
@@ -75,7 +145,7 @@ class _IndexViewState extends State<IndexView> {
       final screenWidth = MediaQuery.of(context).size.width;
       final carouselHeight = ((screenWidth - 32) / 16 * 9).abs();
       return Padding(
-        padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
         child: SkeletonItem(
           child: SkeletonAvatar(
             style: SkeletonAvatarStyle(
@@ -90,7 +160,7 @@ class _IndexViewState extends State<IndexView> {
 
     final threads = index.slideViewThreads;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+      padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
       child: Carousel(
         threads: threads,
       ),

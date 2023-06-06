@@ -102,21 +102,6 @@ class _HomePageState extends State<HomePage> {
           ),
           title: const Text('版块'),
         ),
-        SalomonBottomBarItem(
-          icon: const Badge(
-            // isLabelVisible: noticeCount != 0,
-            child: Icon(
-              Icons.notifications_outlined,
-            ),
-          ),
-          activeIcon: const Badge(
-            // isLabelVisible: noticeCount != 0,
-            child: Icon(
-              Icons.notifications,
-            ),
-          ),
-          title: const Text('提醒'),
-        ),
       ],
     );
   }

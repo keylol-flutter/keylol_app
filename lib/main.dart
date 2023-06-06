@@ -10,7 +10,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keylol_flutter/config/router.dart';
 import 'package:keylol_flutter/repository/authentication_repository.dart';
 import 'package:keylol_flutter/repository/config_repository.dart';
-import 'package:keylol_flutter/repository/search_history_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -40,7 +39,6 @@ void main() async {
         RepositoryProvider(create: (context) => ConfigRepository(prefs)),
         RepositoryProvider.value(value: keylol),
         RepositoryProvider.value(value: authenticationRepository),
-        RepositoryProvider(create: (context) => SearchHistoryRepository()),
       ],
       child: const MyApp(),
     ),

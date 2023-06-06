@@ -494,7 +494,7 @@ packages:
     source: hosted
     version: "2.3.1"
   html:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: html
       sha256: "58e3491f7bf0b6a4ea5110c0c688877460d1a6366731155c4a4580e7ded773e8"
