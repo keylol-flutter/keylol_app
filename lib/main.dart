@@ -1,10 +1,11 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
-import 'package:keylol_flutter/bloc/theme_color/theme_color_bloc.dart';
+import 'package:keylol_flutter/bloc/bloc/authentication_bloc.dart';
 import 'package:keylol_flutter/config/firebase_options.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keylol_flutter/config/router.dart';
@@ -43,8 +44,13 @@ void main() async {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-              create: (context) =>
-                  ThemeColorBloc(context.read<ConfigRepository>())),
+            create: (context) {
+              return AuthenticationBloc(
+                context.read<Keylol>(),
+                context.read<AuthenticationRepository>(),
+              )..add(AuthenticationStatusFetched());
+            },
+          ),
         ],
         child: const MyApp(),
       ),
@@ -57,22 +63,41 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeColorBloc, ThemeColorState>(
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
-        final themeColor = state.color;
-        return MaterialApp.router(
-          routerConfig: routerConfig,
-          theme: ThemeData(
-              useMaterial3: true,
-              colorScheme: ColorScheme.fromSeed(seedColor: themeColor),
-              searchBarTheme: SearchBarThemeData(
-                elevation: MaterialStateProperty.all(6.0),
-                backgroundColor: MaterialStateProperty.all(
-                    Theme.of(context).colorScheme.surface),
-                shadowColor: MaterialStateProperty.all(Colors.transparent),
-              )),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
+        return DynamicColorBuilder(
+          builder: (lightDynamic, darkDynamic) {
+            ColorScheme lightColorScheme;
+            ColorScheme darkColorScheme;
+
+            if (lightDynamic != null && darkDynamic != null) {
+              lightColorScheme = lightDynamic.harmonized();
+              darkColorScheme = darkDynamic.harmonized();
+            } else {
+              // Otherwise, use fallback schemes.
+              lightColorScheme = ColorScheme.fromSeed(
+                seedColor: Colors.deepPurple,
+              );
+              darkColorScheme = ColorScheme.fromSeed(
+                seedColor: Colors.deepPurple,
+                brightness: Brightness.dark,
+              );
+            }
+
+            return MaterialApp.router(
+              routerConfig: routerConfig,
+              theme: ThemeData(
+                useMaterial3: true,
+                colorScheme: lightColorScheme,
+              ),
+              darkTheme: ThemeData(
+                useMaterial3: true,
+                colorScheme: darkColorScheme,
+              ),
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+            );
+          },
         );
       },
     );

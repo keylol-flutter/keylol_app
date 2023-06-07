@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dio/src/response.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/config/logger.dart';
 
@@ -19,12 +18,14 @@ class AuthenticationRepository {
     yield* _controller.stream;
   }
 
+  Variables get profile => _profile;
+
   set profile(Variables variables) {
     if (_profile == variables) {
       return;
     }
     _profile = variables;
-    if (variables.memberUid == '0') {
+    if (variables.memberUid.isEmpty || variables.memberUid == '0') {
       _controller.add(AuthenticationStatus.unauthenticated);
     } else {
       _controller.add(AuthenticationStatus.authenticated);
@@ -38,7 +39,7 @@ class AuthenticationInterceptor extends KeylolInterceptor {
   AuthenticationInterceptor(this._repository);
 
   @override
-  void doIntercept(Response<dynamic> response) {
+  void doIntercept(response) {
     try {
       final variables = DefaultVariables.fromJson(response.data);
       _repository.profile = variables;

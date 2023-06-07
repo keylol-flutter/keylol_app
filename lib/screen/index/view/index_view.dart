@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
+import 'package:keylol_flutter/bloc/bloc/authentication_bloc.dart';
+import 'package:keylol_flutter/repository/authentication_repository.dart';
 import 'package:keylol_flutter/screen/index/bloc/index_bloc.dart';
 import 'package:keylol_flutter/screen/index/bloc/search_bloc.dart';
 import 'package:keylol_flutter/screen/index/widgets/carousel.dart';
@@ -31,38 +33,51 @@ class _IndexViewState extends State<IndexView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<IndexBloc, IndexState>(
-      listener: (context, state) {
-        if (state.status == IndexStatus.failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(AppLocalizations.of(context)!.networkError),
-            ),
-          );
-        }
-      },
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
-        final index = state.index;
-        return RefreshIndicator(
-          notificationPredicate: (notification) {
-            return notification.depth == 2;
-          },
-          onRefresh: () async {
-            context.read<IndexBloc>().add(IndexFetched());
-          },
-          child: NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return [
-                SliverAppBar(
-                  automaticallyImplyLeading: false,
-                  title: _buildSearchBar(context),
+        late String uid;
+        if (state.status == AuthenticationStatus.unauthenticated) {
+          uid = '';
+        } else {
+          uid = state.profile.memberUid;
+        }
+        return BlocConsumer<IndexBloc, IndexState>(
+          listener: (context, state) {
+            if (state.status == IndexStatus.failure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(AppLocalizations.of(context)!.networkError),
                 ),
-                SliverToBoxAdapter(child: _buildCarousel(context, index)),
-                SliverToBoxAdapter(child: _buildTab(context, index)),
-              ];
-            },
-            body: _buildPageView(context, index),
-          ),
+              );
+            }
+          },
+          builder: (context, state) {
+            final index = state.index;
+            return RefreshIndicator(
+              notificationPredicate: (notification) {
+                return notification.depth == 2;
+              },
+              onRefresh: () async {
+                context.read<IndexBloc>().add(IndexFetched());
+              },
+              child: NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) {
+                  return [
+                    SliverAppBar(
+                      title: Text(AppLocalizations.of(context)!.indexPageTitle),
+                      actions: [
+                        Avatar(uid: uid),
+                        const SizedBox(width: 8.0),
+                      ],
+                    ),
+                    SliverToBoxAdapter(child: _buildCarousel(context, index)),
+                    SliverToBoxAdapter(child: _buildTab(context, index)),
+                  ];
+                },
+                body: _buildPageView(context, index),
+              ),
+            );
+          },
         );
       },
     );
