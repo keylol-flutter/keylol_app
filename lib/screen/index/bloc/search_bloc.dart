@@ -14,21 +14,34 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final _dio = Dio(BaseOptions(baseUrl: 'https://duckduckgo.com'));
 
   SearchBloc() : super(const SearchInitial()) {
-    on<SearchResultsFetched>(_onSearchResultsFetched);
     on<SearchResultsFetching>(_onSearchResultsFetching);
+    on<SearchResultsFetched>(_onSearchResultsFetched);
+    on<SearchResultsDone>(_onSearchResultsDone);
+  }
+
+  Future<void> _onSearchResultsFetching(
+    SearchResultsFetching event,
+    Emitter<SearchState> emit,
+  ) async {
+    emit(state.copyWith(status: SearchStatus.searching, results: const []));
   }
 
   Future<void> _onSearchResultsFetched(
-      SearchResultsFetched event,
-      Emitter<SearchState> emit,
-      ) async {
+    SearchResultsFetched event,
+    Emitter<SearchState> emit,
+  ) async {
     final text = event.text;
     if (text.isEmpty) {
       return;
     }
 
     try {
-      final resp = await _dio.get('/html', queryParameters: {'q': text});
+      final resp = await _dio.get(
+        '/html',
+        queryParameters: {
+          'q': '$text site:keylol.com',
+        },
+      );
       final document = parse(resp.data);
 
       final resultElements = document.getElementsByClassName('result');
@@ -53,10 +66,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     }
   }
 
-  Future<void> _onSearchResultsFetching(
-      SearchResultsFetching event,
-      Emitter<SearchState> emit,
-      ) async {
-    emit(state.copyWith(status: SearchStatus.searching));
+  Future<void> _onSearchResultsDone(
+    SearchResultsDone event,
+    Emitter<SearchState> emit,
+  ) async {
+    emit(state.copyWith(status: SearchStatus.done));
   }
 }

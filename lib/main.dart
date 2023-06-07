@@ -40,7 +40,14 @@ void main() async {
         RepositoryProvider.value(value: keylol),
         RepositoryProvider.value(value: authenticationRepository),
       ],
-      child: const MyApp(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+              create: (context) =>
+                  ThemeColorBloc(context.read<ConfigRepository>())),
+        ],
+        child: const MyApp(),
+      ),
     ),
   );
 }
@@ -50,30 +57,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final configRepository = context.read<ConfigRepository>();
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => ThemeColorBloc(configRepository)),
-      ],
-      child: BlocBuilder<ThemeColorBloc, ThemeColorState>(
-        builder: (context, state) {
-          final themeColor = state.color;
-          return MaterialApp.router(
-            routerConfig: routerConfig,
-            theme: ThemeData(
-                useMaterial3: true,
-                colorScheme: ColorScheme.fromSeed(seedColor: themeColor),
-                searchBarTheme: SearchBarThemeData(
-                  elevation: MaterialStateProperty.all(6.0),
-                  backgroundColor: MaterialStateProperty.all(
-                      Theme.of(context).colorScheme.surface),
-                  shadowColor: MaterialStateProperty.all(Colors.transparent),
-                )),
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-          );
-        },
-      ),
+    return BlocBuilder<ThemeColorBloc, ThemeColorState>(
+      builder: (context, state) {
+        final themeColor = state.color;
+        return MaterialApp.router(
+          routerConfig: routerConfig,
+          theme: ThemeData(
+              useMaterial3: true,
+              colorScheme: ColorScheme.fromSeed(seedColor: themeColor),
+              searchBarTheme: SearchBarThemeData(
+                elevation: MaterialStateProperty.all(6.0),
+                backgroundColor: MaterialStateProperty.all(
+                    Theme.of(context).colorScheme.surface),
+                shadowColor: MaterialStateProperty.all(Colors.transparent),
+              )),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+        );
+      },
     );
   }
 }

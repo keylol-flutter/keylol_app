@@ -71,11 +71,12 @@ class _IndexViewState extends State<IndexView> {
   Widget _buildSearchBar(BuildContext context) {
     return BlocConsumer<SearchBloc, SearchState>(
       listener: (context, state) {
-        if (state.status == SearchStatus.success) {
-          if (_searchController.isOpen) {
-            _searchController.closeView(null);
+        if (state.status == SearchStatus.done) {
+          if (!_searchController.isOpen) {
+            _searchController.openView();
           }
-          _searchController.openView();
+        } else if (state.status == SearchStatus.success) {
+          context.read<SearchBloc>().add(SearchResultsDone());
         }
       },
       builder: (context, state) {
@@ -117,18 +118,17 @@ class _IndexViewState extends State<IndexView> {
               ],
             );
           },
-          suggestionsBuilder: (context, controller) {
-            if (state.status != SearchStatus.success) {
-              return [Container()];
-            }
-            final results = state.results;
+          suggestionsBuilder: (_, controller) {
+            final results = context.read<SearchBloc>().state.results;
             return List.generate(
               results.length,
               (index) {
                 final result = results[index];
                 return ListTile(
                   title: Text(result['title']),
-                  trailing: const Icon(Icons.turn_slight_right),
+                  onTap: () async {
+                    // TODO
+                  },
                 );
               },
             );

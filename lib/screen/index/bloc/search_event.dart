@@ -17,3 +17,5 @@ class SearchResultsFetched extends SearchEvent {
   @override
   List<Object?> get props => [text];
 }
+
+class SearchResultsDone extends SearchEvent {}
