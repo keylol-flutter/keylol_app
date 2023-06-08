@@ -47,6 +47,7 @@ class _IndexViewState extends State<IndexView> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(AppLocalizations.of(context)!.networkError),
+                  behavior: SnackBarBehavior.floating,
                 ),
               );
             }

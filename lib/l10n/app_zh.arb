@@ -3,5 +3,15 @@
   "networkError": "连接出错了，请稍后重试~",
   "homePageDrawerHeader": "Keylol Flutter",
   "homePageDrawerListTileHome": "主页",
-  "indexPageTitle": "聚焦"
+  "indexPageTitle": "聚焦",
+  "loginPageInputLabelUsername": "用户名",
+  "loginPageInputUsernameEmpty": "用户名不能为空",
+  "loginPageInputLabelPassword": "密码",
+  "loginPageInputPasswordEmpty": "密码不能为空",
+  "loginPageInputLabelPhone": "手机号",
+  "loginPageInputLabelSmsCode": "验证码",
+  "loginPageInputLableSecCode": "验证码",
+  "loginPageInputSecCodeEmpty": "验证码不能为空",
+  "loginPageLoginButton": "登录",
+  "loginPageError": "登录失败，请稍后重试~"
 }
