@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:keylol_flutter/screen/login/widgets/login_with_password_form.dart';
 
@@ -11,8 +12,21 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: LoginWithPasswordForm(),
+    return Scaffold(
+      appBar: AppBar(),
+      body: Padding(
+        padding: const EdgeInsets.only(left: 16, right: 16),
+        child: Column(
+          children: [
+            Image.asset(
+              'images/metro.png',
+              width: 200,
+            ),
+            const SizedBox(height: 16),
+            const LoginWithPasswordForm(),
+          ],
+        ),
+      ),
     );
   }
 }

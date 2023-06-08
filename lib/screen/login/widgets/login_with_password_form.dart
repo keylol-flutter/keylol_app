@@ -65,7 +65,7 @@ class _LoginWithPasswordFormState extends State<LoginWithPasswordForm> {
                     border: const OutlineInputBorder(),
                     label: Text(AppLocalizations.of(context)!
                         .loginPageInputLabelPassword),
-                    suffix: IconButton(
+                    suffixIcon: IconButton(
                       icon: _passwordVisible
                           ? const Icon(Icons.visibility)
                           : const Icon(Icons.visibility_off),

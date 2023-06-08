@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keylol_flutter/screen/guide/guide_page.dart';
 import 'package:keylol_flutter/screen/index/index_page.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -28,6 +29,7 @@ class _HomePageState extends State<HomePage> {
         physics: const NeverScrollableScrollPhysics(),
         children: const [
           IndexPage(),
+          GuidePage(),
         ],
       ),
       drawer: _buildDrawer(context),

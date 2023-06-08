@@ -84,8 +84,7 @@ class MyApp extends StatelessWidget {
               );
             }
 
-            return MaterialApp.router(
-              routerConfig: routerConfig,
+            return MaterialApp(
               theme: ThemeData(
                 useMaterial3: true,
                 colorScheme: lightColorScheme,
@@ -96,6 +95,7 @@ class MyApp extends StatelessWidget {
               ),
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
+              routes: routes,
             );
           },
         );

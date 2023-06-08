@@ -26,7 +26,11 @@ class Avatar extends StatelessWidget {
         child: InkWell(
           customBorder: const CircleBorder(),
           onTap: () {
-            Navigator.of(context).pushNamed('/space', arguments: uid);
+            if (uid == '') {
+              Navigator.of(context).pushNamed('/login');
+            } else {
+              Navigator.of(context).pushNamed('/space', arguments: uid);
+            }
           },
           child: ClipOval(
             child: CachedNetworkImage(

@@ -41,8 +41,8 @@ class AuthenticationInterceptor extends KeylolInterceptor {
   @override
   void doIntercept(response) {
     try {
-      final variables = DefaultVariables.fromJson(response.data);
-      _repository.profile = variables;
+      final resp = ApiResponse.empty(response.data);
+      _repository.profile = resp.variables;
     } catch (e, stack) {
       logger.e('拦截器获取用户信息失败', e, stack);
       rethrow;

@@ -65,6 +65,7 @@ class _IndexViewState extends State<IndexView> {
                 headerSliverBuilder: (context, innerBoxIsScrolled) {
                   return [
                     SliverAppBar(
+                      pinned: true,
                       title: Text(AppLocalizations.of(context)!.indexPageTitle),
                       actions: [
                         Avatar(uid: uid),
