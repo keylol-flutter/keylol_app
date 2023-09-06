@@ -37,7 +37,7 @@ class AuthenticationBloc
         emit(AuthenticationUnauthenticated());
         break;
       case AuthenticationStatus.authenticated:
-        emit(AuthenticaionAuthenticated(_repository.profile));
+        emit(AuthenticationAuthenticated(_repository.profile));
         break;
     }
   }

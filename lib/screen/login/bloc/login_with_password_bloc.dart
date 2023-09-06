@@ -31,11 +31,13 @@ class LoginWithPasswordBloc
             loginParam: loginParam, secCode: secCode);
         if (!checked) {
           emit(state.copyWith(status: LoginWithPasswordStatus.failure));
+          return;
         }
 
         await _client.loginWithSecCode(
             loginParam: loginParam, secCode: secCode);
         emit(state.copyWith(status: LoginWithPasswordStatus.success));
+        return;
       }
 
       final username = form.username;
@@ -58,11 +60,13 @@ class LoginWithPasswordBloc
           loginParam: loginParam,
           secCodeData: secCodeData,
         ));
+        return;
       } else {
         emit(state.copyWith(
           status: LoginWithPasswordStatus.failure,
           error: resp.message?.messageStr,
         ));
+        return;
       }
     } catch (e, stack) {
       if (e is String) {

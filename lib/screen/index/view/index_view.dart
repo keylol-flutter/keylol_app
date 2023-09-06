@@ -10,7 +10,6 @@ import 'package:keylol_flutter/screen/index/widgets/carousel.dart';
 import 'package:keylol_flutter/widgets/avatar.dart';
 import 'package:keylol_flutter/widgets/thread_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:skeletons/skeletons.dart';
 
 class IndexView extends StatefulWidget {
   const IndexView({super.key});
@@ -33,7 +32,10 @@ class _IndexViewState extends State<IndexView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+    return BlocConsumer<AuthenticationBloc, AuthenticationState>(
+      listener: (context, state) {
+        context.read<IndexBloc>().add(IndexFetched());
+      },
       builder: (context, state) {
         late String uid;
         if (state.status == AuthenticationStatus.unauthenticated) {
@@ -68,7 +70,10 @@ class _IndexViewState extends State<IndexView> {
                       pinned: true,
                       title: Text(AppLocalizations.of(context)!.indexPageTitle),
                       actions: [
-                        Avatar(uid: uid),
+                        Avatar(
+                          uid: uid,
+                          padding: const EdgeInsets.all(9),
+                        ),
                         const SizedBox(width: 8.0),
                       ],
                     ),
@@ -131,7 +136,10 @@ class _IndexViewState extends State<IndexView> {
                     height: 24,
                     child: CircularProgressIndicator(),
                   ),
-                const Avatar(uid: '', width: 30, height: 30),
+                const Avatar(
+                  uid: '',
+                  padding: EdgeInsets.all(9),
+                ),
               ],
             );
           },
@@ -157,22 +165,8 @@ class _IndexViewState extends State<IndexView> {
 
   /// 轮播图
   Widget _buildCarousel(BuildContext context, Index? index) {
-    // skeleton
     if (index == null) {
-      final screenWidth = MediaQuery.of(context).size.width;
-      final carouselHeight = ((screenWidth - 32) / 16 * 9).abs();
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
-        child: SkeletonItem(
-          child: SkeletonAvatar(
-            style: SkeletonAvatarStyle(
-              width: double.infinity,
-              height: carouselHeight,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-          ),
-        ),
-      );
+      return Container();
     }
 
     final threads = index.slideViewThreads;
@@ -212,22 +206,7 @@ class _IndexViewState extends State<IndexView> {
 
   Widget _buildTab(BuildContext context, Index? index) {
     if (index == null) {
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-        child: SkeletonItem(
-          child: SkeletonParagraph(
-            style: SkeletonParagraphStyle(
-              padding: EdgeInsets.zero,
-              lines: 1,
-              lineStyle: SkeletonLineStyle(
-                width: 96.0,
-                height: 32.0,
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-            ),
-          ),
-        ),
-      );
+      return Container();
     }
 
     final threadMap = index.tabThreadMap;
@@ -251,41 +230,8 @@ class _IndexViewState extends State<IndexView> {
 
   Widget _buildPageView(BuildContext context, Index? index) {
     if (index == null) {
-      return ListView(
-        children: List<Widget>.generate(10, (index) {
-          return SkeletonItem(
-            child: ListTile(
-              leading: const SkeletonAvatar(
-                style: SkeletonAvatarStyle(
-                  shape: BoxShape.circle,
-                  width: 40.0,
-                  height: 40.0,
-                ),
-              ),
-              title: SkeletonParagraph(
-                style: SkeletonParagraphStyle(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
-                  lines: 1,
-                  lineStyle: SkeletonLineStyle(
-                    height: 26.0,
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
-              ),
-              subtitle: SkeletonParagraph(
-                style: SkeletonParagraphStyle(
-                  padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
-                  lines: 1,
-                  lineStyle: SkeletonLineStyle(
-                    height: 20.0,
-                    width: 120.0,
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
-              ),
-            ),
-          );
-        }),
+      return const Center(
+        child: CircularProgressIndicator(),
       );
     }
 

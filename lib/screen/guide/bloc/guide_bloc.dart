@@ -27,7 +27,7 @@ class GuideBloc extends Bloc<GuideEvent, GuideState> {
         status: GuideStatus.success,
         threads: threads,
         page: 1,
-        hasReachMax: threads.length >= guide.count,
+        hasReachMax: 1 >= guide.count,
       ));
     } catch (e, stack) {
       logger.e('加载导读列表失败 type: $_type', e, stack);
@@ -50,7 +50,7 @@ class GuideBloc extends Bloc<GuideEvent, GuideState> {
         status: GuideStatus.success,
         threads: state.threads..addAll(threads),
         page: page,
-        hasReachMax: threads.isEmpty,
+        hasReachMax: page < guide.count,
       ));
     } catch (e, stack) {
       logger.e('加载导读列表失败 type: $_type', e, stack);

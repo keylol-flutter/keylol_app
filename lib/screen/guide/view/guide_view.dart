@@ -1,38 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_flutter/bloc/bloc/authentication_bloc.dart';
+import 'package:keylol_flutter/repository/authentication_repository.dart';
 import 'package:keylol_flutter/screen/guide/bloc/guide_bloc.dart';
 import 'package:keylol_flutter/widgets/avatar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:keylol_flutter/widgets/load_more_list_view.dart';
 
-class GuideView extends StatefulWidget {
+class GuideView extends StatelessWidget {
   const GuideView({super.key});
-
-  @override
-  State<StatefulWidget> createState() => _GuideViewState();
-}
-
-class _GuideViewState extends State<GuideView> {
-  final _controller = ScrollController();
-
-  @override
-  void initState() {
-    _controller.addListener(() {
-      final maxScroll = _controller.position.maxScrollExtent;
-      final pixels = _controller.position.pixels;
-
-      if (maxScroll == pixels) {
-        context.read<GuideBloc>().add(GuideFetched());
-      }
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +17,16 @@ class _GuideViewState extends State<GuideView> {
         context.read<GuideBloc>().add(GuideRefreshed());
       },
       builder: (context, state) {
+        final authenticationStatus = state.status;
         return BlocConsumer<GuideBloc, GuideState>(
           listener: (context, state) {
             if (state.status == GuideStatus.failure) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(AppLocalizations.of(context)!.networkError),
+                  content: authenticationStatus ==
+                          AuthenticationStatus.unauthenticated
+                      ? Text(AppLocalizations.of(context)!.notLoginError)
+                      : Text(AppLocalizations.of(context)!.networkError),
                   behavior: SnackBarBehavior.floating,
                 ),
               );
@@ -54,17 +34,16 @@ class _GuideViewState extends State<GuideView> {
           },
           builder: (context, state) {
             final threads = state.threads;
-            if (threads.isEmpty) {
-              return const Center(child: CircularProgressIndicator());
-            }
             return RefreshIndicator(
               onRefresh: () async {
                 context.read<GuideBloc>().add(GuideRefreshed());
               },
-              child: ListView.separated(
+              child: LoadMoreListView(
                 padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                controller: _controller,
                 physics: const AlwaysScrollableScrollPhysics(),
+                callback: () {
+                  context.read<GuideBloc>().add(GuideFetched());
+                },
                 itemCount: threads.length + 1,
                 itemBuilder: (context, index) {
                   if (index == threads.length) {
@@ -85,16 +64,19 @@ class _GuideViewState extends State<GuideView> {
                       key: Key('Avatar ${thread.authorId}'),
                       uid: thread.authorId,
                       username: thread.author,
-                      width: 40.0,
-                      height: 40.0,
                     ),
                     title: Text(
                       thread.subject,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
-                    subtitle: Text(
-                      '${thread.author} • ${thread.dateline}',
-                      style: Theme.of(context).textTheme.bodyMedium,
+                    subtitle: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(thread.author,
+                            style: Theme.of(context).textTheme.bodyMedium),
+                        Text(thread.dateline,
+                            style: Theme.of(context).textTheme.bodyMedium),
+                      ],
                     ),
                     onTap: () {
                       Navigator.of(context).pushNamed(
@@ -105,7 +87,7 @@ class _GuideViewState extends State<GuideView> {
                   );
                 },
                 separatorBuilder: (context, index) {
-                  return const Divider(thickness: 1);
+                  return const Divider(height: 0);
                 },
               ),
             );

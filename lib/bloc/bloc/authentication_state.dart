@@ -16,7 +16,7 @@ class AuthenticationUnauthenticated extends AuthenticationState {
             DefaultVariables.fromJson(const {}));
 }
 
-class AuthenticaionAuthenticated extends AuthenticationState {
-  const AuthenticaionAuthenticated(Variables profile)
+class AuthenticationAuthenticated extends AuthenticationState {
+  const AuthenticationAuthenticated(Variables profile)
       : super(AuthenticationStatus.authenticated, profile);
 }

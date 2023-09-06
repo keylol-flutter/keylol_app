@@ -29,5 +29,5 @@ class GuideState extends Equatable {
 }
 
 class GuideInitial extends GuideState {
-  const GuideInitial() : super(GuideStatus.initial, const [], 0, false);
+  const GuideInitial() : super(GuideStatus.initial, const [], 1, false);
 }
