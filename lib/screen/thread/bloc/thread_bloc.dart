@@ -78,15 +78,11 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
       final viewThread = viewThreadResp.variables;
       final thread = viewThread.thread;
       final postList = viewThread.postList;
-      final firstPost = postList.isNotEmpty ? postList[0] : null;
-      final tempPosts = postList.isNotEmpty ? postList.sublist(1) : <Post>[];
-
-      final posts = state.posts..addAll(tempPosts);
+      final posts = state.posts..addAll(postList);
 
       emit(state.copyWith(
         status: ThreadStatus.success,
         thread: thread,
-        firstPost: firstPost,
         page: page,
         posts: posts,
         hasReachMax: posts.length + 1 >= thread.replies,
