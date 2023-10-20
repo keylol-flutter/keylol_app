@@ -1,0 +1,6 @@
+[submodule "packages/keylol_api"]
+	path = packages/keylol_api
+	url = https://github.com/keylol-flutter/keylol_api.git
+[submodule "packages/discuz_widgets"]
+	path = packages/discuz_widgets
+	url = https://github.com/keylol-flutter/discuz_widgets.git
