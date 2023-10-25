@@ -58,6 +58,7 @@ dependencies:
   html: ^0.15.3
   dynamic_color: ^1.6.5
   date_format: ^2.0.7
+  percent_indicator: ^4.2.3
 
 dev_dependencies:
   flutter_test:

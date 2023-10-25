@@ -11,6 +11,8 @@ class ThreadState extends Equatable {
   final List<Post> posts;
   final bool hasReachMax;
 
+  final SpecialPoll? poll;
+
   final String? message;
 
   const ThreadState(
@@ -21,6 +23,7 @@ class ThreadState extends Equatable {
     this.posts,
     this.hasReachMax,
     this.message,
+    this.poll,
   );
 
   ThreadState copyWith({
@@ -31,6 +34,7 @@ class ThreadState extends Equatable {
     List<Post>? posts,
     bool? hasReachMax,
     String? message,
+    SpecialPoll? poll,
   }) {
     return ThreadState(
       status ?? this.status,
@@ -40,6 +44,7 @@ class ThreadState extends Equatable {
       posts ?? this.posts,
       hasReachMax ?? this.hasReachMax,
       message ?? this.message,
+      poll ?? this.poll,
     );
   }
 
@@ -47,11 +52,15 @@ class ThreadState extends Equatable {
   List<Object?> get props => [
         status,
         thread,
+        firstPost,
         page,
+        posts,
+        hasReachMax,
+        poll,
         message,
       ];
 }
 
 class ThreadInitial extends ThreadState {
-  ThreadInitial() : super(ThreadStatus.initial, null, null, 1, [], false, null);
+  ThreadInitial() : super(ThreadStatus.initial, null, null, 1, [], false, null, null);
 }

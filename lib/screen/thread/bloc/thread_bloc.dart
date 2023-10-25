@@ -26,6 +26,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
       final viewThreadResp = await _client.viewThread(_tid, 1);
       final viewThread = viewThreadResp.variables;
       final thread = viewThread.thread;
+      final poll = viewThread.specialPoll;
 
       final message = viewThreadResp.message;
       if (message != null) {
@@ -33,6 +34,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
           status: ThreadStatus.failure,
           thread: thread,
           message: message.messageStr,
+          poll: poll,
         ));
         return;
       }
@@ -48,6 +50,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
         page: 1,
         posts: posts,
         hasReachMax: posts.length >= thread.replies,
+        poll: poll,
       ));
     } catch (e, stack) {
       logger.e('加载帖子失败', e, stack);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_flutter/screen/thread/bloc/thread_bloc.dart';
+import 'package:keylol_flutter/screen/thread/widgets/poll.dart';
 import 'package:keylol_flutter/screen/thread/widgets/post_item.dart';
 import 'package:keylol_flutter/screen/thread/widgets/thread_app_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -67,6 +68,7 @@ class _ThreadViewState extends State<ThreadView> {
 
         final firstPost = state.firstPost;
         final posts = state.posts;
+        final poll = state.poll;
         return Scaffold(
           body: RefreshIndicator(
             onRefresh: () async {
@@ -88,6 +90,7 @@ class _ThreadViewState extends State<ThreadView> {
                   SliverToBoxAdapter(
                     child: PostItem(
                       post: firstPost,
+                      poll: poll,
                       showFloor: false,
                     ),
                   ),
