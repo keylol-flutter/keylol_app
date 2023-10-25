@@ -41,7 +41,7 @@ class PostItem extends StatelessWidget {
               ),
               subtitle: Text(post.dateline),
             ),
-            Discuz(data: post.message),
+            Discuz(data: post.message, isPost: showFloor),
           ],
         ),
       ),
