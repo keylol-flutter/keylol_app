@@ -72,54 +72,48 @@ class _ThreadViewState extends State<ThreadView> {
             onRefresh: () async {
               context.read<ThreadBloc>().add(const ThreadRefreshed());
             },
-            child: NestedScrollView(
+            child: CustomScrollView(
               controller: _controller,
-              headerSliverBuilder: (context, innerBoxIsScrolled) {
-                return [
-                  SliverPersistentHeader(
-                    pinned: true,
-                    delegate: ThreadAppBar(
-                      title: thread.subject,
-                      textStyle: Theme.of(context).textTheme.titleLarge!,
-                      width: MediaQuery.of(context).size.width,
-                      topPadding: MediaQuery.of(context).padding.top,
+              slivers: [
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: ThreadAppBar(
+                    title: thread.subject,
+                    textStyle: Theme.of(context).textTheme.titleLarge!,
+                    width: MediaQuery.of(context).size.width,
+                    topPadding: MediaQuery.of(context).padding.top,
+                  ),
+                ),
+                if (firstPost != null)
+                  SliverToBoxAdapter(
+                    child: PostItem(
+                      post: firstPost,
+                      showFloor: false,
                     ),
                   ),
-                ];
-              },
-              body: CustomScrollView(
-                slivers: [
-                  if (firstPost != null)
-                    SliverToBoxAdapter(
-                      child: PostItem(
-                        post: firstPost,
-                        showFloor: false,
-                      ),
-                    ),
-                  if (posts.isNotEmpty)
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          if (index == posts.length) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Opacity(
-                                opacity: state.hasReachMax ? 0.0 : 1.0,
-                                child: const Center(
-                                  child: CircularProgressIndicator(),
-                                ),
+                if (posts.isNotEmpty)
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        if (index == posts.length) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Opacity(
+                              opacity: state.hasReachMax ? 0.0 : 1.0,
+                              child: const Center(
+                                child: CircularProgressIndicator(),
                               ),
-                            );
-                          }
+                            ),
+                          );
+                        }
 
-                          final post = posts[index];
-                          return PostItem(post: post);
-                        },
-                        childCount: posts.length + 1,
-                      ),
+                        final post = posts[index];
+                        return PostItem(post: post);
+                      },
+                      childCount: posts.length + 1,
                     ),
-                ],
-              ),
+                  ),
+              ],
             ),
           ),
         );
