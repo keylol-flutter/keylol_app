@@ -4,3 +4,6 @@
 [submodule "packages/discuz_widgets"]
 	path = packages/discuz_widgets
 	url = https://github.com/keylol-flutter/discuz_widgets.git
+[submodule "packages/flutter_ume_kit_dio"]
+	path = packages/flutter_ume_kit_dio
+	url = https://github.com/keylol-flutter/flutter_ume_kit_dio.git

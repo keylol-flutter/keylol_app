@@ -4,6 +4,9 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ume/core/plugin_manager.dart';
+import 'package:flutter_ume/core/ui/root_widget.dart';
+import 'package:flutter_ume_kit_dio/flutter_ume_kit_dio.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/bloc/bloc/authentication_bloc.dart';
 import 'package:keylol_flutter/config/firebase_options.dart';
@@ -34,25 +37,29 @@ void main() async {
       AuthenticationInterceptor(authenticationRepository);
   keylol.addInterceptor(authenticationInterceptor);
 
+  PluginManager.instance.register(DioInspector(dio: keylol.dio()));
   runApp(
-    MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider(create: (context) => ConfigRepository(prefs)),
-        RepositoryProvider.value(value: keylol),
-        RepositoryProvider.value(value: authenticationRepository),
-      ],
-      child: MultiBlocProvider(
+    UMEWidget(
+      enable: true,
+      child: MultiRepositoryProvider(
         providers: [
-          BlocProvider(
-            create: (context) {
-              return AuthenticationBloc(
-                context.read<Keylol>(),
-                context.read<AuthenticationRepository>(),
-              )..add(AuthenticationStatusFetched());
-            },
-          ),
+          RepositoryProvider(create: (context) => ConfigRepository(prefs)),
+          RepositoryProvider.value(value: keylol),
+          RepositoryProvider.value(value: authenticationRepository),
         ],
-        child: const MyApp(),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) {
+                return AuthenticationBloc(
+                  context.read<Keylol>(),
+                  context.read<AuthenticationRepository>(),
+                )..add(AuthenticationStatusFetched());
+              },
+            ),
+          ],
+          child: const MyApp(),
+        ),
       ),
     ),
   );
