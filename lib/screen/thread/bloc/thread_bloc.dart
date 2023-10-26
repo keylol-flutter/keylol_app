@@ -16,6 +16,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
   ThreadBloc(this._client, this._tid) : super(ThreadInitial()) {
     on<ThreadRefreshed>(_onThreadRefreshed);
     on<ThreadFetched>(_onThreadFetched);
+    on<ThreadReplied>(_onReplied);
   }
 
   Future<void> _onThreadRefreshed(
@@ -81,7 +82,12 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
       final viewThread = viewThreadResp.variables;
       final thread = viewThread.thread;
       final postList = viewThread.postList;
-      final posts = state.posts..addAll(postList);
+      final posts = state.posts;
+      for (var post in postList) {
+        if (!posts.any((p) => p.pid == post.pid)) {
+          posts.add(post);
+        }
+      }
 
       emit(state.copyWith(
         status: ThreadStatus.success,
@@ -92,6 +98,61 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
       ));
     } catch (e, stack) {
       logger.e('加载帖子失败', e, stack);
+      emit(state.copyWith(status: ThreadStatus.failure));
+    }
+  }
+
+  Future<void> _onReplied(
+    ThreadReplied event,
+    Emitter<ThreadState> emit,
+  ) async {
+    try {
+      final sendReplyResp = await _client.sendReply(
+        event.formHash,
+        _tid,
+        event.message,
+        event.aIds,
+        event.post,
+      );
+      final message = sendReplyResp.message;
+
+      var page = state.page;
+      final posts = state.posts;
+      var hasReachMax = false;
+      var thread = state.thread;
+
+      while (!hasReachMax) {
+        final viewThreadResp = await _client.viewThread(_tid, ++page);
+        final message = viewThreadResp.message;
+        if (message != null) {
+          emit(state.copyWith(
+            status: ThreadStatus.failure,
+            message: message.messageStr,
+          ));
+          return;
+        }
+
+        final viewThread = viewThreadResp.variables;
+        thread = viewThread.thread;
+        final postList = viewThread.postList;
+        for (var post in postList) {
+          if (!posts.any((p) => p.pid == post.pid)) {
+            posts.add(post);
+          }
+        }
+
+        hasReachMax = posts.length + 1 >= thread.replies;
+      }
+
+      emit(state.copyWith(
+        status: ThreadStatus.success,
+        thread: thread,
+        page: page,
+        posts: posts,
+        hasReachMax: hasReachMax,
+      ));
+    } catch (e, stack) {
+      logger.e('回复帖子失败', e, stack);
       emit(state.copyWith(status: ThreadStatus.failure));
     }
   }

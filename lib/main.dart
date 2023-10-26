@@ -20,16 +20,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (!kDebugMode) {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-    PlatformDispatcher.instance.onError = (error, stack) {
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-      return true;
-    };
-  }
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
 
   final prefs = await SharedPreferences.getInstance();
   final keylol = await Keylol.create();
@@ -39,8 +37,8 @@ void main() async {
   keylol.addInterceptor(authenticationInterceptor);
 
   PluginManager.instance
-      ..register(Console())
-      ..register(DioInspector(dio: keylol.dio()));
+    ..register(Console())
+    ..register(DioInspector(dio: keylol.dio()));
   runApp(
     UMEWidget(
       enable: true,

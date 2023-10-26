@@ -17,3 +17,17 @@ class ThreadRefreshed extends ThreadEvent {
 }
 
 class ThreadFetched extends ThreadEvent {}
+
+class ThreadReplied extends ThreadEvent {
+  final String formHash;
+  final Post? post;
+  final String message;
+  final List<String> aIds;
+
+  const ThreadReplied({
+    required this.formHash,
+    this.post,
+    required this.message,
+    this.aIds = const [],
+  });
+}
