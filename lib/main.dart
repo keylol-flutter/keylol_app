@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ume/core/plugin_manager.dart';
 import 'package:flutter_ume/core/ui/root_widget.dart';
+import 'package:flutter_ume_kit_console/console/console_panel.dart';
 import 'package:flutter_ume_kit_dio/flutter_ume_kit_dio.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/bloc/bloc/authentication_bloc.dart';
@@ -37,7 +38,9 @@ void main() async {
       AuthenticationInterceptor(authenticationRepository);
   keylol.addInterceptor(authenticationInterceptor);
 
-  PluginManager.instance.register(DioInspector(dio: keylol.dio()));
+  PluginManager.instance
+      ..register(Console())
+      ..register(DioInspector(dio: keylol.dio()));
   runApp(
     UMEWidget(
       enable: true,
