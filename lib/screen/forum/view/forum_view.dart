@@ -352,7 +352,13 @@ class _ForumState extends State<ForumView> {
                 if (index == 0) {
                   return Container();
                 }
-                return const Divider(height: 0);
+                return Padding(
+                  padding: const EdgeInsets.only(left: 16.0 + 56, right: 16.0),
+                  child: Divider(
+                    height: 0,
+                    color: Theme.of(context).dividerColor.withOpacity(0.2),
+                  ),
+                );
               },
             ),
           );

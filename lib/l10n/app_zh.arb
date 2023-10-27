@@ -37,5 +37,6 @@
   "loginPageInputSecCodeEmpty": "验证码不能为空",
   "loginPageLoginButton": "登录",
   "loginPageError": "登录失败，请稍后重试~",
-  "threadPageFloor": "楼"
+  "threadPageFloor": "楼",
+  "threadPageMenuOpenInBrowser": "在浏览器中打开"
 }

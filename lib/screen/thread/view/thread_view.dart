@@ -87,6 +87,7 @@ class _ThreadViewState extends State<ThreadView> {
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: ThreadAppBar(
+                    tid: thread.tid,
                     title: thread.subject,
                     textStyle: Theme.of(context).textTheme.titleLarge!,
                     width: MediaQuery.of(context).size.width,
@@ -96,6 +97,7 @@ class _ThreadViewState extends State<ThreadView> {
                 if (firstPost != null)
                   SliverToBoxAdapter(
                     child: PostItem(
+                      thread: thread,
                       post: firstPost,
                       poll: poll,
                       showFloor: false,
@@ -118,7 +120,10 @@ class _ThreadViewState extends State<ThreadView> {
                         }
 
                         final post = posts[index];
-                        return PostItem(post: post);
+                        return PostItem(
+                          thread: thread,
+                          post: post,
+                        );
                       },
                       childCount: posts.length + 1,
                     ),

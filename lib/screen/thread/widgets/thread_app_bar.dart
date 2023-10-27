@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Size boundingTextSize(String text, TextStyle style,
     {int maxLines = 2 ^ 31, double maxWidth = double.infinity}) {
@@ -11,6 +13,7 @@ Size boundingTextSize(String text, TextStyle style,
 }
 
 class ThreadAppBar extends SliverPersistentHeaderDelegate {
+  final String tid;
   final String title;
   final TextStyle textStyle;
   final double width;
@@ -19,6 +22,7 @@ class ThreadAppBar extends SliverPersistentHeaderDelegate {
   final double topPadding;
 
   ThreadAppBar({
+    required this.tid,
     required this.title,
     required this.textStyle,
     required this.width,
@@ -51,7 +55,30 @@ class ThreadAppBar extends SliverPersistentHeaderDelegate {
           ],
         ),
       ),
-      actions: const [],
+      actions: [
+        PopupMenuButton(
+          icon: const Icon(Icons.more_vert),
+          itemBuilder: (context) {
+            return [
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    const Icon(Icons.share),
+                    Text(AppLocalizations.of(context)!
+                        .threadPageMenuOpenInBrowser),
+                  ],
+                ),
+                onTap: () {
+                  launchUrlString(
+                    'https://keylol.com/t$tid-1-1',
+                    mode: LaunchMode.externalApplication,
+                  );
+                },
+              )
+            ];
+          },
+        ),
+      ],
     );
   }
 

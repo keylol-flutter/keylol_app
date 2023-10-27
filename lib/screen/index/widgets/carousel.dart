@@ -66,7 +66,10 @@ class CarouselItem extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed('/thread/${thread.tid}');
+        Navigator.of(context).pushNamed(
+          '/thread',
+          arguments: {'tid': thread.tid},
+        );
       },
       child: GridTile(
         footer: footer,

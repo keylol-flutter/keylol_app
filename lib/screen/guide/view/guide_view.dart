@@ -6,6 +6,7 @@ import 'package:keylol_flutter/screen/guide/bloc/guide_bloc.dart';
 import 'package:keylol_flutter/widgets/avatar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keylol_flutter/widgets/load_more_list_view.dart';
+import 'package:keylol_flutter/widgets/thread_item.dart';
 
 class GuideView extends StatelessWidget {
   const GuideView({super.key});
@@ -58,36 +59,20 @@ class GuideView extends StatelessWidget {
                     );
                   }
 
-                  final thread = threads[index];
-                  return ListTile(
-                    leading: Avatar(
-                      key: Key('Avatar ${thread.authorId}'),
-                      uid: thread.authorId,
-                      username: thread.author,
-                    ),
-                    title: Text(
-                      thread.subject,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    subtitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(thread.author,
-                            style: Theme.of(context).textTheme.bodyMedium),
-                        Text(thread.dateline,
-                            style: Theme.of(context).textTheme.bodyMedium),
-                      ],
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        '/thread',
-                        arguments: {'tid': thread.tid},
-                      );
-                    },
-                  );
+                  return ThreadItem(thread: threads[index]);
                 },
                 separatorBuilder: (context, index) {
-                  return const Divider(height: 0);
+                  if (index == threads.length - 1) {
+                    return Container();
+                  }
+                  return Padding(
+                    padding:
+                        const EdgeInsets.only(left: 16.0 + 56, right: 16.0),
+                    child: Divider(
+                      height: 0,
+                      color: Theme.of(context).dividerColor.withOpacity(0.2),
+                    ),
+                  );
                 },
               ),
             );

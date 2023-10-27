@@ -260,9 +260,12 @@ class _IndexViewState extends State<IndexView> {
             if (index == threads.length - 1) {
               return Container();
             }
-            return const Padding(
-              padding: EdgeInsets.only(left: 16.0, right: 16.0),
-              child: Divider(height: 1.0),
+            return Padding(
+              padding: const EdgeInsets.only(left: 16.0 + 56, right: 16.0),
+              child: Divider(
+                height: 0,
+                color: Theme.of(context).dividerColor.withOpacity(0.2),
+              ),
             );
           },
         );
