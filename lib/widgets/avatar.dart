@@ -33,30 +33,27 @@ class Avatar extends StatelessWidget {
             Navigator.of(context).pushNamed('/space', arguments: uid);
           }
         },
-        child: Hero(
-          tag: uid,
-          child: ClipOval(
-            child: CachedNetworkImage(
-              imageUrl: uid == '0'
-                  ? 'https://keylol.com/static/image/common/systempm.png'
-                  : 'https://keylol.com/uc_server/avatar.php?uid=$uid',
-              errorWidget: (context, error, stackTrace) {
-                if (username == null) {
-                  return Image.asset('images/unknown_avatar.jpg');
-                } else {
-                  final letter = PinyinHelper.getFirstWordPinyin(username!)
-                      .toUpperCase()
-                      .codeUnitAt(0);
-                  return Container(
-                    color: Theme.of(context).colorScheme.surfaceVariant,
-                    child: Icon(
-                      IconData(letter),
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-                  );
-                }
-              },
-            ),
+        child: ClipOval(
+          child: CachedNetworkImage(
+            imageUrl: uid == '0'
+                ? 'https://keylol.com/static/image/common/systempm.png'
+                : 'https://keylol.com/uc_server/avatar.php?uid=$uid',
+            errorWidget: (context, error, stackTrace) {
+              if (username == null) {
+                return Image.asset('images/unknown_avatar.jpg');
+              } else {
+                final letter = PinyinHelper.getFirstWordPinyin(username!)
+                    .toUpperCase()
+                    .codeUnitAt(0);
+                return Container(
+                  color: Theme.of(context).colorScheme.surfaceVariant,
+                  child: Icon(
+                    IconData(letter),
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                );
+              }
+            },
           ),
         ),
       ),

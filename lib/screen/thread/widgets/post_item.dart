@@ -7,6 +7,10 @@ import 'package:keylol_flutter/screen/thread/widgets/poll.dart';
 import 'package:keylol_flutter/screen/thread/widgets/reply_modal.dart';
 import 'package:keylol_flutter/widgets/avatar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:html/dom.dart' as html;
+
+typedef ScrollToFunction = void Function(String pid);
 
 class PostItem extends StatelessWidget {
   final Thread thread;
@@ -14,6 +18,7 @@ class PostItem extends StatelessWidget {
   final SpecialPoll? poll;
 
   final bool showFloor;
+  final ScrollToFunction? scrollTo;
   final double elevation;
 
   const PostItem({
@@ -22,6 +27,7 @@ class PostItem extends StatelessWidget {
     required this.post,
     this.poll,
     this.showFloor = true,
+    this.scrollTo,
     this.elevation = 1,
   });
 
@@ -52,6 +58,7 @@ class PostItem extends StatelessWidget {
                 data: post.message,
                 isPost: showFloor,
                 nested: showFloor,
+                onLinkTap: _onLinkTap,
               ),
             ),
             if (poll != null)
@@ -89,5 +96,32 @@ class PostItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _onLinkTap(
+    String? url,
+    Map<String, String> attributes,
+    html.Element? element,
+  ) {
+    if (url == null) {
+      return;
+    }
+    final subUrl = url.replaceFirst('https://keylol.com/', '');
+    if (subUrl.contains('findpost')) {
+      // 帖子内楼层跳转
+      final params = url.split('?')[1].split('&');
+      late String pid;
+      for (var param in params) {
+        if (param.startsWith('pid=')) {
+          pid = param.replaceAll('pid=', '');
+          break;
+        }
+      }
+      if (scrollTo != null) {
+        scrollTo!.call(pid);
+        return;
+      }
+    }
+    launchUrlString(url);
   }
 }

@@ -5,6 +5,7 @@ import 'package:keylol_flutter/screen/thread/widgets/post_item.dart';
 import 'package:keylol_flutter/screen/thread/widgets/reply_modal.dart';
 import 'package:keylol_flutter/screen/thread/widgets/thread_app_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 class ThreadView extends StatefulWidget {
   const ThreadView({super.key});
@@ -14,7 +15,7 @@ class ThreadView extends StatefulWidget {
 }
 
 class _ThreadViewState extends State<ThreadView> {
-  final _controller = ScrollController();
+  final _controller = AutoScrollController();
 
   @override
   void initState() {
@@ -120,9 +121,15 @@ class _ThreadViewState extends State<ThreadView> {
                         }
 
                         final post = posts[index];
-                        return PostItem(
-                          thread: thread,
-                          post: post,
+                        return AutoScrollTag(
+                          key: Key(post.pid),
+                          controller: _controller,
+                          index: index,
+                          child: PostItem(
+                            thread: thread,
+                            post: post,
+                            scrollTo: _scrollTo,
+                          ),
                         );
                       },
                       childCount: posts.length + 1,
@@ -134,6 +141,20 @@ class _ThreadViewState extends State<ThreadView> {
         );
       },
     );
+  }
+
+  void _scrollTo(String pid) {
+    final state = context.read<ThreadBloc>().state;
+    final posts = state.posts;
+    int index = 0;
+    for (final post in posts) {
+      if (post.pid == pid) {
+        break;
+      }
+      index++;
+    }
+
+    _controller.scrollToIndex(index - 1);
   }
 }
 
