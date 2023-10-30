@@ -35,6 +35,17 @@ class _HistoryState extends State<HistoryView> {
               },
               itemCount: threads.length + 1,
               itemBuilder: (context, index) {
+                if (index == threads.length) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Opacity(
+                      opacity: state.hasReachMax ? 0.0 : 1.0,
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  );
+                }
                 return ThreadItem(thread: threads[index]);
               },
               separatorBuilder: (context, index) {

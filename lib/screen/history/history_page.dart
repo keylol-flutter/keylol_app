@@ -10,7 +10,8 @@ class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => HistoryBloc(context.read<HistoryRepository>()),
+      create: (_) => HistoryBloc(context.read<HistoryRepository>())
+        ..add(HistoryRefreshed()),
       child: const HistoryView(),
     );
   }
