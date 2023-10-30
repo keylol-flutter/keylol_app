@@ -3,7 +3,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 const String ddl =
-    "CREATE TABLE history (tid TEXT PRIMARY KEY, fid TEXT, author_id TEXT, author TEXT, subject TEXT, dateline TEXT)";
+    "CREATE TABLE history (tid TEXT PRIMARY KEY, fid TEXT, author_id TEXT, author TEXT, subject TEXT, dateline TEXT, date TEXT)";
 
 class HistoryRepository {
   late final Future<Database> _database;
@@ -27,7 +27,8 @@ class HistoryRepository {
         'author_id': thread.authorId,
         'author': thread.author,
         'subject': thread.subject,
-        'dateline': thread.dateline
+        'dateline': thread.dateline,
+        'date': DateTime.now().toString()
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -46,7 +47,7 @@ class HistoryRepository {
     }
   }
 
-  Future<List<Thread>> histories({
+  Future<List<Map<String, dynamic>>> histories({
     String? text,
     int? page,
     int limit = 100,
@@ -63,16 +64,17 @@ class HistoryRepository {
       limit: limit,
     );
 
-    return List.generate(
-      list.length,
-      (index) => Thread.fromJson({
-        'tid': list[index]['tid'],
-        'fid': list[index]['fid'],
-        'authorid': list[index]['author_id'],
-        'author': list[index]['author'],
-        'subject': list[index]['subject'],
-        'dateline': list[index]['dateline']
-      }),
-    );
+    return list;
+    // return List.generate(
+    //   list.length,
+    //   (index) => Thread.fromJson({
+    //     'tid': list[index]['tid'],
+    //     'fid': list[index]['fid'],
+    //     'authorid': list[index]['author_id'],
+    //     'author': list[index]['author'],
+    //     'subject': list[index]['subject'],
+    //     'dateline': list[index]['dateline']
+    //   }),
+    // );
   }
 }

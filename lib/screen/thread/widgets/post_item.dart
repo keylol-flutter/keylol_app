@@ -57,13 +57,19 @@ class PostItem extends StatelessWidget {
               child: Discuz(
                 data: post.message,
                 isPost: showFloor,
-                nested: showFloor,
+                nested: true,
                 onLinkTap: _onLinkTap,
               ),
             ),
             if (post.attachments != null && post.attachments!.isNotEmpty)
               for (final attachment in post.attachments!.values)
-                Image.network('${attachment.url}${attachment.attachment}'),
+                Padding(
+                  padding: showFloor
+                      ? const EdgeInsets.only(left: 48 + 16, right: 16)
+                      : const EdgeInsets.only(left: 16, right: 16),
+                  child: Image.network(
+                      '${attachment.url}${attachment.attachment}'),
+                ),
             if (poll != null)
               Poll(
                 tid: post.tid,
