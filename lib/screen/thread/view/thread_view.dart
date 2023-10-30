@@ -67,6 +67,12 @@ class _ThreadViewState extends State<ThreadView> {
           );
         }
 
+        if (state.pid != null) {
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            _scrollTo(state.pid!);
+          });
+        }
+
         final firstPost = state.firstPost;
         final posts = state.posts;
         final poll = state.poll;

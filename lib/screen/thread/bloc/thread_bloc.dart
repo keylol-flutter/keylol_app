@@ -150,6 +150,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
       emit(state.copyWith(
         status: ThreadStatus.success,
         thread: thread,
+        pid: posts[posts.length - 1].pid,
         page: page,
         posts: posts,
         hasReachMax: hasReachMax,

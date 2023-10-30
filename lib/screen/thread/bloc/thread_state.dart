@@ -6,6 +6,7 @@ class ThreadState extends Equatable {
   final ThreadStatus status;
   final Thread? thread;
   final Post? firstPost;
+  final String? pid;
 
   final int page;
   final List<Post> posts;
@@ -19,6 +20,7 @@ class ThreadState extends Equatable {
     this.status,
     this.thread,
     this.firstPost,
+    this.pid,
     this.page,
     this.posts,
     this.hasReachMax,
@@ -30,6 +32,7 @@ class ThreadState extends Equatable {
     ThreadStatus? status,
     Thread? thread,
     Post? firstPost,
+    String? pid,
     int? page,
     List<Post>? posts,
     bool? hasReachMax,
@@ -40,6 +43,7 @@ class ThreadState extends Equatable {
       status ?? this.status,
       thread ?? this.thread,
       firstPost ?? this.firstPost,
+      pid,
       page ?? this.page,
       posts ?? this.posts,
       hasReachMax ?? this.hasReachMax,
@@ -62,5 +66,5 @@ class ThreadState extends Equatable {
 }
 
 class ThreadInitial extends ThreadState {
-  ThreadInitial() : super(ThreadStatus.initial, null, null, 1, [], false, null, null);
+  ThreadInitial() : super(ThreadStatus.initial, null, null, null, 1, [], false, null, null);
 }
