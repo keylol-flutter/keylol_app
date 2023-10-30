@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:keylol_flutter/repository/history_repository.dart';
 import 'package:keylol_flutter/screen/thread/bloc/thread_bloc.dart';
 import 'package:keylol_flutter/screen/thread/widgets/post_item.dart';
 import 'package:keylol_flutter/screen/thread/widgets/reply_modal.dart';
@@ -66,6 +67,7 @@ class _ThreadViewState extends State<ThreadView> {
             ),
           );
         }
+        context.read<HistoryRepository>().insertHistory(thread);
 
         if (state.pid != null) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {

@@ -51,11 +51,16 @@ class _HomePageState extends State<HomePage> {
     final destinations = <NavigationDrawerDestination>[
       NavigationDrawerDestination(
         icon: const Icon(Icons.home_outlined),
-        selectedIcon: const Icon(Icons.home),
         label: Text(
           AppLocalizations.of(context)!.homePageDrawerListTileHome,
         ),
-      )
+      ),
+      NavigationDrawerDestination(
+        icon: const Icon(Icons.history_outlined),
+        label: Text(
+          AppLocalizations.of(context)!.homePageDrawerListTileHistory,
+        ),
+      ),
     ];
 
     return NavigationDrawer(
@@ -70,6 +75,14 @@ class _HomePageState extends State<HomePage> {
         ),
         for (final destination in destinations) destination,
       ],
+      onDestinationSelected: (index) {
+        switch(index) {
+          case 0:
+            Navigator.of(context).pushReplacementNamed('/');
+          case 1:
+            Navigator.of(context).pushNamed('/history');
+        }
+      },
     );
   }
 

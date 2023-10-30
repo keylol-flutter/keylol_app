@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_flutter/bloc/bloc/authentication_bloc.dart';
 import 'package:keylol_flutter/repository/authentication_repository.dart';
 import 'package:keylol_flutter/screen/guide/bloc/guide_bloc.dart';
-import 'package:keylol_flutter/widgets/avatar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keylol_flutter/widgets/load_more_list_view.dart';
 import 'package:keylol_flutter/widgets/thread_item.dart';

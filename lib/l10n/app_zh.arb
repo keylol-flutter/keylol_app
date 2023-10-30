@@ -4,6 +4,7 @@
   "notLoginError": "请登录后查看~",
   "homePageDrawerHeader": "Keylol Flutter",
   "homePageDrawerListTileHome": "主页",
+  "homePageDrawerListTileHistory": "历史",
   "homeBottomBarDestinationIndex": "聚焦",
   "homeBottomBarDestinationGuide": "导读",
   "homeBottomBarDestinationForum": "版块",
