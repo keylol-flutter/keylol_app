@@ -19,12 +19,14 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     Emitter<HistoryState> emit,
   ) async {
     try {
+      final count = await _repository.count();
       final threads = await _repository.histories(page: 1, limit: 100);
 
       emit(state.copyWith(
         status: HistoryStatus.success,
         page: 1,
         threads: threads,
+        hasReachMax: threads.length >= count,
       ));
     } catch (e) {
       emit(state.copyWith(status: HistoryStatus.failure));
@@ -36,13 +38,17 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     Emitter<HistoryState> emit,
   ) async {
     try {
+      final count = await _repository.count();
+
       final page = state.page + 1;
-      final threads = await _repository.histories(page: page, limit: 100);
+      final threadList = await _repository.histories(page: page, limit: 100);
+      final threads = state.threads..addAll(threadList);
 
       emit(state.copyWith(
         status: HistoryStatus.success,
         page: page,
-        threads: state.threads..addAll(threads),
+        threads: threads,
+        hasReachMax: threads.length >= count,
       ));
     } catch (e) {
       emit(state.copyWith(status: HistoryStatus.failure));

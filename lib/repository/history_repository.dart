@@ -33,6 +33,19 @@ class HistoryRepository {
     );
   }
 
+  Future<int> count({String? text}) async {
+    final db = await _database;
+
+    if (text == null) {
+      final result = await db.rawQuery('SELECT COUNT(0) FROM history');
+      return Sqflite.firstIntValue(result) ?? 0;
+    } else {
+      final result = await db
+          .rawQuery('SELECT COUNT(0) FROM history WHERE subject LIKE %$text%');
+      return Sqflite.firstIntValue(result) ?? 0;
+    }
+  }
+
   Future<List<Thread>> histories({
     String? text,
     int? page,

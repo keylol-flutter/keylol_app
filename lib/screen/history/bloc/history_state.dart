@@ -7,18 +7,21 @@ class HistoryState extends Equatable {
 
   final int page;
   final List<Thread> threads;
+  final bool hasReachMax;
 
-  const HistoryState(this.status, this.page, this.threads);
+  const HistoryState(this.status, this.page, this.threads, this.hasReachMax);
 
   HistoryState copyWith({
     HistoryStatus? status,
     int? page,
     List<Thread>? threads,
+    bool? hasReachMax,
   }) {
     return HistoryState(
       status ?? this.status,
       page ?? this.page,
       threads ?? this.threads,
+      hasReachMax ?? this.hasReachMax,
     );
   }
 
@@ -27,5 +30,5 @@ class HistoryState extends Equatable {
 }
 
 final class HistoryInitial extends HistoryState {
-  HistoryInitial() : super(HistoryStatus.initial, 1, []);
+  HistoryInitial() : super(HistoryStatus.initial, 1, [], true);
 }

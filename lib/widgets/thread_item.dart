@@ -35,7 +35,7 @@ class ThreadItem extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           Text(
-            thread.dateline,
+            _formatDateline(thread.dateline),
             style: Theme.of(context).textTheme.bodyMedium,
           ),
         ],
@@ -50,5 +50,15 @@ class ThreadItem extends StatelessWidget {
     return Container(
       child: wrapperBuilder == null ? content : wrapperBuilder!.call(content),
     );
+  }
+
+  String _formatDateline(String dateline) {
+    if (double.tryParse(dateline) == null) {
+      return dateline;
+    }
+
+    final date =
+        DateTime.fromMillisecondsSinceEpoch(int.parse(dateline) * 1000);
+    return "${date.year.toString()}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
   }
 }
