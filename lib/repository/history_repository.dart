@@ -3,23 +3,23 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 const String ddl =
-    "CREATE TABLE history (tid TEXT PRIMARY KEY, fid TEXT, author_id TEXT, author TEXT, subject TEXT, dateline TEXT, date TEXT)";
+    'CREATE TABLE history (tid TEXT PRIMARY KEY, fid TEXT, author_id TEXT, author TEXT, subject TEXT, dateline TEXT, date TEXT)';
 
 class HistoryRepository {
-  late final Future<Database> _database;
+  late final Database _db;
 
   Future<void> initial() async {
-    _database = openDatabase(
-      join(await getDatabasesPath(), 'keylol.db'),
-      onCreate: (db, version) => db.execute(ddl),
+    _db = await openDatabase(
+      join(await getDatabasesPath(), 'history.db'),
+      onCreate: (db, version) async {
+        await db.execute(ddl);
+      },
       version: 1,
     );
   }
 
   Future<void> insertHistory(Thread thread) async {
-    final db = await _database;
-
-    await db.insert(
+    await _db.insert(
       'history',
       {
         'tid': thread.tid,
@@ -35,13 +35,11 @@ class HistoryRepository {
   }
 
   Future<int> count({String? text}) async {
-    final db = await _database;
-
     if (text == null) {
-      final result = await db.rawQuery('SELECT COUNT(0) FROM history');
+      final result = await _db.rawQuery('SELECT COUNT(0) FROM history');
       return Sqflite.firstIntValue(result) ?? 0;
     } else {
-      final result = await db
+      final result = await _db
           .rawQuery('SELECT COUNT(0) FROM history WHERE subject LIKE %$text%');
       return Sqflite.firstIntValue(result) ?? 0;
     }
@@ -52,10 +50,8 @@ class HistoryRepository {
     int? page,
     int limit = 100,
   }) async {
-    final db = await _database;
-
     int? offset = page == null ? null : (page - 1) * limit;
-    final list = await db.query(
+    final list = await _db.query(
       'history',
       where: text != null ? 'subject LIKE ?' : null,
       whereArgs: text != null ? ['%$text%'] : null,
@@ -65,16 +61,5 @@ class HistoryRepository {
     );
 
     return list;
-    // return List.generate(
-    //   list.length,
-    //   (index) => Thread.fromJson({
-    //     'tid': list[index]['tid'],
-    //     'fid': list[index]['fid'],
-    //     'authorid': list[index]['author_id'],
-    //     'author': list[index]['author'],
-    //     'subject': list[index]['subject'],
-    //     'dateline': list[index]['dateline']
-    //   }),
-    // );
   }
 }

@@ -92,15 +92,7 @@ class PostItem extends StatelessWidget {
                   ),
                 ],
               ),
-            Padding(
-              padding: showFloor
-                  ? const EdgeInsets.only(left: 48 + 16, right: 16)
-                  : EdgeInsets.zero,
-              child: Divider(
-                height: 0,
-                color: Theme.of(context).dividerColor.withOpacity(0.2),
-              ),
-            ),
+            if (!showFloor) const SizedBox(height: 8),
           ],
         ),
       ),

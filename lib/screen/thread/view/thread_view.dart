@@ -98,6 +98,7 @@ class _ThreadViewState extends State<ThreadView> {
                   delegate: ThreadAppBar(
                     tid: thread.tid,
                     title: thread.subject,
+                    favored: state.favored ?? false,
                     textStyle: Theme.of(context).textTheme.titleLarge!,
                     width: MediaQuery.of(context).size.width,
                     topPadding: MediaQuery.of(context).padding.top,
@@ -112,36 +113,55 @@ class _ThreadViewState extends State<ThreadView> {
                       showFloor: false,
                     ),
                   ),
+                if (firstPost != null)
+                  SliverToBoxAdapter(
+                    child: Divider(
+                      height: 0,
+                      color: Theme.of(context).dividerColor.withOpacity(0.2),
+                    ),
+                  ),
                 if (posts.isNotEmpty)
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        if (index == posts.length) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Opacity(
-                              opacity: state.hasReachMax ? 0.0 : 1.0,
-                              child: const Center(
-                                child: CircularProgressIndicator(),
-                              ),
+                  SliverList.separated(
+                    itemCount: posts.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index == posts.length) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Opacity(
+                            opacity: state.hasReachMax ? 0.0 : 1.0,
+                            child: const Center(
+                              child: CircularProgressIndicator(),
                             ),
-                          );
-                        }
-
-                        final post = posts[index];
-                        return AutoScrollTag(
-                          key: Key(post.pid),
-                          controller: _controller,
-                          index: index,
-                          child: PostItem(
-                            thread: thread,
-                            post: post,
-                            scrollTo: _scrollTo,
                           ),
                         );
-                      },
-                      childCount: posts.length + 1,
-                    ),
+                      }
+
+                      final post = posts[index];
+                      return AutoScrollTag(
+                        key: Key(post.pid),
+                        controller: _controller,
+                        index: index,
+                        child: PostItem(
+                          thread: thread,
+                          post: post,
+                          scrollTo: _scrollTo,
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      if (index == posts.length) {
+                        return Container();
+                      }
+                      return Padding(
+                        padding:
+                            const EdgeInsets.only(left: 48 + 16, right: 16),
+                        child: Divider(
+                          height: 0,
+                          color:
+                              Theme.of(context).dividerColor.withOpacity(0.2),
+                        ),
+                      );
+                    },
                   ),
               ],
             ),

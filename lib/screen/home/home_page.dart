@@ -56,6 +56,12 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       NavigationDrawerDestination(
+        icon: const Icon(Icons.star_outline_outlined),
+        label: Text(
+          AppLocalizations.of(context)!.homePageDrawerListTileFavorite,
+        ),
+      ),
+      NavigationDrawerDestination(
         icon: const Icon(Icons.history_outlined),
         label: Text(
           AppLocalizations.of(context)!.homePageDrawerListTileHistory,
@@ -76,10 +82,12 @@ class _HomePageState extends State<HomePage> {
         for (final destination in destinations) destination,
       ],
       onDestinationSelected: (index) {
-        switch(index) {
+        switch (index) {
           case 0:
             Navigator.of(context).pushReplacementNamed('/');
           case 1:
+            Navigator.of(context).pushNamed('/favorite');
+          case 2:
             Navigator.of(context).pushNamed('/history');
         }
       },

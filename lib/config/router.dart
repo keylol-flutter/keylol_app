@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keylol_flutter/screen/favorite/favorite_page.dart';
 import 'package:keylol_flutter/screen/forum/forum_page.dart';
 import 'package:keylol_flutter/screen/history/history_page.dart';
 import 'package:keylol_flutter/screen/home/home_page.dart';
@@ -16,5 +17,6 @@ final Map<String, WidgetBuilder> routes = {
     final args = ModalRoute.of(context)!.settings.arguments as dynamic;
     return ThreadPage(tid: args['tid']);
   },
+  '/favorite': (context) => const FavoritePage(),
   '/history': (context) => const HistoryPage(),
 };

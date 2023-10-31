@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/config/logger.dart';
+import 'package:keylol_flutter/repository/favorite_repository.dart';
 
 part 'thread_event.dart';
 
@@ -11,12 +12,16 @@ part 'thread_state.dart';
 
 class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
   final Keylol _client;
+  final FavoriteRepository _favoriteRepository;
   final String _tid;
 
-  ThreadBloc(this._client, this._tid) : super(ThreadInitial()) {
+  ThreadBloc(this._client, this._favoriteRepository, this._tid)
+      : super(ThreadInitial()) {
     on<ThreadRefreshed>(_onThreadRefreshed);
     on<ThreadFetched>(_onThreadFetched);
     on<ThreadReplied>(_onReplied);
+    on<ThreadFavored>(_onThreadFavored);
+    on<ThreadUnFavored>(_onThreadUnFavored);
   }
 
   Future<void> _onThreadRefreshed(
@@ -44,9 +49,17 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
       final firstPost = postList.isNotEmpty ? postList[0] : null;
       final posts = postList.isNotEmpty ? postList.sublist(1) : <Post>[];
 
+      var favored = false;
+      try {
+        favored = await _favoriteRepository.favored(_tid);
+      } catch (e, stack) {
+        logger.e('获取帖子是否收藏失败', e, stack);
+      }
+
       emit(state.copyWith(
         status: ThreadStatus.success,
         thread: thread,
+        favored: favored,
         firstPost: firstPost,
         page: 1,
         posts: posts,
@@ -159,5 +172,31 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
       logger.e('回复帖子失败', e, stack);
       emit(state.copyWith(status: ThreadStatus.failure));
     }
+  }
+
+  Future<void> _onThreadFavored(
+    ThreadFavored event,
+    Emitter<ThreadState> emit,
+  ) async {
+    await _favoriteRepository.add(_tid, event.description, event.formHash);
+
+    final favored = await _favoriteRepository.favored(_tid);
+
+    emit(state.copyWith(
+      favored: favored,
+    ));
+  }
+
+  Future<void> _onThreadUnFavored(
+    ThreadUnFavored event,
+    Emitter<ThreadState> emit,
+  ) async {
+    await _favoriteRepository.remove(_tid, event.formHash);
+
+    final favored = await _favoriteRepository.favored(_tid);
+
+    emit(state.copyWith(
+      favored: favored,
+    ));
   }
 }

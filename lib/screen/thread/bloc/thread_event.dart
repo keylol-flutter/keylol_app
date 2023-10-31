@@ -31,3 +31,16 @@ class ThreadReplied extends ThreadEvent {
     this.aIds = const [],
   });
 }
+
+class ThreadFavored extends ThreadEvent {
+  final String formHash;
+  final String description;
+
+  const ThreadFavored(this.formHash, this.description);
+}
+
+class ThreadUnFavored extends ThreadEvent {
+  final String formHash;
+
+  const ThreadUnFavored(this.formHash);
+}

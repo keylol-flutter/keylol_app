@@ -15,6 +15,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keylol_flutter/config/router.dart';
 import 'package:keylol_flutter/repository/authentication_repository.dart';
 import 'package:keylol_flutter/repository/config_repository.dart';
+import 'package:keylol_flutter/repository/favorite_repository.dart';
 import 'package:keylol_flutter/repository/history_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,6 +39,8 @@ void main() async {
   keylol.addInterceptor(authenticationInterceptor);
   final historyRepository = HistoryRepository();
   await historyRepository.initial();
+  final favoriteRepository = FavoriteRepository(prefs, keylol);
+  await favoriteRepository.initial();
 
   PluginManager.instance
     ..register(Console())
@@ -51,6 +54,7 @@ void main() async {
           RepositoryProvider.value(value: keylol),
           RepositoryProvider.value(value: authenticationRepository),
           RepositoryProvider.value(value: historyRepository),
+          RepositoryProvider.value(value: favoriteRepository),
         ],
         child: MultiBlocProvider(
           providers: [

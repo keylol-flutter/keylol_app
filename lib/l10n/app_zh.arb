@@ -5,6 +5,7 @@
   "homePageDrawerHeader": "Keylol Flutter",
   "homePageDrawerListTileHome": "主页",
   "homePageDrawerListTileHistory": "历史",
+  "homePageDrawerListTileFavorite": "收藏",
   "homeBottomBarDestinationIndex": "聚焦",
   "homeBottomBarDestinationGuide": "导读",
   "homeBottomBarDestinationForum": "版块",
@@ -39,5 +40,10 @@
   "loginPageLoginButton": "登录",
   "loginPageError": "登录失败，请稍后重试~",
   "threadPageFloor": "楼",
-  "threadPageMenuOpenInBrowser": "在浏览器中打开"
+  "threadPageMenuAddFavorite": "添加到收藏",
+  "threadPageMenuRemoveFavorite": "取消收藏",
+  "threadPageMenuOpenInBrowser": "在浏览器中打开",
+  "threadAddFavoriteDescription": "收藏备注",
+  "threadAddFavoriteConfirm": "确认",
+  "threadAddFavoriteCancel": "取消"
 }

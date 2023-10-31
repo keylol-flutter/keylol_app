@@ -16,17 +16,17 @@ class HistoryView extends StatefulWidget {
 class _HistoryState extends State<HistoryView> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HistoryBloc, HistoryState>(
-      builder: (context, state) {
-        final dateThreadMap = state.threads;
-        final dates = dateThreadMap.keys.toList();
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(
-              AppLocalizations.of(context)!.homePageDrawerListTileHistory,
-            ),
-          ),
-          body: RefreshIndicator(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          AppLocalizations.of(context)!.homePageDrawerListTileHistory,
+        ),
+      ),
+      body: BlocBuilder<HistoryBloc, HistoryState>(
+        builder: (context, state) {
+          final dateThreadMap = state.threads;
+          final dates = dateThreadMap.keys.toList();
+          return RefreshIndicator(
             onRefresh: () async {
               context.read<HistoryBloc>().add(HistoryRefreshed());
             },
@@ -85,9 +85,9 @@ class _HistoryState extends State<HistoryView> {
                 return Container();
               },
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
