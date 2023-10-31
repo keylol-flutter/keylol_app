@@ -1,6 +1,9 @@
+import 'dart:html';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:keylol_api/models/thread.dart';
 
 class Carousel extends StatelessWidget {
@@ -42,7 +45,15 @@ class CarouselItem extends StatelessWidget {
     // 图片
     final img = Material(
       child: FadeInImage(
-        image: CachedNetworkImageProvider(thread.cover),
+        image: CachedNetworkImageProvider(
+          thread.cover,
+          cacheManager: CacheManager(
+            Config(
+              thread.cover,
+              stalePeriod: const Duration(minutes: 10),
+            ),
+          ),
+        ),
         placeholder: const AssetImage("images/carousel_placeholder.jpg"),
         fit: BoxFit.cover,
       ),

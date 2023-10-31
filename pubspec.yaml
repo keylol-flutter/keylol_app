@@ -69,6 +69,7 @@ dependencies:
   sqflite: ^2.3.0
   path: ^1.8.3
   sticky_headers: ^0.3.0+2
+  flutter_cache_manager: ^3.3.1
 
 dev_dependencies:
   flutter_test:
