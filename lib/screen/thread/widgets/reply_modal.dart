@@ -908,7 +908,6 @@ class _ReplyModalState extends State<ReplyModal> {
                     });
                   },
                   icon: const Icon(Icons.emoji_emotions_outlined),
-                  color: Theme.of(context).primaryColor,
                 ),
                 IconButton(
                   onPressed: () async {
@@ -930,7 +929,6 @@ class _ReplyModalState extends State<ReplyModal> {
                     }
                   },
                   icon: const Icon(Icons.photo_outlined),
-                  color: Theme.of(context).primaryColor,
                 ),
                 // 空白
                 Expanded(child: Container()),
@@ -940,7 +938,6 @@ class _ReplyModalState extends State<ReplyModal> {
                     _sendReply(context, profile);
                   },
                   icon: const Icon(Icons.send),
-                  color: Theme.of(context).primaryColor,
                 )
               ],
             ),
