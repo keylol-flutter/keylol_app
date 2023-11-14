@@ -12,7 +12,8 @@ class SpacePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => SpaceBloc(context.read<Keylol>(), uid),
+      create: (_) =>
+          SpaceBloc(context.read<Keylol>(), uid)..add(SpaceRefreshed()),
       child: const SpaceView(),
     );
   }

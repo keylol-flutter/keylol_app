@@ -5,6 +5,7 @@ import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/screen/space/bloc/space_bloc.dart';
 import 'package:keylol_flutter/screen/space/widgets/label.dart';
 import 'package:keylol_flutter/widgets/avatar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class SpaceView extends StatefulWidget {
@@ -15,19 +16,29 @@ class SpaceView extends StatefulWidget {
 }
 
 class _SpaceState extends State<SpaceView> {
-  final PageController _controller = PageController();
   int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SpaceBloc, SpaceState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state.status == SpaceStatus.failure) {
+          final message =
+              state.message ?? AppLocalizations.of(context)!.networkError;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(message),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
+      },
       builder: (context, state) {
         final profile = state.profile;
         if (profile == null) {
           return Scaffold(
             appBar: AppBar(),
-            body: const CircularProgressIndicator(),
+            body: const Center(child: CircularProgressIndicator()),
           );
         }
 
@@ -35,15 +46,19 @@ class _SpaceState extends State<SpaceView> {
         return Scaffold(
           appBar: AppBar(),
           body: ListView(
-            shrinkWrap: true,
+            padding: const EdgeInsets.only(left: 16, right: 16),
+            physics: const ClampingScrollPhysics(),
             children: [
               ListTile(
+                contentPadding: EdgeInsets.zero,
                 leading: Avatar(
                   uid: space.uid,
                   username: space.username,
                   width: 56,
                   height: 56,
                 ),
+                title: Text(space.username),
+                subtitle: Text('ID: ${space.uid}'),
               ),
               const SizedBox(height: 16),
               Row(
@@ -66,7 +81,7 @@ class _SpaceState extends State<SpaceView> {
                   ),
                   const VerticalDivider(),
                   InkWell(
-                    child: Label(label: '回复数', value: '${space.threads}'),
+                    child: Label(label: '回复数', value: '${space.posts}'),
                     onTap: () {
                       Navigator.of(context)
                           .pushNamed('/space/reply', arguments: space.uid);
@@ -75,28 +90,21 @@ class _SpaceState extends State<SpaceView> {
                 ],
               ),
               const SizedBox(height: 16),
-              if (space.signHtml.isNotEmpty)
-                const Padding(
-                  padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                  child: Text('个人签名'),
-                ),
+              if (space.signHtml.isNotEmpty) const Text('个人签名'),
               if (space.signHtml.isNotEmpty) const SizedBox(height: 8),
               if (space.signHtml.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                  child: Html(
-                    data: space.signHtml,
-                    style: {
-                      'body': Style(
-                        margin: Margins.all(0),
-                        padding: HtmlPaddings.all(0),
-                      )
-                    },
-                  ),
+                Html(
+                  data: space.signHtml,
+                  style: {
+                    'body': Style(
+                      margin: Margins.all(0),
+                      padding: HtmlPaddings.all(0),
+                    )
+                  },
                 ),
               if (space.signHtml.isNotEmpty) const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+              SizedBox(
+                width: double.infinity,
                 child: SegmentedButton(
                   showSelectedIcon: false,
                   selected: {_currentIndex},
@@ -104,11 +112,6 @@ class _SpaceState extends State<SpaceView> {
                     setState(() {
                       _currentIndex = set.first;
                     });
-                    _controller.animateToPage(
-                      _currentIndex,
-                      duration: const Duration(milliseconds: 200),
-                      curve: Curves.linear,
-                    );
                   },
                   segments: const [
                     ButtonSegment(value: 0, label: Text('勋章')),
@@ -117,21 +120,27 @@ class _SpaceState extends State<SpaceView> {
                   ],
                 ),
               ),
-              const SizedBox(height: 8),
-              PageView(
-                physics: const NeverScrollableScrollPhysics(),
-                controller: _controller,
-                children: [
-                  _buildMedals(space),
-                  _buildActivity(space),
-                  _buildStatistics(space),
-                ],
-              )
+              const SizedBox(height: 16),
+              Expanded(
+                child: _buildData(space),
+              ),
             ],
           ),
         );
       },
     );
+  }
+
+  Widget _buildData(Space space) {
+    switch (_currentIndex) {
+      case 0:
+        return _buildMedals(space);
+      case 1:
+        return _buildActivity(space);
+      case 2:
+        return _buildStatistics(space);
+    }
+    return Container();
   }
 
   // 勋章
@@ -142,36 +151,34 @@ class _SpaceState extends State<SpaceView> {
       return Container();
     }
 
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: medals.length - 1,
-      itemBuilder: (context, index) {
-        final medal = medals[index];
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(medal.name),
-            Text(medal.description),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                CachedNetworkImage(
-                  height: 30.0,
-                  imageUrl:
-                      'https://keylol.com/static/image/common/${medal.image}',
-                ),
-              ],
-            ),
-          ],
-        );
-      },
+    return Column(
+      children: medals.map(
+        (medal) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(medal.name),
+              Text(medal.description),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  CachedNetworkImage(
+                    height: 30.0,
+                    imageUrl:
+                        'https://keylol.com/static/image/common/${medal.image}',
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      ).toList(),
     );
   }
 
   // 活跃概况
   Widget _buildActivity(Space space) {
-    return ListView(
-      shrinkWrap: true,
+    return Column(
       children: [
         if (space.group != null)
           Row(
@@ -180,10 +187,18 @@ class _SpaceState extends State<SpaceView> {
               if (space.group!.groupTitle.isNotEmpty)
                 const SizedBox(width: 8.0),
               if (space.group!.groupTitle.isNotEmpty)
-                Text(space.group!.groupTitle),
+                Expanded(
+                  child: Html(
+                    data: space.group!.groupTitle,
+                  ),
+                ),
               if (space.group!.icon.isNotEmpty) const SizedBox(width: 8.0),
               if (space.group!.icon.isNotEmpty)
-                CachedNetworkImage(imageUrl: space.group!.icon),
+                Expanded(
+                  child: Html(
+                    data: space.group!.icon,
+                  ),
+                ),
             ],
           ),
         const SizedBox(height: 8.0),
@@ -232,8 +247,7 @@ class _SpaceState extends State<SpaceView> {
 
   // 统计信息
   Widget _buildStatistics(Space space) {
-    return ListView(
-      shrinkWrap: true,
+    return Column(
       children: [
         Row(
           children: [
