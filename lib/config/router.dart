@@ -21,7 +21,7 @@ final Map<String, WidgetBuilder> routes = {
   '/favorite': (context) => const FavoritePage(),
   '/history': (context) => const HistoryPage(),
   '/space': (context) {
-    final args = ModalRoute.of(context)!.settings as dynamic;
+    final args = ModalRoute.of(context)!.settings.arguments as dynamic;
     return SpacePage(uid: args['uid']);
   }
 };
