@@ -121,9 +121,7 @@ class _SpaceState extends State<SpaceView> {
                 ),
               ),
               const SizedBox(height: 16),
-              Expanded(
-                child: _buildData(space),
-              ),
+              _buildData(space),
             ],
           ),
         );
