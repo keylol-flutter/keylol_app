@@ -31,7 +31,7 @@ class Avatar extends StatelessWidget {
           if (uid == '') {
             Navigator.of(context).pushNamed('/login');
           } else {
-            Navigator.of(context).pushNamed('/space', arguments: uid);
+            Navigator.of(context).pushNamed('/space', arguments: {'uid': uid});
           }
         },
         child: ClipOval(
