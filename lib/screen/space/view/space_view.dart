@@ -65,32 +65,42 @@ class _SpaceState extends State<SpaceView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    child: Label(label: '好友数', value: '${space.friends}'),
+                    child: Label(
+                      label: AppLocalizations.of(context)!.spacePageFriends,
+                      value: '${space.friends}',
+                    ),
                     onTap: () {
                       Navigator.of(context)
-                          .pushNamed('/space/friend', arguments: space.uid);
+                          .pushNamed('/space/friends', arguments: space.uid);
                     },
                   ),
                   const VerticalDivider(),
                   InkWell(
-                    child: Label(label: '主题数', value: '${space.threads}'),
+                    child: Label(
+                      label: AppLocalizations.of(context)!.spacePageThreads,
+                      value: '${space.threads}',
+                    ),
                     onTap: () {
                       Navigator.of(context)
-                          .pushNamed('/space/thread', arguments: space.uid);
+                          .pushNamed('/space/threads', arguments: space.uid);
                     },
                   ),
                   const VerticalDivider(),
                   InkWell(
-                    child: Label(label: '回复数', value: '${space.posts}'),
+                    child: Label(
+                      label: AppLocalizations.of(context)!.spacePagePosts,
+                      value: '${space.posts}',
+                    ),
                     onTap: () {
                       Navigator.of(context)
-                          .pushNamed('/space/reply', arguments: space.uid);
+                          .pushNamed('/space/posts', arguments: space.uid);
                     },
                   ),
                 ],
               ),
               const SizedBox(height: 16),
-              if (space.signHtml.isNotEmpty) const Text('个人签名'),
+              if (space.signHtml.isNotEmpty)
+                Text(AppLocalizations.of(context)!.spacePageSign),
               if (space.signHtml.isNotEmpty) const SizedBox(height: 8),
               if (space.signHtml.isNotEmpty)
                 Html(
@@ -113,10 +123,25 @@ class _SpaceState extends State<SpaceView> {
                       _currentIndex = set.first;
                     });
                   },
-                  segments: const [
-                    ButtonSegment(value: 0, label: Text('勋章')),
-                    ButtonSegment(value: 1, label: Text('活跃概况')),
-                    ButtonSegment(value: 2, label: Text('统计信息')),
+                  segments: [
+                    ButtonSegment(
+                      value: 0,
+                      label: Text(
+                        AppLocalizations.of(context)!.spacePageMedals,
+                      ),
+                    ),
+                    ButtonSegment(
+                      value: 1,
+                      label: Text(
+                        AppLocalizations.of(context)!.spacePageActivity,
+                      ),
+                    ),
+                    ButtonSegment(
+                      value: 2,
+                      label: Text(
+                        AppLocalizations.of(context)!.spacePageStatistics,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -181,7 +206,7 @@ class _SpaceState extends State<SpaceView> {
         if (space.group != null)
           Row(
             children: [
-              const Text('用户组'),
+              Text(AppLocalizations.of(context)!.spacePageActivityGroup),
               if (space.group!.groupTitle.isNotEmpty)
                 const SizedBox(width: 8.0),
               if (space.group!.groupTitle.isNotEmpty)
@@ -202,15 +227,17 @@ class _SpaceState extends State<SpaceView> {
         const SizedBox(height: 8.0),
         Row(
           children: [
-            const Text('在线时间'),
+            Text(AppLocalizations.of(context)!.spacePageActivityOnlineTime),
             const SizedBox(width: 8.0),
-            Text('${space.olTime}小时'),
+            Text(
+              '${space.olTime}${AppLocalizations.of(context)!.spacePageActivityOnlineTimeUnit}',
+            ),
           ],
         ),
         const SizedBox(height: 8.0),
         Row(
           children: [
-            const Text('注册时间'),
+            Text(AppLocalizations.of(context)!.spacePageActivityRegDate),
             const SizedBox(width: 8.0),
             Text(space.regDate),
           ],
@@ -218,7 +245,7 @@ class _SpaceState extends State<SpaceView> {
         const SizedBox(height: 8.0),
         Row(
           children: [
-            const Text('最后访问'),
+            Text(AppLocalizations.of(context)!.spacePageActivityLastVisit),
             const SizedBox(width: 8.0),
             Text(space.lastVisit),
           ],
@@ -226,7 +253,7 @@ class _SpaceState extends State<SpaceView> {
         const SizedBox(height: 8.0),
         Row(
           children: [
-            const Text('上次活动'),
+            Text(AppLocalizations.of(context)!.spacePageActivityLastActivity),
             const SizedBox(width: 8.0),
             Text(space.lastActivity),
           ],
@@ -234,7 +261,7 @@ class _SpaceState extends State<SpaceView> {
         const SizedBox(height: 8.0),
         Row(
           children: [
-            const Text('上次发表'),
+            Text(AppLocalizations.of(context)!.spacePageActivityLastPost),
             const SizedBox(width: 8.0),
             Text(space.lastPost),
           ],
@@ -249,7 +276,7 @@ class _SpaceState extends State<SpaceView> {
       children: [
         Row(
           children: [
-            const Text('已用空间'),
+            Text(AppLocalizations.of(context)!.spacePageStatisticsAttachSize),
             const SizedBox(width: 8.0),
             Text(space.attachSize.trim())
           ],
@@ -257,7 +284,7 @@ class _SpaceState extends State<SpaceView> {
         const SizedBox(height: 8.0),
         Row(
           children: [
-            const Text('积分'),
+            Text(AppLocalizations.of(context)!.spacePageStatisticsCredits),
             const SizedBox(width: 8.0),
             Text('${space.credits}'),
           ],
@@ -265,31 +292,37 @@ class _SpaceState extends State<SpaceView> {
         const SizedBox(height: 8.0),
         Row(
           children: [
-            const Text('体力'),
+            Text(AppLocalizations.of(context)!.spacePageStatisticsCredits1),
             const SizedBox(width: 8.0),
-            Text('${space.extCredits1}点'),
+            Text(
+              '${space.extCredits1}${AppLocalizations.of(context)!.spacePageStatisticsCredits1Unit}',
+            ),
           ],
         ),
         const SizedBox(height: 8.0),
         Row(
           children: [
-            const Text('蒸汽'),
+            Text(AppLocalizations.of(context)!.spacePageStatisticsCredits3),
             const SizedBox(width: 8.0),
-            Text('${space.extCredits3}克'),
+            Text(
+              '${space.extCredits3}${AppLocalizations.of(context)!.spacePageStatisticsCredits3Unit}',
+            ),
           ],
         ),
         const SizedBox(height: 8.0),
         Row(
           children: [
-            const Text('动力'),
+            Text(AppLocalizations.of(context)!.spacePageStatisticsCredits4),
             const SizedBox(width: 8.0),
-            Text('${space.extCredits4}点'),
+            Text(
+              '${space.extCredits4}${AppLocalizations.of(context)!.spacePageStatisticsCredits4Unit}',
+            ),
           ],
         ),
         const SizedBox(height: 8.0),
         Row(
           children: [
-            const Text('绿意'),
+            Text(AppLocalizations.of(context)!.spacePageStatisticsCredits6),
             const SizedBox(width: 8.0),
             Text('${space.extCredits6}'),
           ],
@@ -297,7 +330,7 @@ class _SpaceState extends State<SpaceView> {
         const SizedBox(height: 8.0),
         Row(
           children: [
-            const Text('可用改名次数'),
+            Text(AppLocalizations.of(context)!.spacePageStatisticsCredits8),
             const SizedBox(width: 8.0),
             Text('${space.extCredits8}'),
           ],
