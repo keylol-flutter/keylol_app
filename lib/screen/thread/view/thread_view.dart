@@ -77,6 +77,7 @@ class _ThreadViewState extends State<ThreadView> {
 
         final firstPost = state.firstPost;
         final posts = state.posts;
+        final comments = state.comments;
         final poll = state.poll;
         return Scaffold(
           floatingActionButton: FloatingActionButton(
@@ -109,6 +110,7 @@ class _ThreadViewState extends State<ThreadView> {
                     child: PostItem(
                       thread: thread,
                       post: firstPost,
+                      comments: comments[firstPost.pid] ?? [],
                       poll: poll,
                       showFloor: false,
                     ),
@@ -143,6 +145,7 @@ class _ThreadViewState extends State<ThreadView> {
                         child: PostItem(
                           thread: thread,
                           post: post,
+                          comments: comments[post.pid] ?? [],
                           scrollTo: _scrollTo,
                         ),
                       );

@@ -15,6 +15,7 @@ typedef ScrollToFunction = void Function(String pid);
 class PostItem extends StatelessWidget {
   final Thread thread;
   final Post post;
+  final List<Comment> comments;
   final SpecialPoll? poll;
 
   final bool showFloor;
@@ -25,6 +26,7 @@ class PostItem extends StatelessWidget {
     super.key,
     required this.thread,
     required this.post,
+    this.comments = const [],
     this.poll,
     this.showFloor = true,
     this.scrollTo,
@@ -38,6 +40,7 @@ class PostItem extends StatelessWidget {
       child: Material(
         elevation: 0,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ListTile(
               leading: Avatar(
@@ -77,6 +80,73 @@ class PostItem extends StatelessWidget {
                 callback: (context) {
                   context.read<ThreadBloc>().add(const ThreadRefreshed());
                 },
+              ),
+            if (comments.isNotEmpty)
+              Padding(
+                padding: showFloor
+                    ? const EdgeInsets.only(
+                        left: 48 + 16,
+                        right: 16,
+                        top: 8,
+                        bottom: 8,
+                      )
+                    : const EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        top: 8,
+                        bottom: 8,
+                      ),
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: Colors.deepOrangeAccent.withOpacity(0.1),
+                    border: Border.all(
+                        color: Colors.deepOrangeAccent.withOpacity(0.1)),
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(12),
+                      bottomRight: Radius.circular(12),
+                    ),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.circle_outlined,
+                        size: 12,
+                        color: Colors.deepOrangeAccent.withOpacity(0.6),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        AppLocalizations.of(context)!.threadPageComment,
+                        style: TextStyle(
+                          color: Colors.deepOrangeAccent.withOpacity(0.6),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            for (final comment in comments)
+              Padding(
+                padding: showFloor
+                    ? const EdgeInsets.only(left: 48 + 16, right: 16)
+                    : const EdgeInsets.only(left: 16, right: 16),
+                child: Column(
+                  children: [
+                    ListTile(
+                      contentPadding: const EdgeInsets.all(0),
+                      leading: Avatar(
+                        uid: comment.authorId,
+                        username: comment.author,
+                        width: showFloor ? 32 : 40,
+                        height: showFloor ? 32 : 40,
+                      ),
+                      title: Text(comment.author),
+                      subtitle: Text(comment.dateline),
+                    ),
+                    Discuz(data: comment.comment, nested: true),
+                  ],
+                ),
               ),
             if (showFloor)
               Row(

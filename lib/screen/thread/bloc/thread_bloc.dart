@@ -48,6 +48,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
       final postList = viewThread.postList;
       final firstPost = postList.isNotEmpty ? postList[0] : null;
       final posts = postList.isNotEmpty ? postList.sublist(1) : <Post>[];
+      final comments = viewThread.comments;
 
       var favored = false;
       try {
@@ -63,6 +64,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
         firstPost: firstPost,
         page: 1,
         posts: posts,
+        comments: comments,
         hasReachMax: posts.length >= thread.replies,
         poll: poll,
       ));
@@ -95,6 +97,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
       final viewThread = viewThreadResp.variables;
       final thread = viewThread.thread;
       final postList = viewThread.postList;
+      final comments = viewThread.comments;
       final posts = state.posts;
       for (var post in postList) {
         if (!posts.any((p) => p.pid == post.pid)) {
@@ -107,6 +110,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
         thread: thread,
         page: page,
         posts: posts,
+        comments: comments,
         hasReachMax: posts.length + 1 >= thread.replies,
       ));
     } catch (e, stack) {

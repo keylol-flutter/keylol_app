@@ -12,6 +12,7 @@ class ThreadState extends Equatable {
 
   final int page;
   final List<Post> posts;
+  final Map<String, List<Comment>> comments;
   final bool hasReachMax;
 
   final SpecialPoll? poll;
@@ -26,6 +27,7 @@ class ThreadState extends Equatable {
     this.pid,
     this.page,
     this.posts,
+    this.comments,
     this.hasReachMax,
     this.message,
     this.poll,
@@ -39,6 +41,7 @@ class ThreadState extends Equatable {
     String? pid,
     int? page,
     List<Post>? posts,
+    Map<String, List<Comment>>? comments,
     bool? hasReachMax,
     String? message,
     SpecialPoll? poll,
@@ -51,6 +54,7 @@ class ThreadState extends Equatable {
       pid,
       page ?? this.page,
       posts ?? this.posts,
+      comments ?? this.comments,
       hasReachMax ?? this.hasReachMax,
       message ?? this.message,
       poll ?? this.poll,
@@ -65,6 +69,7 @@ class ThreadState extends Equatable {
         firstPost,
         page,
         posts,
+        comments,
         hasReachMax,
         poll,
         message,
@@ -73,6 +78,6 @@ class ThreadState extends Equatable {
 
 class ThreadInitial extends ThreadState {
   ThreadInitial()
-      : super(ThreadStatus.initial, null, false, null, null, 1, [], false, null,
-            null);
+      : super(ThreadStatus.initial, null, false, null, null, 1, [], {}, false,
+            null, null);
 }
