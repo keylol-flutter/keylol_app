@@ -47,7 +47,7 @@ void main() async {
     ..register(DioInspector(dio: keylol.dio()));
   runApp(
     UMEWidget(
-      enable: false,
+      enable: true,
       child: MultiRepositoryProvider(
         providers: [
           RepositoryProvider(create: (context) => ConfigRepository(prefs)),

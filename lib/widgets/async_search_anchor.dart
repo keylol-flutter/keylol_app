@@ -30,7 +30,14 @@ class _AsyncSearchAnchorState extends State<AsyncSearchAnchor> {
       barLeading: widget.barLeading,
       barTrailing: widget.barTrailing,
       barBackgroundColor: MaterialStateProperty.all(
-          Theme.of(context).colorScheme.onSurface.withOpacity(0.08)),
+        Theme.of(context).colorScheme.onSurface.withOpacity(0.08),
+      ),
+      barPadding: const MaterialStatePropertyAll<EdgeInsets>(
+        EdgeInsets.symmetric(
+          horizontal: 16.0,
+          vertical: 8.0,
+        ),
+      ),
       barElevation: MaterialStateProperty.all(0),
       suggestionsBuilder: (context, controller) async {
         final text = controller.text;
@@ -46,7 +53,7 @@ class _AsyncSearchAnchorState extends State<AsyncSearchAnchor> {
         final suggestionsCompleter = Completer<Iterable<Widget>>();
         _timer = Timer(const Duration(milliseconds: 300), () async {
           suggestionsCompleter
-              .complete(widget.suggestionsBuilder(context, controller));
+              .complete(await widget.suggestionsBuilder(context, controller));
         });
 
         final suggestions = await suggestionsCompleter.future;

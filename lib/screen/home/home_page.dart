@@ -16,8 +16,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   var _index = 0;
   final _controller = PageController();
 
@@ -32,16 +30,15 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
         return Scaffold(
-          key: _scaffoldKey,
           drawer: _buildDrawer(context, state),
           body: PageView(
             controller: _controller,
             physics: const NeverScrollableScrollPhysics(),
-            children: [
-              IndexPage(scaffoldKey: _scaffoldKey),
-              const GuidePage(),
-              const ForumIndexPage(),
-              const NoticePage(),
+            children: const [
+              IndexPage(),
+              GuidePage(),
+              ForumIndexPage(),
+              NoticePage(),
             ],
           ),
           bottomNavigationBar: _buildBottomNavigationBar(context, state),

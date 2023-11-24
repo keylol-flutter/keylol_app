@@ -13,9 +13,7 @@ import 'package:keylol_flutter/widgets/thread_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class IndexView extends StatefulWidget {
-  final GlobalKey<ScaffoldState> scaffoldKey;
-
-  const IndexView({super.key, required this.scaffoldKey});
+  const IndexView({super.key});
 
   @override
   State<StatefulWidget> createState() => _IndexViewState();
@@ -71,12 +69,12 @@ class _IndexViewState extends State<IndexView> {
                   return [
                     SliverAppBar(
                       pinned: true,
-                      backgroundColor: Colors.transparent,
+                      automaticallyImplyLeading: false,
                       title: IndexSearchBar(
                         leading: IconButton(
                           icon: const Icon(Icons.menu),
                           onPressed: () {
-                            widget.scaffoldKey.currentState?.openDrawer();
+                            Scaffold.of(context).openDrawer();
                           },
                         ),
                         trailing: [
