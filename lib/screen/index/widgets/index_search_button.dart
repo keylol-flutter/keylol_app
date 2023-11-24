@@ -1,23 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
+import 'package:keylol_flutter/config/logger.dart';
 import 'package:keylol_flutter/widgets/async_search_anchor.dart';
 
-class IndexSearchBar extends StatefulWidget {
-  final Widget? leading;
-  final Iterable<Widget>? trailing;
-
-  const IndexSearchBar({
+class IndexSearchButton extends StatefulWidget {
+  const IndexSearchButton({
     super.key,
-    this.leading,
-    this.trailing,
   });
 
   @override
-  State<StatefulWidget> createState() => _IndexSearchBarState();
+  State<StatefulWidget> createState() => _IndexSearchButtonState();
 }
 
-class _IndexSearchBarState extends State<IndexSearchBar> {
+class _IndexSearchButtonState extends State<IndexSearchButton> {
   final _dio = Dio(BaseOptions(baseUrl: 'https://duckduckgo.com'));
 
   @override
@@ -29,8 +25,14 @@ class _IndexSearchBarState extends State<IndexSearchBar> {
   @override
   Widget build(BuildContext context) {
     return AsyncSearchAnchor(
-      barLeading: widget.leading,
-      barTrailing: widget.trailing,
+      searchAnchorChildBuilder: (context, controller) {
+        return IconButton(
+          icon: const Icon(Icons.search),
+          onPressed: () {
+            controller.openView();
+          },
+        );
+      },
       suggestionsBuilder: (context, controller) async {
         final results = await _search(controller.text);
 
@@ -47,6 +49,7 @@ class _IndexSearchBarState extends State<IndexSearchBar> {
             onTap: () {
               // TODO url 解析
               String url = r['url'];
+              logger.d(url);
               if (url.startsWith('https://keylol.com/t')) {
                 url = url.replaceFirst('https://keylo.com/t', '');
                 final tid = url.split('-')[0];

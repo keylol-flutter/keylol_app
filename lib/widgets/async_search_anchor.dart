@@ -3,17 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class AsyncSearchAnchor extends StatefulWidget {
-  final Widget? barLeading;
-  final Iterable<Widget>? barTrailing;
-
+  final SearchAnchorChildBuilder searchAnchorChildBuilder;
   final bool allowEmpty;
   final SuggestionsBuilder suggestionsBuilder;
 
   const AsyncSearchAnchor({
     super.key,
-    this.barLeading,
-    this.barTrailing,
     this.allowEmpty = false,
+    required this.searchAnchorChildBuilder,
     required this.suggestionsBuilder,
   });
 
@@ -22,18 +19,14 @@ class AsyncSearchAnchor extends StatefulWidget {
 }
 
 class _AsyncSearchAnchorState extends State<AsyncSearchAnchor> {
+  final SearchController _controller = SearchController();
   Timer? _timer;
 
   @override
   Widget build(BuildContext context) {
-    return SearchAnchor.bar(
-      barLeading: widget.barLeading,
-      barTrailing: widget.barTrailing,
-      barBackgroundColor: MaterialStateProperty.all(
-        Theme.of(context).colorScheme.onSurface.withOpacity(0.08),
-      ),
-      constraints: const BoxConstraints(minHeight: 48),
-      barElevation: MaterialStateProperty.all(0),
+    return SearchAnchor(
+      searchController: _controller,
+      builder: widget.searchAnchorChildBuilder,
       suggestionsBuilder: (context, controller) async {
         final text = controller.text;
 
