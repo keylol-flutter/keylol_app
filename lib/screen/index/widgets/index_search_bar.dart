@@ -36,10 +36,25 @@ class _IndexSearchBarState extends State<IndexSearchBar> {
 
         return results.map((r) {
           return ListTile(
-            title: Text(r['title']),
-            subtitle: Text(r['subTitle']),
+            title: Text(
+              r['title'],
+              overflow: TextOverflow.ellipsis,
+            ),
+            subtitle: Text(
+              r['subTitle'],
+              overflow: TextOverflow.ellipsis,
+            ),
             onTap: () {
               // TODO url 解析
+              String url = r['url'];
+              if (url.startsWith('https://keylol.com/t')) {
+                url = url.replaceFirst('https://keylo.com/t', '');
+                final tid = url.split('-')[0];
+                Navigator.of(context).pushNamed(
+                  '/thread',
+                  arguments: {'tid': tid},
+                );
+              }
 
               controller.closeView(null);
             },

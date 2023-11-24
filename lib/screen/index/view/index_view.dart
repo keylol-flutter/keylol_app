@@ -80,9 +80,7 @@ class _IndexViewState extends State<IndexView> {
                         trailing: [
                           Avatar(
                             uid: uid,
-                            padding: const EdgeInsets.all(9),
                           ),
-                          const SizedBox(width: 8.0),
                         ],
                       ),
                     ),

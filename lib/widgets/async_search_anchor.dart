@@ -32,12 +32,7 @@ class _AsyncSearchAnchorState extends State<AsyncSearchAnchor> {
       barBackgroundColor: MaterialStateProperty.all(
         Theme.of(context).colorScheme.onSurface.withOpacity(0.08),
       ),
-      barPadding: const MaterialStatePropertyAll<EdgeInsets>(
-        EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: 8.0,
-        ),
-      ),
+      constraints: const BoxConstraints(minHeight: 48),
       barElevation: MaterialStateProperty.all(0),
       suggestionsBuilder: (context, controller) async {
         final text = controller.text;
