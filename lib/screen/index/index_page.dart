@@ -6,7 +6,9 @@ import 'package:keylol_flutter/screen/index/bloc/search_bloc.dart';
 import 'package:keylol_flutter/screen/index/view/index_view.dart';
 
 class IndexPage extends StatelessWidget {
-  const IndexPage({super.key});
+  final GlobalKey<ScaffoldState> scaffoldKey;
+
+  const IndexPage({super.key, required this.scaffoldKey});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class IndexPage extends StatelessWidget {
           create: (_) => SearchBloc(),
         ),
       ],
-      child: const IndexView(),
+      child: IndexView(scaffoldKey: scaffoldKey),
     );
   }
 }

@@ -7,12 +7,15 @@ import 'package:keylol_flutter/repository/authentication_repository.dart';
 import 'package:keylol_flutter/screen/index/bloc/index_bloc.dart';
 import 'package:keylol_flutter/screen/index/bloc/search_bloc.dart';
 import 'package:keylol_flutter/screen/index/widgets/carousel.dart';
+import 'package:keylol_flutter/screen/index/widgets/index_search_bar.dart';
 import 'package:keylol_flutter/widgets/avatar.dart';
 import 'package:keylol_flutter/widgets/thread_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class IndexView extends StatefulWidget {
-  const IndexView({super.key});
+  final GlobalKey<ScaffoldState> scaffoldKey;
+
+  const IndexView({super.key, required this.scaffoldKey});
 
   @override
   State<StatefulWidget> createState() => _IndexViewState();
@@ -68,14 +71,22 @@ class _IndexViewState extends State<IndexView> {
                   return [
                     SliverAppBar(
                       pinned: true,
-                      title: Text(AppLocalizations.of(context)!.indexPageTitle),
-                      actions: [
-                        Avatar(
-                          uid: uid,
-                          padding: const EdgeInsets.all(9),
+                      backgroundColor: Colors.transparent,
+                      title: IndexSearchBar(
+                        leading: IconButton(
+                          icon: const Icon(Icons.menu),
+                          onPressed: () {
+                            widget.scaffoldKey.currentState?.openDrawer();
+                          },
                         ),
-                        const SizedBox(width: 8.0),
-                      ],
+                        trailing: [
+                          Avatar(
+                            uid: uid,
+                            padding: const EdgeInsets.all(9),
+                          ),
+                          const SizedBox(width: 8.0),
+                        ],
+                      ),
                     ),
                     SliverToBoxAdapter(child: _buildCarousel(context, index)),
                     SliverToBoxAdapter(child: _buildTab(context, index)),
