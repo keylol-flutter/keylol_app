@@ -110,7 +110,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
         thread: thread,
         page: page,
         posts: posts,
-        comments: comments,
+        comments: state.comments..addAll(comments),
         hasReachMax: posts.length + 1 >= thread.replies,
       ));
     } catch (e, stack) {

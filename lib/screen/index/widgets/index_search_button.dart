@@ -84,7 +84,7 @@ class _IndexSearchButtonState extends State<IndexSearchButton> {
       return {
         'title': title,
         'subTitle': subTitle,
-        'url': url,
+        'url': Uri.decodeFull(url),
       };
     }).toList();
     return results;

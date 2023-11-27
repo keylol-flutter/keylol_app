@@ -53,15 +53,25 @@ class PostItem extends StatelessWidget {
               subtitle: Text(
                   '${post.dateline} • ${post.position}${AppLocalizations.of(context)!.threadPageFloor}'),
             ),
-            Padding(
-              padding: showFloor
-                  ? const EdgeInsets.only(left: 48 + 16, right: 16)
-                  : const EdgeInsets.only(left: 16, right: 16),
-              child: Discuz(
-                data: post.message,
-                isPost: showFloor,
-                nested: true,
-                onLinkTap: _onLinkTap,
+            InkWell(
+              enableFeedback: showFloor,
+              onTap: showFloor
+                  ? () {
+                      Navigator.of(context).push(
+                        ReplyRoute(context.read<ThreadBloc>(), thread, post),
+                      );
+                    }
+                  : null,
+              child: Padding(
+                padding: showFloor
+                    ? const EdgeInsets.only(left: 48 + 16, right: 16)
+                    : const EdgeInsets.only(left: 16, right: 16),
+                child: Discuz(
+                  data: post.message,
+                  isPost: showFloor,
+                  nested: true,
+                  onLinkTap: _onLinkTap,
+                ),
               ),
             ),
             if (post.attachments != null && post.attachments!.isNotEmpty)
@@ -148,20 +158,20 @@ class PostItem extends StatelessWidget {
                   ],
                 ),
               ),
-            if (showFloor)
-              Row(
-                children: [
-                  const SizedBox(width: 48 + 6),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        ReplyRoute(context.read<ThreadBloc>(), thread, post),
-                      );
-                    },
-                    icon: const Icon(Icons.reply),
-                  ),
-                ],
-              ),
+            // if (showFloor)
+            //   Row(
+            //     children: [
+            //       const SizedBox(width: 48 + 6),
+            //       IconButton(
+            //         onPressed: () {
+            //           Navigator.of(context).push(
+            //             ReplyRoute(context.read<ThreadBloc>(), thread, post),
+            //           );
+            //         },
+            //         icon: const Icon(Icons.reply),
+            //       ),
+            //     ],
+            //   ),
             if (!showFloor) const SizedBox(height: 8),
           ],
         ),
