@@ -154,6 +154,9 @@ class _ThreadViewState extends State<ThreadView> {
                       if (index == posts.length) {
                         return Container();
                       }
+                      if (index == posts.length - 1 && state.hasReachMax) {
+                        return Container();
+                      }
                       return Padding(
                         padding:
                             const EdgeInsets.only(left: 48 + 16, right: 16),
