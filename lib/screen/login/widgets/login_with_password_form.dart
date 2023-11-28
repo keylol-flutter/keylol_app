@@ -38,70 +38,89 @@ class _LoginWithPasswordFormState extends State<LoginWithPasswordForm> {
         }
       },
       builder: (context, state) {
-        return AutofillGroup(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    label: Text(AppLocalizations.of(context)!
-                        .loginPageInputLabelUsername),
-                  ),
-                  autofillHints: const [AutofillHints.username],
-                  validator: (username) {
-                    if (username == null || username.isEmpty) {
-                      return AppLocalizations.of(context)!
-                          .loginPageInputUsernameEmpty;
-                    }
-                    return null;
-                  },
-                  onSaved: (username) => _form.username = username!,
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    label: Text(AppLocalizations.of(context)!
-                        .loginPageInputLabelPassword),
-                    suffixIcon: IconButton(
-                      icon: _passwordVisible
-                          ? const Icon(Icons.visibility)
-                          : const Icon(Icons.visibility_off),
-                      onPressed: () async {
-                        setState(() {
-                          _passwordVisible = !_passwordVisible;
-                        });
-                      },
+        return Center(
+          child: AutofillGroup(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      label: Text(AppLocalizations.of(context)!
+                          .loginPageInputLabelUsername),
                     ),
+                    autofillHints: const [AutofillHints.username],
+                    validator: (username) {
+                      if (username == null || username.isEmpty) {
+                        return AppLocalizations.of(context)!
+                            .loginPageInputUsernameEmpty;
+                      }
+                      return null;
+                    },
+                    onSaved: (username) => _form.username = username!,
                   ),
-                  obscureText: !_passwordVisible,
-                  autofillHints: const [AutofillHints.password],
-                  validator: (password) {
-                    if (password == null || password.isEmpty) {
-                      return AppLocalizations.of(context)!
-                          .loginPageInputPasswordEmpty;
-                    }
-                    return null;
-                  },
-                  onSaved: (password) => _form.password = password!,
-                ),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  child:
-                      Text(AppLocalizations.of(context)!.loginPageLoginButton),
-                  onPressed: () {
-                    final formState = _formKey.currentState!;
-                    if (formState.validate()) {
-                      formState.save();
-                      context
-                          .read<LoginWithPasswordBloc>()
-                          .add(LoginWithPasswordRequested(_form));
-                    }
-                  },
-                ),
-              ],
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      label: Text(AppLocalizations.of(context)!
+                          .loginPageInputLabelPassword),
+                      suffixIcon: IconButton(
+                        icon: _passwordVisible
+                            ? const Icon(Icons.visibility)
+                            : const Icon(Icons.visibility_off),
+                        onPressed: () async {
+                          setState(() {
+                            _passwordVisible = !_passwordVisible;
+                          });
+                        },
+                      ),
+                    ),
+                    obscureText: !_passwordVisible,
+                    autofillHints: const [AutofillHints.password],
+                    validator: (password) {
+                      if (password == null || password.isEmpty) {
+                        return AppLocalizations.of(context)!
+                            .loginPageInputPasswordEmpty;
+                      }
+                      return null;
+                    },
+                    onSaved: (password) => _form.password = password!,
+                  ),
+                  const SizedBox(height: 16),
+                  if (state.secCodeData != null)
+                    TextFormField(
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        label: Text(AppLocalizations.of(context)!
+                            .loginPageInputLabelSecCode),
+                        suffix: Image.memory(state.secCodeData!),
+                      ),
+                      validator: (secCode) {
+                        if (secCode == null || secCode.isEmpty) {
+                          return AppLocalizations.of(context)!
+                              .loginPageInputSecCodeEmpty;
+                        }
+                        return null;
+                      },
+                      onSaved: (secCode) => _form.secCode = secCode!,
+                    ),
+                  ElevatedButton(
+                    child: Text(
+                        AppLocalizations.of(context)!.loginPageLoginButton),
+                    onPressed: () {
+                      final formState = _formKey.currentState!;
+                      if (formState.validate()) {
+                        formState.save();
+                        context
+                            .read<LoginWithPasswordBloc>()
+                            .add(LoginWithPasswordRequested(_form));
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         );
