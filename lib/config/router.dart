@@ -25,3 +25,17 @@ final Map<String, WidgetBuilder> routes = {
     return SpacePage(uid: args['uid']);
   }
 };
+
+void urlRoute(BuildContext context, String url) {
+  url = Uri.decodeFull(url);
+
+  RegExp regExp = RegExp(r'https?://keylol.com/t(\d+)-1-1');
+  if (regExp.hasMatch(url)) {
+    Navigator.of(context).pushNamed(
+      '/thread',
+      arguments: {
+        'tid': regExp.firstMatch(url)!.group(1),
+      },
+    );
+  }
+}

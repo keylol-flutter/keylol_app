@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
-import 'package:keylol_flutter/config/logger.dart';
+import 'package:keylol_flutter/config/router.dart';
 import 'package:keylol_flutter/widgets/async_search_anchor.dart';
 
 class IndexSearchButton extends StatefulWidget {
@@ -47,17 +47,8 @@ class _IndexSearchButtonState extends State<IndexSearchButton> {
               overflow: TextOverflow.ellipsis,
             ),
             onTap: () {
-              // TODO url 解析
-              String url = r['url'];
-              logger.d(url);
-              if (url.startsWith('https://keylol.com/t')) {
-                url = url.replaceFirst('https://keylo.com/t', '');
-                final tid = url.split('-')[0];
-                Navigator.of(context).pushNamed(
-                  '/thread',
-                  arguments: {'tid': tid},
-                );
-              }
+              final String url = r['url'];
+              urlRoute(context, url);
 
               controller.closeView(null);
             },

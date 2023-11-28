@@ -2,6 +2,7 @@ import 'package:discuz_widgets/discuz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
+import 'package:keylol_flutter/config/router.dart';
 import 'package:keylol_flutter/screen/thread/bloc/thread_bloc.dart';
 import 'package:keylol_flutter/screen/thread/widgets/poll.dart';
 import 'package:keylol_flutter/screen/thread/widgets/reply_modal.dart';
@@ -53,25 +54,17 @@ class PostItem extends StatelessWidget {
               subtitle: Text(
                   '${post.dateline} • ${post.position}${AppLocalizations.of(context)!.threadPageFloor}'),
             ),
-            InkWell(
-              enableFeedback: showFloor,
-              onTap: showFloor
-                  ? () {
-                      Navigator.of(context).push(
-                        ReplyRoute(context.read<ThreadBloc>(), thread, post),
-                      );
-                    }
-                  : null,
-              child: Padding(
-                padding: showFloor
-                    ? const EdgeInsets.only(left: 48 + 16, right: 16)
-                    : const EdgeInsets.only(left: 16, right: 16),
-                child: Discuz(
-                  data: post.message,
-                  isPost: showFloor,
-                  nested: true,
-                  onLinkTap: _onLinkTap,
-                ),
+            Padding(
+              padding: showFloor
+                  ? const EdgeInsets.only(left: 48 + 16, right: 16)
+                  : const EdgeInsets.only(left: 16, right: 16),
+              child: Discuz(
+                data: post.message,
+                isPost: showFloor,
+                nested: true,
+                onLinkTap: (url, attributes, element) {
+                  _onLinkTap(context, url, attributes, element);
+                },
               ),
             ),
             if (post.attachments != null && post.attachments!.isNotEmpty)
@@ -158,20 +151,20 @@ class PostItem extends StatelessWidget {
                   ],
                 ),
               ),
-            // if (showFloor)
-            //   Row(
-            //     children: [
-            //       const SizedBox(width: 48 + 6),
-            //       IconButton(
-            //         onPressed: () {
-            //           Navigator.of(context).push(
-            //             ReplyRoute(context.read<ThreadBloc>(), thread, post),
-            //           );
-            //         },
-            //         icon: const Icon(Icons.reply),
-            //       ),
-            //     ],
-            //   ),
+            if (showFloor)
+              Row(
+                children: [
+                  const SizedBox(width: 48 + 6),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        ReplyRoute(context.read<ThreadBloc>(), thread, post),
+                      );
+                    },
+                    icon: const Icon(Icons.reply),
+                  ),
+                ],
+              ),
             if (!showFloor) const SizedBox(height: 8),
           ],
         ),
@@ -180,6 +173,7 @@ class PostItem extends StatelessWidget {
   }
 
   void _onLinkTap(
+    BuildContext context,
     String? url,
     Map<String, String> attributes,
     html.Element? element,
@@ -203,6 +197,9 @@ class PostItem extends StatelessWidget {
         return;
       }
     }
+
+    urlRoute(context, url);
+
     launchUrlString(url);
   }
 }
