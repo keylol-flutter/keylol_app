@@ -62,8 +62,8 @@ class PostItem extends StatelessWidget {
                 data: post.message,
                 isPost: showFloor,
                 nested: true,
-                onLinkTap: (url, attributes, element) {
-                  _onLinkTap(context, url, attributes, element);
+                onLinkTap: (url, attributes, element) async {
+                  await _onLinkTap(context, url, attributes, element);
                 },
               ),
             ),
@@ -172,12 +172,12 @@ class PostItem extends StatelessWidget {
     );
   }
 
-  void _onLinkTap(
+  Future<void> _onLinkTap(
     BuildContext context,
     String? url,
     Map<String, String> attributes,
     html.Element? element,
-  ) {
+  ) async {
     if (url == null) {
       return;
     }
@@ -198,8 +198,6 @@ class PostItem extends StatelessWidget {
       }
     }
 
-    urlRoute(context, url);
-
-    launchUrlString(url);
+    await urlRoute(context, url);
   }
 }

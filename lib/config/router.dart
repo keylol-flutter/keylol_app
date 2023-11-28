@@ -6,6 +6,7 @@ import 'package:keylol_flutter/screen/home/home_page.dart';
 import 'package:keylol_flutter/screen/login/login_page.dart';
 import 'package:keylol_flutter/screen/space/space_page.dart';
 import 'package:keylol_flutter/screen/thread/thread_page.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 final Map<String, WidgetBuilder> routes = {
   '/': (context) => const HomePage(),
@@ -26,16 +27,35 @@ final Map<String, WidgetBuilder> routes = {
   }
 };
 
-void urlRoute(BuildContext context, String url) {
+Future<void> urlRoute(BuildContext context, String url) async {
   url = Uri.decodeFull(url);
 
-  RegExp regExp = RegExp(r'https?://keylol.com/t(\d+)-1-1');
-  if (regExp.hasMatch(url)) {
-    Navigator.of(context).pushNamed(
-      '/thread',
-      arguments: {
-        'tid': regExp.firstMatch(url)!.group(1),
-      },
-    );
+  {
+    RegExp regExp = RegExp(r'(?:[http|https])?(?:://)?keylol.com/t(\d+)-1-1');
+    if (regExp.hasMatch(url)) {
+      final tid = regExp.firstMatch(url)!.group(1);
+      await Navigator.of(context).pushNamed(
+        '/thread',
+        arguments: {
+          'tid': tid,
+        },
+      );
+      return;
+    }
   }
+  {
+    RegExp regExp = RegExp(r'(?:[http|https])?(?:://)?keylol.com/f(\d+)-1');
+    if (regExp.hasMatch(url)) {
+      final fid = regExp.firstMatch(url)!.group(1);
+      await Navigator.of(context).pushNamed(
+        '/forum',
+        arguments: {
+          'fid': fid,
+        },
+      );
+      return;
+    }
+  }
+
+  launchUrlString(url);
 }

@@ -46,11 +46,12 @@ class _IndexSearchButtonState extends State<IndexSearchButton> {
               r['subTitle'],
               overflow: TextOverflow.ellipsis,
             ),
-            onTap: () {
+            onTap: () async {
               final String url = r['url'];
-              urlRoute(context, url);
 
-              controller.closeView(null);
+              await urlRoute(context, url);
+
+              controller.closeView('');
             },
           );
         }).toList();
