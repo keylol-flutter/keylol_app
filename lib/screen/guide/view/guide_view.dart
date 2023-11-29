@@ -37,11 +37,11 @@ class GuideView extends StatelessWidget {
           builder: (context, state) {
             final threads = state.status == GuideStatus.initial
                 ? List.generate(
-                    10,
+                    20,
                     (index) => Thread.fromJson({
                       'subject': 'Subject',
                       'author': 'Author',
-                      'authorId': '',
+                      'authorid': '0',
                       'dateline': '1970-01-01',
                     }),
                   )

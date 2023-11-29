@@ -200,6 +200,7 @@ class _IndexViewState extends State<IndexView> {
     return Skeletonizer(
       enabled: index == null,
       child: PageView.builder(
+        key: Key('IndexPageView ${index == null}'),
         controller: _controller,
         onPageChanged: (index) {
           setState(() {

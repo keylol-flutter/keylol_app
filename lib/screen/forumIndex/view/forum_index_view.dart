@@ -45,7 +45,7 @@ class _ForumIndexViewState extends State<ForumIndexView> {
                       (index) => Cat.fromJson({
                         'name': 'Cat',
                         'forums': List.generate(10, (index) => '$index'),
-                      }),
+                      }).toJson(),
                     ),
                     'forumlist': List.generate(
                       10,
@@ -54,7 +54,7 @@ class _ForumIndexViewState extends State<ForumIndexView> {
                         'name': 'Forum',
                         'description': 'Description',
                         'icon': '',
-                      }),
+                      }).toJson(),
                     ),
                   })
                 : state.forumIndex;

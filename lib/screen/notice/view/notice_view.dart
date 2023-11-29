@@ -41,9 +41,9 @@ class _NoticeViewState extends State<NoticeView> {
           builder: (context, state) {
             final notices = state.status == NoticeStatus.initial
                 ? List.generate(
-                    10,
+                    20,
                     (index) => Note.fromJson({
-                      'authorId': '',
+                      'authorid': '0',
                       'author': 'Author',
                       'note': 'Note',
                       'dateline': '1700000000',
