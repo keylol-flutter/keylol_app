@@ -9,6 +9,7 @@ import 'package:keylol_flutter/screen/index/widgets/index_search_button.dart';
 import 'package:keylol_flutter/widgets/avatar.dart';
 import 'package:keylol_flutter/widgets/thread_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class IndexView extends StatefulWidget {
   const IndexView({super.key});
@@ -55,33 +56,37 @@ class _IndexViewState extends State<IndexView> {
           },
           builder: (context, state) {
             final index = state.index;
-            return RefreshIndicator(
-              notificationPredicate: (notification) {
-                return notification.depth == 2;
+            return NestedScrollView(
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  SliverAppBar(
+                    pinned: true,
+                    title: Text(AppLocalizations.of(context)!.indexPageTitle),
+                    actions: [
+                      const IndexSearchButton(),
+                      Avatar(
+                        uid: uid,
+                        padding: const EdgeInsets.all(9),
+                      ),
+                      const SizedBox(width: 8.0),
+                    ],
+                  ),
+                ];
               },
-              onRefresh: () async {
-                context.read<IndexBloc>().add(IndexFetched());
-              },
-              child: NestedScrollView(
-                headerSliverBuilder: (context, innerBoxIsScrolled) {
-                  return [
-                    SliverAppBar(
-                      pinned: true,
-                      title: Text(AppLocalizations.of(context)!.indexPageTitle),
-                      actions: [
-                        const IndexSearchButton(),
-                        Avatar(
-                          uid: uid,
-                          padding: const EdgeInsets.all(9),
-                        ),
-                        const SizedBox(width: 8.0),
-                      ],
-                    ),
+              body: RefreshIndicator(
+                onRefresh: () async {
+                  context.read<IndexBloc>().add(IndexFetched());
+                },
+                child: CustomScrollView(
+                  physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics(),
+                  ),
+                  slivers: [
                     SliverToBoxAdapter(child: _buildCarousel(context, index)),
                     SliverToBoxAdapter(child: _buildTab(context, index)),
-                  ];
-                },
-                body: _buildPageView(context, index),
+                    SliverToBoxAdapter(child: _buildPageView(context, index)),
+                  ],
+                ),
               ),
             );
           },
@@ -92,15 +97,22 @@ class _IndexViewState extends State<IndexView> {
 
   /// 轮播图
   Widget _buildCarousel(BuildContext context, Index? index) {
-    if (index == null) {
-      return Container();
-    }
-
-    final threads = index.slideViewThreads;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
-      child: Carousel(
-        threads: threads,
+    final threads = index == null
+        ? List.generate(
+            1,
+            (index) => Thread.fromJson({
+              'subject': 'Subject',
+              'cover': '',
+            }),
+          )
+        : index.slideViewThreads;
+    return Skeletonizer(
+      enabled: index == null,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+        child: Carousel(
+          threads: threads,
+        ),
       ),
     );
   }
@@ -132,71 +144,93 @@ class _IndexViewState extends State<IndexView> {
   }
 
   Widget _buildTab(BuildContext context, Index? index) {
-    if (index == null) {
-      return Container();
-    }
-
-    final threadMap = index.tabThreadMap;
+    final threadMap = index == null
+        ? {
+            '最新主题': [],
+            '最新回复': [],
+          }
+        : index.tabThreadMap;
     final hasLogin = threadMap.containsKey('最新回复');
 
     final newThreadsTab = _buildTabItem(0, '最新主题');
     final newRepliesTab = _buildTabItem(1, '最新回复');
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          newThreadsTab,
-          const SizedBox(width: 8.0),
-          if (hasLogin) newRepliesTab,
-        ],
+    return Skeletonizer(
+      enabled: index == null,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            newThreadsTab,
+            const SizedBox(width: 8.0),
+            if (hasLogin) newRepliesTab,
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildPageView(BuildContext context, Index? index) {
-    if (index == null) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    final threadMap = index.tabThreadMap;
+    final threadMap = index == null
+        ? {
+            '最新主题': List.generate(
+              10,
+              (index) => Thread.fromJson({
+                'subject': 'Subject',
+                'author': 'Author',
+                'authorId': '',
+                'dateline': DateTime.now().millisecondsSinceEpoch / 1000,
+              }),
+            ),
+            '最新回复': List.generate(
+              10,
+              (index) => Thread.fromJson({
+                'subject': 'Subject',
+                'author': 'Author',
+                'authorId': '',
+                'dateline': DateTime.now().millisecondsSinceEpoch / 1000,
+              }),
+            ),
+          }
+        : index.tabThreadMap;
     final newThreads = threadMap['最新主题'];
     final newReplies = threadMap['最新回复'];
 
-    return PageView.builder(
-      controller: _controller,
-      onPageChanged: (index) {
-        setState(() {
-          _index = index;
-        });
-      },
-      itemCount: newReplies == null ? 1 : 2,
-      itemBuilder: (context, index) {
-        final threads = index == 0 ? newThreads : newReplies;
-        return ListView.separated(
-          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: threads!.length,
-          itemBuilder: (context, index) {
-            return ThreadItem(thread: threads[index]);
-          },
-          separatorBuilder: (context, index) {
-            if (index == threads.length - 1) {
-              return Container();
-            }
-            return Padding(
-              padding: const EdgeInsets.only(left: 16.0 + 56, right: 16.0),
-              child: Divider(
-                height: 0,
-                color: Theme.of(context).dividerColor.withOpacity(0.2),
-              ),
-            );
-          },
-        );
-      },
+    return Skeletonizer(
+      enabled: index == null,
+      child: PageView.builder(
+        controller: _controller,
+        onPageChanged: (index) {
+          setState(() {
+            _index = index;
+          });
+        },
+        itemCount: newReplies == null ? 1 : 2,
+        itemBuilder: (context, index) {
+          final threads = index == 0 ? newThreads : newReplies;
+          return ListView.separated(
+            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: threads!.length,
+            itemBuilder: (context, index) {
+              return ThreadItem(thread: threads[index]);
+            },
+            separatorBuilder: (context, index) {
+              if (index == threads.length - 1) {
+                return Container();
+              }
+              return Padding(
+                padding: const EdgeInsets.only(left: 16.0 + 56, right: 16.0),
+                child: Divider(
+                  height: 0,
+                  color: Theme.of(context).dividerColor.withOpacity(0.2),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

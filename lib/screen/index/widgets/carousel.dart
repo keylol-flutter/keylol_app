@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:keylol_api/models/thread.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class Carousel extends StatelessWidget {
   final List<Thread> threads;
@@ -42,18 +43,20 @@ class CarouselItem extends StatelessWidget {
   Widget build(BuildContext context) {
     // 图片
     final img = Material(
-      child: FadeInImage(
-        image: CachedNetworkImageProvider(
-          thread.cover,
-          cacheManager: CacheManager(
-            Config(
-              thread.cover,
-              stalePeriod: const Duration(minutes: 10),
+      child: Skeleton.replace(
+        child: FadeInImage(
+          image: CachedNetworkImageProvider(
+            thread.cover,
+            cacheManager: CacheManager(
+              Config(
+                thread.cover,
+                stalePeriod: const Duration(minutes: 10),
+              ),
             ),
           ),
+          placeholder: const AssetImage("images/carousel_placeholder.jpg"),
+          fit: BoxFit.cover,
         ),
-        placeholder: const AssetImage("images/carousel_placeholder.jpg"),
-        fit: BoxFit.cover,
       ),
     );
 
