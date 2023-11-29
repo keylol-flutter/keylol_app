@@ -78,9 +78,6 @@ class _IndexViewState extends State<IndexView> {
                   context.read<IndexBloc>().add(IndexFetched());
                 },
                 child: CustomScrollView(
-                  physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics(),
-                  ),
                   slivers: [
                     SliverToBoxAdapter(child: _buildCarousel(context, index)),
                     SliverToBoxAdapter(child: _buildTab(context, index)),
