@@ -180,7 +180,7 @@ class _IndexViewState extends State<IndexView> {
                 'subject': 'Subject',
                 'author': 'Author',
                 'authorId': '',
-                'dateline': DateTime.now().millisecondsSinceEpoch / 1000,
+                'dateline': '${DateTime.now().millisecondsSinceEpoch / 1000}',
               }),
             ),
             '最新回复': List.generate(
@@ -189,7 +189,7 @@ class _IndexViewState extends State<IndexView> {
                 'subject': 'Subject',
                 'author': 'Author',
                 'authorId': '',
-                'dateline': DateTime.now().millisecondsSinceEpoch / 1000,
+                'dateline': '${DateTime.now().millisecondsSinceEpoch / 1000}',
               }),
             ),
           }
