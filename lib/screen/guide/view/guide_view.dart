@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/bloc/bloc/authentication_bloc.dart';
 import 'package:keylol_flutter/repository/authentication_repository.dart';
 import 'package:keylol_flutter/screen/guide/bloc/guide_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keylol_flutter/widgets/load_more_list_view.dart';
 import 'package:keylol_flutter/widgets/thread_item.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class GuideView extends StatelessWidget {
   const GuideView({super.key});
@@ -33,46 +35,59 @@ class GuideView extends StatelessWidget {
             }
           },
           builder: (context, state) {
-            final threads = state.threads;
+            final threads = state.status == GuideStatus.initial
+                ? List.generate(
+                    10,
+                    (index) => Thread.fromJson({
+                      'subject': 'Subject',
+                      'author': 'Author',
+                      'authorId': '',
+                      'dateline': '1970-01-01',
+                    }),
+                  )
+                : state.threads;
             return RefreshIndicator(
               onRefresh: () async {
                 context.read<GuideBloc>().add(GuideRefreshed());
               },
-              child: LoadMoreListView(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                physics: const AlwaysScrollableScrollPhysics(),
-                callback: () {
-                  context.read<GuideBloc>().add(GuideFetched());
-                },
-                itemCount: threads.length + 1,
-                itemBuilder: (context, index) {
-                  if (index == threads.length) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Opacity(
-                        opacity: state.hasReachMax ? 0.0 : 1.0,
-                        child: const Center(
-                          child: CircularProgressIndicator(),
+              child: Skeletonizer(
+                enabled: state.status == GuideStatus.initial,
+                child: LoadMoreListView(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  callback: () {
+                    context.read<GuideBloc>().add(GuideFetched());
+                  },
+                  itemCount: threads.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index == threads.length) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Opacity(
+                          opacity: state.hasReachMax ? 0.0 : 1.0,
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
                         ),
+                      );
+                    }
+
+                    return ThreadItem(thread: threads[index]);
+                  },
+                  separatorBuilder: (context, index) {
+                    if (index == threads.length - 1) {
+                      return Container();
+                    }
+                    return Padding(
+                      padding:
+                          const EdgeInsets.only(left: 16.0 + 56, right: 16.0),
+                      child: Divider(
+                        height: 0,
+                        color: Theme.of(context).dividerColor.withOpacity(0.2),
                       ),
                     );
-                  }
-
-                  return ThreadItem(thread: threads[index]);
-                },
-                separatorBuilder: (context, index) {
-                  if (index == threads.length - 1) {
-                    return Container();
-                  }
-                  return Padding(
-                    padding:
-                        const EdgeInsets.only(left: 16.0 + 56, right: 16.0),
-                    child: Divider(
-                      height: 0,
-                      color: Theme.of(context).dividerColor.withOpacity(0.2),
-                    ),
-                  );
-                },
+                  },
+                ),
               ),
             );
           },
