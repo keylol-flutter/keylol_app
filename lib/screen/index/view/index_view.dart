@@ -56,34 +56,34 @@ class _IndexViewState extends State<IndexView> {
           },
           builder: (context, state) {
             final index = state.index;
-            return NestedScrollView(
-              headerSliverBuilder: (context, innerBoxIsScrolled) {
-                return [
-                  SliverAppBar(
-                    pinned: true,
-                    title: Text(AppLocalizations.of(context)!.indexPageTitle),
-                    actions: [
-                      const IndexSearchButton(),
-                      Avatar(
-                        uid: uid,
-                        padding: const EdgeInsets.all(9),
-                      ),
-                      const SizedBox(width: 8.0),
-                    ],
-                  ),
-                ];
+            return RefreshIndicator(
+              edgeOffset: 56 + 40,
+              notificationPredicate: (notification) {
+                return notification.depth == 2;
               },
-              body: RefreshIndicator(
-                onRefresh: () async {
-                  context.read<IndexBloc>().add(IndexFetched());
-                },
-                child: CustomScrollView(
-                  slivers: [
+              onRefresh: () async {
+                context.read<IndexBloc>().add(IndexFetched());
+              },
+              child: NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) {
+                  return [
+                    SliverAppBar(
+                      pinned: true,
+                      title: Text(AppLocalizations.of(context)!.indexPageTitle),
+                      actions: [
+                        const IndexSearchButton(),
+                        Avatar(
+                          uid: uid,
+                          padding: const EdgeInsets.all(9),
+                        ),
+                        const SizedBox(width: 8.0),
+                      ],
+                    ),
                     SliverToBoxAdapter(child: _buildCarousel(context, index)),
                     SliverToBoxAdapter(child: _buildTab(context, index)),
-                    SliverToBoxAdapter(child: _buildPageView(context, index)),
-                  ],
-                ),
+                  ];
+                },
+                body: _buildPageView(context, index),
               ),
             );
           },
@@ -98,7 +98,7 @@ class _IndexViewState extends State<IndexView> {
         ? List.generate(
             1,
             (index) => Thread.fromJson({
-              'subject': 'Subject',
+              'subject': 'Subject' * 4,
               'cover': '',
             }),
           )
@@ -174,16 +174,16 @@ class _IndexViewState extends State<IndexView> {
             '最新主题': List.generate(
               10,
               (index) => Thread.fromJson({
-                'subject': 'Subject',
+                'subject': 'Subject' * 4,
                 'author': 'Author',
-                'authorId': '',
+                'authorid': '0',
                 'dateline': '1970-01-01',
               }),
             ),
             '最新回复': List.generate(
               10,
               (index) => Thread.fromJson({
-                'subject': 'Subject',
+                'subject': 'Subject' * 4,
                 'author': 'Author',
                 'authorId': '',
                 'dateline': '1970-01-01',
@@ -197,7 +197,6 @@ class _IndexViewState extends State<IndexView> {
     return Skeletonizer(
       enabled: index == null,
       child: PageView.builder(
-        key: Key('IndexPageView ${index == null}'),
         controller: _controller,
         onPageChanged: (index) {
           setState(() {

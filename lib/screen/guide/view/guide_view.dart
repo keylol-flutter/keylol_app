@@ -39,7 +39,7 @@ class GuideView extends StatelessWidget {
                 ? List.generate(
                     20,
                     (index) => Thread.fromJson({
-                      'subject': 'Subject',
+                      'subject': 'Subject' * 4,
                       'author': 'Author',
                       'authorid': '0',
                       'dateline': '1970-01-01',

@@ -27,20 +27,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    const pages = [
+      IndexPage(),
+      GuidePage(),
+      ForumIndexPage(),
+      NoticePage(),
+    ];
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
         return Scaffold(
           drawer: _buildDrawer(context, state),
-          body: PageView(
-            controller: _controller,
-            physics: const NeverScrollableScrollPhysics(),
-            children: const [
-              IndexPage(),
-              GuidePage(),
-              ForumIndexPage(),
-              NoticePage(),
-            ],
-          ),
+          body: pages[_index],
           bottomNavigationBar: _buildBottomNavigationBar(context, state),
         );
       },
@@ -105,11 +102,6 @@ class _HomePageState extends State<HomePage> {
       onTap: (index) {
         setState(() {
           _index = index;
-          _controller.animateToPage(
-            index,
-            duration: const Duration(microseconds: 500),
-            curve: Curves.linear,
-          );
         });
       },
       items: [

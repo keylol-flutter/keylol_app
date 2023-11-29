@@ -45,7 +45,7 @@ class _NoticeViewState extends State<NoticeView> {
                     (index) => Note.fromJson({
                       'authorid': '0',
                       'author': 'Author',
-                      'note': 'Note',
+                      'note': 'Note' * 10,
                       'dateline': '1700000000',
                     }),
                   )
