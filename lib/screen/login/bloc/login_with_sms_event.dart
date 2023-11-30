@@ -6,3 +6,9 @@ abstract class LoginWithSmsEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class LoginWithSmsSecCodeRequested extends LoginWithSmsEvent {
+  final String phone;
+
+  const LoginWithSmsSecCodeRequested({required this.phone});
+}
