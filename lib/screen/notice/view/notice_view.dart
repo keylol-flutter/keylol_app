@@ -94,6 +94,8 @@ class _NoticeViewState extends State<NoticeView> {
                         key: Key('Avatar${notice.authorId}'),
                         uid: notice.authorId,
                         username: notice.author,
+                        width: 40,
+                        height: 40,
                       ),
                       title: Html(
                         shrinkWrap: true,
@@ -120,7 +122,17 @@ class _NoticeViewState extends State<NoticeView> {
                     );
                   },
                   separatorBuilder: (context, index) {
-                    return const Divider(height: 0);
+                    if (index == notices.length - 1) {
+                      return Container();
+                    }
+                    return Padding(
+                      padding:
+                          const EdgeInsets.only(left: 16.0 + 56, right: 16.0),
+                      child: Divider(
+                        height: 0,
+                        color: Theme.of(context).dividerColor.withOpacity(0.2),
+                      ),
+                    );
                   },
                 ),
               ),

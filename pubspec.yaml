@@ -108,6 +108,7 @@ flutter:
     - images/unknown_avatar.jpg
     - images/metro.png
     - images/forum.gif
+    - images/systempm.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

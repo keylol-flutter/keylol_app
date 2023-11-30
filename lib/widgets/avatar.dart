@@ -35,49 +35,49 @@ class Avatar extends StatelessWidget {
           }
         },
         child: ClipOval(
-          child: CachedNetworkImage(
-            cacheManager: CacheManager(
-              Config(
-                'https://keylol.com/uc_server/avatar.php?uid=$uid',
-                stalePeriod: const Duration(days: 7),
-              ),
-            ),
-            imageUrl: uid == '0'
-                ? 'https://keylol.com/static/image/common/systempm.png'
-                : 'https://keylol.com/uc_server/avatar.php?uid=$uid',
-            placeholder: (context, url) {
-              if (username == null) {
-                return Image.asset('images/unknown_avatar.jpg');
-              } else {
-                final letter = PinyinHelper.getFirstWordPinyin(username!)
-                    .toUpperCase()
-                    .codeUnitAt(0);
-                return Container(
-                  color: Theme.of(context).colorScheme.surfaceVariant,
-                  child: Icon(
-                    IconData(letter),
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+          child: uid == '0'
+              ? Image.asset('images/systempm.png')
+              : CachedNetworkImage(
+                  cacheManager: CacheManager(
+                    Config(
+                      'https://keylol.com/uc_server/avatar.php?uid=$uid',
+                      stalePeriod: const Duration(days: 7),
+                    ),
                   ),
-                );
-              }
-            },
-            errorWidget: (context, error, stackTrace) {
-              if (username == null) {
-                return Image.asset('images/unknown_avatar.jpg');
-              } else {
-                final letter = PinyinHelper.getFirstWordPinyin(username!)
-                    .toUpperCase()
-                    .codeUnitAt(0);
-                return Container(
-                  color: Theme.of(context).colorScheme.surfaceVariant,
-                  child: Icon(
-                    IconData(letter),
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                );
-              }
-            },
-          ),
+                  imageUrl: 'https://keylol.com/uc_server/avatar.php?uid=$uid',
+                  placeholder: (context, url) {
+                    if (username == null) {
+                      return Image.asset('images/unknown_avatar.jpg');
+                    } else {
+                      final letter = PinyinHelper.getFirstWordPinyin(username!)
+                          .toUpperCase()
+                          .codeUnitAt(0);
+                      return Container(
+                        color: Theme.of(context).colorScheme.surfaceVariant,
+                        child: Icon(
+                          IconData(letter),
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                      );
+                    }
+                  },
+                  errorWidget: (context, error, stackTrace) {
+                    if (username == null) {
+                      return Image.asset('images/unknown_avatar.jpg');
+                    } else {
+                      final letter = PinyinHelper.getFirstWordPinyin(username!)
+                          .toUpperCase()
+                          .codeUnitAt(0);
+                      return Container(
+                        color: Theme.of(context).colorScheme.surfaceVariant,
+                        child: Icon(
+                          IconData(letter),
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                      );
+                    }
+                  },
+                ),
         ),
       ),
     );

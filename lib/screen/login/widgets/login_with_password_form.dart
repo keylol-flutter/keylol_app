@@ -90,21 +90,38 @@ class _LoginWithPasswordFormState extends State<LoginWithPasswordForm> {
                   ),
                   const SizedBox(height: 16),
                   if (state.secCodeData != null)
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(AppLocalizations.of(context)!
-                            .loginPageInputLabelSecCode),
-                        suffix: Image.memory(state.secCodeData!),
-                      ),
-                      validator: (secCode) {
-                        if (secCode == null || secCode.isEmpty) {
-                          return AppLocalizations.of(context)!
-                              .loginPageInputSecCodeEmpty;
-                        }
-                        return null;
-                      },
-                      onSaved: (secCode) => _form.secCode = secCode!,
+                    Row(
+                      children: [
+                        Flexible(
+                          flex: 3,
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              label: Text(AppLocalizations.of(context)!
+                                  .loginPageInputLabelSecCode),
+                            ),
+                            validator: (secCode) {
+                              if (secCode == null || secCode.isEmpty) {
+                                return AppLocalizations.of(context)!
+                                    .loginPageInputSecCodeEmpty;
+                              }
+                              return null;
+                            },
+                            onSaved: (secCode) => _form.secCode = secCode!,
+                          ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: InkWell(
+                            child: Image.memory(state.secCodeData!),
+                            onTap: () {
+                              context
+                                  .read<LoginWithPasswordBloc>()
+                                  .add(LoginWithPasswordSecCodeRequested());
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ElevatedButton(
                     child: Text(

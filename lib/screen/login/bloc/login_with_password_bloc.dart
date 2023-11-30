@@ -15,6 +15,7 @@ class LoginWithPasswordBloc
   LoginWithPasswordBloc(this._client)
       : super(const LoginWithPasswordInitial()) {
     on<LoginWithPasswordRequested>(_onLoginWithPasswordRequested);
+    on<LoginWithPasswordSecCodeRequested>(_onLoginWithPasswordSecCodeRequested);
   }
 
   Future<void> _onLoginWithPasswordRequested(
@@ -69,13 +70,34 @@ class LoginWithPasswordBloc
         return;
       }
     } catch (e, stack) {
-      if (e is String) {
-        emit(state.copyWith(
-          status: LoginWithPasswordStatus.failure,
-          error: e,
-        ));
-      }
       logger.e('登录失败', e, stack);
+      emit(state.copyWith(
+        status: LoginWithPasswordStatus.failure,
+        error: '',
+      ));
+    }
+  }
+
+  Future<void> _onLoginWithPasswordSecCodeRequested(
+    LoginWithPasswordSecCodeRequested event,
+    Emitter<LoginWithPasswordState> emit,
+  ) async {
+    try {
+      final loginParam = state.loginParam;
+      if (loginParam == null) {
+        return;
+      }
+
+      loginParam.genIdHash();
+      final secCodeData = await _client.getSecCode(
+          update: loginParam.update, idHash: loginParam.idHash);
+      emit(state.copyWith(
+        status: LoginWithPasswordStatus.initial,
+        loginParam: loginParam,
+        secCodeData: secCodeData,
+      ));
+    } catch (e, stack) {
+      logger.e('获取验证码失败', e, stack);
       emit(state.copyWith(
         status: LoginWithPasswordStatus.failure,
         error: '',

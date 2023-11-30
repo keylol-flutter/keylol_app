@@ -12,3 +12,5 @@ class LoginWithPasswordRequested extends LoginWithPasswordEvent {
 
   const LoginWithPasswordRequested(this.form);
 }
+
+class LoginWithPasswordSecCodeRequested extends LoginWithPasswordEvent {}
