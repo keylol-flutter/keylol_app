@@ -4,6 +4,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_ume/core/plugin_manager.dart';
 import 'package:flutter_ume/core/ui/root_widget.dart';
 import 'package:flutter_ume_kit_console/console/console_panel.dart';
@@ -20,7 +21,8 @@ import 'package:keylol_flutter/repository/history_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -45,6 +47,9 @@ void main() async {
   PluginManager.instance
     ..register(Console())
     ..register(DioInspector(dio: keylol.dio()));
+
+  FlutterNativeSplash.remove();
+
   runApp(
     UMEWidget(
       enable: true,

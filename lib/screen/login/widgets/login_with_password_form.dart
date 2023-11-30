@@ -93,7 +93,7 @@ class _LoginWithPasswordFormState extends State<LoginWithPasswordForm> {
                     Row(
                       children: [
                         Flexible(
-                          flex: 3,
+                          flex: 2,
                           child: TextFormField(
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
@@ -110,10 +110,14 @@ class _LoginWithPasswordFormState extends State<LoginWithPasswordForm> {
                             onSaved: (secCode) => _form.secCode = secCode!,
                           ),
                         ),
+                        const SizedBox(width: 8),
                         Flexible(
                           flex: 1,
                           child: InkWell(
-                            child: Image.memory(state.secCodeData!),
+                            child: Image.memory(
+                              state.secCodeData!,
+                              fit: BoxFit.fill,
+                            ),
                             onTap: () {
                               context
                                   .read<LoginWithPasswordBloc>()
