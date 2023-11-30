@@ -10,5 +10,11 @@ abstract class LoginWithSmsEvent extends Equatable {
 class LoginWithSmsSecCodeRequested extends LoginWithSmsEvent {
   final String phone;
 
-  const LoginWithSmsSecCodeRequested({required this.phone});
+  const LoginWithSmsSecCodeRequested(this.phone);
+}
+
+class LoginWithSmsSmsCodeSent extends LoginWithSmsEvent {
+  final LoginWithSmsModel form;
+
+  const LoginWithSmsSmsCodeSent(this.form);
 }

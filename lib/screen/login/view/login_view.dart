@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keylol_flutter/screen/login/widgets/login_with_password_form.dart';
+import 'package:keylol_flutter/screen/login/widgets/login_with_sms_form.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
