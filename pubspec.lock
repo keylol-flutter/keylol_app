@@ -57,6 +57,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.11.0"
+  basics:
+    dependency: transitive
+    description:
+      name: basics
+      sha256: "41ff8aded84ae174d1df5cce0bcac3ab9070caac9f7da35fd2cc638dfee6163f"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.10.0"
   bloc:
     dependency: transitive
     description:
@@ -654,6 +662,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  flutter_ume_kit_ui:
+    dependency: "direct main"
+    description:
+      path: "packages/flutter_ume_kit_ui"
+      relative: true
+    source: path
+    version: "1.1.1"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -1415,6 +1430,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.1"
+  touch_indicator:
+    dependency: transitive
+    description:
+      name: touch_indicator
+      sha256: c7582fc10f433b795a0057036f7c74f050d32f7c317479cb9469ab849c7321c3
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.0"
   tuple:
     dependency: transitive
     description:

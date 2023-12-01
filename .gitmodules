@@ -7,3 +7,6 @@
 [submodule "packages/flutter_ume_kit_dio"]
 	path = packages/flutter_ume_kit_dio
 	url = https://github.com/keylol-flutter/flutter_ume_kit_dio.git
+[submodule "packages/flutter_ume_kit_ui"]
+	path = packages/flutter_ume_kit_ui
+	url = https://github.com/keylol-flutter/flutter_ume_kit_ui.git

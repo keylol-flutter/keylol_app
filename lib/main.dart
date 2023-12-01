@@ -9,6 +9,8 @@ import 'package:flutter_ume/core/plugin_manager.dart';
 import 'package:flutter_ume/core/ui/root_widget.dart';
 import 'package:flutter_ume_kit_console/console/console_panel.dart';
 import 'package:flutter_ume_kit_dio/flutter_ume_kit_dio.dart';
+import 'package:flutter_ume_kit_ui/components/widget_detail_inspector/widget_detail_inspector.dart';
+import 'package:flutter_ume_kit_ui/components/widget_info_inspector/widget_info_inspector.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/bloc/bloc/authentication_bloc.dart';
 import 'package:keylol_flutter/config/firebase_options.dart';
@@ -45,6 +47,8 @@ void main() async {
   await favoriteRepository.initial();
 
   PluginManager.instance
+    ..register(const WidgetInfoInspector())
+    ..register(const WidgetDetailInspector())
     ..register(Console())
     ..register(DioInspector(dio: keylol.dio()));
 

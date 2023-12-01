@@ -36,6 +36,8 @@ dependencies:
     path: packages/discuz_widgets/
   flutter_ume_kit_dio:
     path: packages/flutter_ume_kit_dio/
+  flutter_ume_kit_ui: 
+    path: packages/flutter_ume_kit_ui/
 
 
   # The following adds the Cupertino Icons font to your application.
