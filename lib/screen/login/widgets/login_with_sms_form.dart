@@ -165,10 +165,8 @@ class _LoginWithSmsFormState extends State<LoginWithSmsForm> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 16),
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromWidth(double.infinity),
-                  ),
                   child:
                       Text(AppLocalizations.of(context)!.loginPageLoginButton),
                   onPressed: () {
