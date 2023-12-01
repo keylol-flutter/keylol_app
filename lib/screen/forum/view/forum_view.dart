@@ -149,11 +149,15 @@ class _ForumState extends State<ForumView> {
         children: [
           Expanded(
             child: SizedBox(
-              height: 64,
+              height: 36,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
                   ChoiceChip(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    showCheckmark: false,
                     label: Text(
                         AppLocalizations.of(context)!.forumPageFilterHeats),
                     selected: state.filter == 'heats',
@@ -167,6 +171,10 @@ class _ForumState extends State<ForumView> {
                   ),
                   const SizedBox(width: 8),
                   ChoiceChip(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    showCheckmark: false,
                     label:
                         Text(AppLocalizations.of(context)!.forumPageFilterHot),
                     selected: state.filter == 'hot',
@@ -179,6 +187,10 @@ class _ForumState extends State<ForumView> {
                   ),
                   const SizedBox(width: 8),
                   ChoiceChip(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    showCheckmark: false,
                     label: Text(
                         AppLocalizations.of(context)!.forumPageFilterDigest),
                     selected: state.filter == 'digest',

@@ -67,7 +67,7 @@ class _LoginWithSmsFormState extends State<LoginWithSmsForm> {
                   Row(
                     children: [
                       Flexible(
-                        flex: 2,
+                        flex: 1,
                         child: TextFormField(
                           key: _secCodeFormKey,
                           decoration: InputDecoration(
@@ -106,7 +106,8 @@ class _LoginWithSmsFormState extends State<LoginWithSmsForm> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
+                    Flexible(
+                      flex: 1,
                       child: TextFormField(
                         key: _smsCodeFormKey,
                         decoration: InputDecoration(
@@ -125,15 +126,19 @@ class _LoginWithSmsFormState extends State<LoginWithSmsForm> {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    SmsCountDownButton(
-                      form: _form,
-                      onPressed: () {
-                        final phoneFormState = _phoneFormKey.currentState;
-                        if (phoneFormState == null) {
-                          return false;
-                        }
+                    Flexible(
+                      flex: 1,
+                      child: SmsCountDownButton(
+                        form: _form,
+                        onPressed: () {
+                          final phoneFormState = _phoneFormKey.currentState;
+                          if (phoneFormState == null) {
+                            return false;
+                          }
 
-                        if (phoneFormState.validate()) {
+                          if (!phoneFormState.validate()) {
+                            return false;
+                          }
                           phoneFormState.save();
 
                           if (state.loginParam == null) {
@@ -141,6 +146,7 @@ class _LoginWithSmsFormState extends State<LoginWithSmsForm> {
                             context
                                 .read<LoginWithSmsBloc>()
                                 .add(LoginWithSmsSecCodeRequested(_form.phone));
+                            return false;
                           } else {
                             /// 发送验证码需要填写图形验证码
                             final secCodeFormState =
@@ -149,19 +155,18 @@ class _LoginWithSmsFormState extends State<LoginWithSmsForm> {
                               return false;
                             }
 
-                            if (secCodeFormState.validate()) {
-                              secCodeFormState.save();
-
-                              context
-                                  .read<LoginWithSmsBloc>()
-                                  .add(LoginWithSmsSmsCodeSent(_form));
-                              return true;
+                            if (!secCodeFormState.validate()) {
+                              return false;
                             }
-                            return false;
+                            secCodeFormState.save();
+
+                            context
+                                .read<LoginWithSmsBloc>()
+                                .add(LoginWithSmsSmsCodeSent(_form));
+                            return true;
                           }
-                        }
-                        return false;
-                      },
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -228,6 +233,9 @@ class _SmsCountDownButtonState extends State<SmsCountDownButton> {
       builder: (context, snapshot) {
         final leftSecond = snapshot.data ?? 0;
         return ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(double.infinity, 36),
+          ),
           onPressed: leftSecond != 0
               ? null
               : () {

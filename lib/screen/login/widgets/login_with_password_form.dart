@@ -92,7 +92,7 @@ class _LoginWithPasswordFormState extends State<LoginWithPasswordForm> {
                   Row(
                     children: [
                       Flexible(
-                        flex: 2,
+                        flex: 1,
                         child: TextFormField(
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
