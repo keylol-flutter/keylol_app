@@ -70,6 +70,12 @@ class LoginWithPasswordBloc
         return;
       }
     } catch (e, stack) {
+      if (e is String) {
+        emit(state.copyWith(
+          status: LoginWithPasswordStatus.failure,
+          error: e,
+        ));
+      }
       logger.e('登录失败', e, stack);
       emit(state.copyWith(
         status: LoginWithPasswordStatus.failure,

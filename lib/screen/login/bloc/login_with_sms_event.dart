@@ -18,3 +18,9 @@ class LoginWithSmsSmsCodeSent extends LoginWithSmsEvent {
 
   const LoginWithSmsSmsCodeSent(this.form);
 }
+
+class LoginWithSmsRequested extends LoginWithSmsEvent {
+  final LoginWithSmsModel form;
+
+  const LoginWithSmsRequested(this.form);
+}

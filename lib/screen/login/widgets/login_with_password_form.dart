@@ -126,6 +126,7 @@ class _LoginWithPasswordFormState extends State<LoginWithPasswordForm> {
                       ),
                     ],
                   ),
+                if (state.secCodeData != null) const SizedBox(height: 16),
                 ElevatedButton(
                   child:
                       Text(AppLocalizations.of(context)!.loginPageLoginButton),
