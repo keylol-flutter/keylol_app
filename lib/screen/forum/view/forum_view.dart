@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/bloc/bloc/authentication_bloc.dart';
+import 'package:keylol_flutter/config/router.dart';
 import 'package:keylol_flutter/screen/forum/bloc/forum_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keylol_flutter/widgets/load_more_list_view.dart';
@@ -109,7 +110,14 @@ class _ForumState extends State<ForumView> {
             body: ListView(
               padding: const EdgeInsets.only(left: 16, right: 16),
               children: [
-                Discuz(data: forum.rules),
+                Discuz(
+                  data: forum.rules,
+                  onLinkTap: (url, attributes, element) {
+                    if (url != null) {
+                      urlRoute(context, url);
+                    }
+                  },
+                ),
                 if (subForums.isNotEmpty) const Divider(),
                 Wrap(spacing: 8.0, children: [
                   ...subForums.map((subForum) {
@@ -236,23 +244,12 @@ class _ForumState extends State<ForumView> {
                 },
               ),
             ],
-            child: OutlinedButton(
+            child: TextButton.icon(
               onPressed: () {
                 controller.open();
               },
-              style: OutlinedButton.styleFrom(
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                ),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(_orderByText(state.orderBy)),
-                  const SizedBox(width: 8),
-                  const Icon(Icons.sort),
-                ],
-              ),
+              icon: const Icon(Icons.sort),
+              label: Text(_orderByText(state.orderBy)),
             ),
           ),
         ],
@@ -275,7 +272,7 @@ class _ForumState extends State<ForumView> {
   Widget _buildTabView(String fid, String? type) {
     return BlocProvider(
       create: (_) => TypeForumBloc(context.read<Keylol>(), fid)
-        ..add(const ForumRefreshed()),
+        ..add(ForumRefreshed(type: type)),
       child: BlocConsumer<TypeForumBloc, ForumState>(
         listener: (context, state) {
           if (state.status == ForumStatus.failure) {

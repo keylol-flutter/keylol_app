@@ -1,9 +1,11 @@
 import 'package:date_format/date_format.dart';
+import 'package:discuz_widgets/discuz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/bloc/bloc/authentication_bloc.dart';
+import 'package:keylol_flutter/config/router.dart';
 import 'package:keylol_flutter/screen/notice/bloc/notice_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keylol_flutter/widgets/avatar.dart';
@@ -97,24 +99,12 @@ class _NoticeViewState extends State<NoticeView> {
                         width: 40,
                         height: 40,
                       ),
-                      title: Html(
-                        shrinkWrap: true,
+                      title: Discuz(
                         data: notice.note..replaceAll('&nsbp;', ''),
-                        extensions: [
-                          TagExtension(
-                              tagsToExtend: {'a', 'blockquote'},
-                              builder: (context) {
-                                return Text(context.innerHtml);
-                              }),
-                        ],
-                        style: {
-                          'body': Style(
-                            margin: Margins.zero,
-                            padding: HtmlPaddings.zero,
-                            fontSize: FontSize(
-                              Theme.of(context).textTheme.bodyLarge!.fontSize!,
-                            ),
-                          )
+                        onLinkTap: (url, attributes, element) {
+                          if (url != null) {
+                            urlRoute(context, url);
+                          }
                         },
                       ),
                       subtitle:

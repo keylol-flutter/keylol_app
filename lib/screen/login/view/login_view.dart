@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keylol_flutter/config/logger.dart';
 import 'package:keylol_flutter/screen/login/widgets/login_with_password_form.dart';
 import 'package:keylol_flutter/screen/login/widgets/login_with_sms_form.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -20,7 +21,7 @@ class _LoginViewState extends State<LoginView> {
       body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Image.asset(
               'images/metro.png',
@@ -34,9 +35,10 @@ class _LoginViewState extends State<LoginView> {
                 onPressed: () {
                   setState(() {
                     if (_loginType == 0) {
+                      logger.d('切换到手机验证码登录');
                       _loginType = 1;
-                    }
-                    if (_loginType == 1) {
+                    } else {
+                      logger.d('切换到密码登录');
                       _loginType = 0;
                     }
                   });
