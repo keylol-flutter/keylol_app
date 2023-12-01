@@ -75,7 +75,7 @@ class GuideView extends StatelessWidget {
                     return ThreadItem(thread: threads[index]);
                   },
                   separatorBuilder: (context, index) {
-                    if (index == threads.length - 1) {
+                    if (index == threads.length) {
                       return Container();
                     }
                     return Padding(

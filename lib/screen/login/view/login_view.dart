@@ -22,6 +22,7 @@ class _LoginViewState extends State<LoginView> {
         padding: const EdgeInsets.only(left: 16, right: 16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Image.asset(
               'images/metro.png',

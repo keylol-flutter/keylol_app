@@ -127,20 +127,21 @@ class _LoginWithPasswordFormState extends State<LoginWithPasswordForm> {
                     ],
                   ),
                 if (state.secCodeData != null) const SizedBox(height: 16),
-                Expanded(
-                  child: ElevatedButton(
-                    child: Text(
-                        AppLocalizations.of(context)!.loginPageLoginButton),
-                    onPressed: () {
-                      final formState = _formKey.currentState!;
-                      if (formState.validate()) {
-                        formState.save();
-                        context
-                            .read<LoginWithPasswordBloc>()
-                            .add(LoginWithPasswordRequested(_form));
-                      }
-                    },
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromWidth(double.infinity),
                   ),
+                  child:
+                      Text(AppLocalizations.of(context)!.loginPageLoginButton),
+                  onPressed: () {
+                    final formState = _formKey.currentState!;
+                    if (formState.validate()) {
+                      formState.save();
+                      context
+                          .read<LoginWithPasswordBloc>()
+                          .add(LoginWithPasswordRequested(_form));
+                    }
+                  },
                 ),
               ],
             ),

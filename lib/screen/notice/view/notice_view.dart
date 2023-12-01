@@ -112,7 +112,7 @@ class _NoticeViewState extends State<NoticeView> {
                     );
                   },
                   separatorBuilder: (context, index) {
-                    if (index == notices.length - 1) {
+                    if (index == notices.length) {
                       return Container();
                     }
                     return Padding(

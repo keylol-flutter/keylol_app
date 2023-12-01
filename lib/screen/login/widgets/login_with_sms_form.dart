@@ -165,19 +165,20 @@ class _LoginWithSmsFormState extends State<LoginWithSmsForm> {
                     ),
                   ],
                 ),
-                Expanded(
-                  child: ElevatedButton(
-                    child: Text(
-                        AppLocalizations.of(context)!.loginPageLoginButton),
-                    onPressed: () {
-                      if (_smsCodeFormKey.currentState?.validate() == true) {
-                        _smsCodeFormKey.currentState?.save();
-                        context
-                            .read<LoginWithSmsBloc>()
-                            .add(LoginWithSmsRequested(_form));
-                      }
-                    },
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromWidth(double.infinity),
                   ),
+                  child:
+                      Text(AppLocalizations.of(context)!.loginPageLoginButton),
+                  onPressed: () {
+                    if (_smsCodeFormKey.currentState?.validate() == true) {
+                      _smsCodeFormKey.currentState?.save();
+                      context
+                          .read<LoginWithSmsBloc>()
+                          .add(LoginWithSmsRequested(_form));
+                    }
+                  },
                 ),
               ],
             ),
