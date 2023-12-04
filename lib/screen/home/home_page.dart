@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
           drawer: _buildDrawer(context, state),
           body: PageView(
             controller: _controller,
+            physics: const NeverScrollableScrollPhysics(),
             children: const [
               IndexPage(),
               GuidePage(),
