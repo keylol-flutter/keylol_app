@@ -70,8 +70,12 @@ class _SpaceState extends State<SpaceView> {
                       value: '${space.friends}',
                     ),
                     onTap: () {
-                      Navigator.of(context)
-                          .pushNamed('/space/friends', arguments: space.uid);
+                      Navigator.of(context).pushNamed(
+                        '/space/friends',
+                        arguments: {
+                          'uid': space.uid,
+                        },
+                      );
                     },
                   ),
                   const VerticalDivider(),
@@ -81,8 +85,12 @@ class _SpaceState extends State<SpaceView> {
                       value: '${space.threads}',
                     ),
                     onTap: () {
-                      Navigator.of(context)
-                          .pushNamed('/space/threads', arguments: space.uid);
+                      Navigator.of(context).pushNamed(
+                        '/space/threads',
+                        arguments: {
+                          'uid': space.uid,
+                        },
+                      );
                     },
                   ),
                   const VerticalDivider(),
@@ -92,8 +100,12 @@ class _SpaceState extends State<SpaceView> {
                       value: '${space.posts}',
                     ),
                     onTap: () {
-                      Navigator.of(context)
-                          .pushNamed('/space/posts', arguments: space.uid);
+                      Navigator.of(context).pushNamed(
+                        '/space/posts',
+                        arguments: {
+                          'uid': space.uid,
+                        },
+                      );
                     },
                   ),
                 ],

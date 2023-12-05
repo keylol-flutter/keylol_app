@@ -63,7 +63,7 @@ class LoginWithSmsBloc extends Bloc<LoginWithSmsEvent, LoginWithSmsState> {
     emit(LoginWithSmsState(
       LoginWithSmsStatus.initial,
       loginParam,
-      null,
+      state.secCodeData,
       '',
     ));
   }

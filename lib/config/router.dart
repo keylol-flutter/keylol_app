@@ -4,6 +4,7 @@ import 'package:keylol_flutter/screen/forum/forum_page.dart';
 import 'package:keylol_flutter/screen/history/history_page.dart';
 import 'package:keylol_flutter/screen/home/home_page.dart';
 import 'package:keylol_flutter/screen/login/login_page.dart';
+import 'package:keylol_flutter/screen/space/space_list_page.dart';
 import 'package:keylol_flutter/screen/space/space_page.dart';
 import 'package:keylol_flutter/screen/thread/thread_page.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -24,6 +25,18 @@ final Map<String, WidgetBuilder> routes = {
   '/space': (context) {
     final args = ModalRoute.of(context)!.settings.arguments as dynamic;
     return SpacePage(uid: args['uid']);
+  },
+  '/space/friends': (context) {
+    final args = ModalRoute.of(context)!.settings.arguments as dynamic;
+    return SpaceListPage(uid: args['uid'], initialIndex: 0);
+  },
+  '/space/threads': (context) {
+    final args = ModalRoute.of(context)!.settings.arguments as dynamic;
+    return SpaceListPage(uid: args['uid'], initialIndex: 1);
+  },
+  '/space/posts': (context) {
+    final args = ModalRoute.of(context)!.settings.arguments as dynamic;
+    return SpaceListPage(uid: args['uid'], initialIndex: 2);
   }
 };
 
