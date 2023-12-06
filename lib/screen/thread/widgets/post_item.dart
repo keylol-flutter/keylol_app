@@ -1,7 +1,3 @@
-import 'dart:io';
-
-import 'dart:io';
-
 import 'package:discuz_widgets/discuz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +8,6 @@ import 'package:keylol_flutter/screen/thread/widgets/poll.dart';
 import 'package:keylol_flutter/screen/thread/widgets/reply_modal.dart';
 import 'package:keylol_flutter/widgets/avatar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:html/dom.dart' as html;
 
 typedef ScrollToFunction = void Function(String pid);
@@ -68,6 +63,7 @@ class PostItem extends StatelessWidget {
                   ? const EdgeInsets.only(left: 48 + 16, right: 16)
                   : const EdgeInsets.only(left: 16, right: 16),
               child: Discuz(
+                baseUrl: 'https://keylol.com/',
                 data: post.message,
                 attachments: attachments,
                 isPost: showFloor,
