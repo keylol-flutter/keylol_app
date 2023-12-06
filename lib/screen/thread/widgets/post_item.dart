@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'dart:io';
+
 import 'package:discuz_widgets/discuz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,6 +40,11 @@ class PostItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final attachments = <String, String>{};
+    post.attachments?.forEach((aid, attachment) {
+      attachments[aid] = '${attachment.url}${attachment.attachment}';
+    });
+
     return Container(
       margin: const EdgeInsets.only(bottom: 4),
       child: Material(
@@ -52,7 +61,7 @@ class PostItem extends StatelessWidget {
               ),
               title: Text(post.author),
               subtitle: Text(
-                  '${post.dateline} • ${post.position}${AppLocalizations.of(context)!.threadPageFloor}'),
+                  '${post.dateline} • ${post.number}${AppLocalizations.of(context)!.threadPageFloor}'),
             ),
             Padding(
               padding: showFloor
@@ -60,6 +69,7 @@ class PostItem extends StatelessWidget {
                   : const EdgeInsets.only(left: 16, right: 16),
               child: Discuz(
                 data: post.message,
+                attachments: attachments,
                 isPost: showFloor,
                 nested: true,
                 onLinkTap: (url, attributes, element) async {
@@ -67,15 +77,6 @@ class PostItem extends StatelessWidget {
                 },
               ),
             ),
-            if (post.attachments != null && post.attachments!.isNotEmpty)
-              for (final attachment in post.attachments!.values)
-                Padding(
-                  padding: showFloor
-                      ? const EdgeInsets.only(left: 48 + 16, right: 16)
-                      : const EdgeInsets.only(left: 16, right: 16),
-                  child: Image.network(
-                      '${attachment.url}${attachment.attachment}'),
-                ),
             if (poll != null)
               Poll(
                 tid: post.tid,
