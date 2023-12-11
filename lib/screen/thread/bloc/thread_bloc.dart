@@ -153,7 +153,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
         thread = viewThread.thread;
         final postList = viewThread.postList;
         for (var post in postList) {
-          if (post.position == state.firstPost?.position) {
+          if (post.pid == state.firstPost?.pid) {
             continue;
           }
           if (!posts.any((p) => p.pid == post.pid)) {

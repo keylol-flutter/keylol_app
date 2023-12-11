@@ -1,5 +1,4 @@
 import 'package:date_format/date_format.dart';
-import 'package:discuz_widgets/discuz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -99,7 +98,7 @@ class _NoticeViewState extends State<NoticeView> {
                         width: 40,
                         height: 40,
                       ),
-                      title: Discuz(
+                      title: Html(
                         data: notice.note..replaceAll('&nsbp;', ''),
                         onLinkTap: (url, attributes, element) {
                           if (url != null) {

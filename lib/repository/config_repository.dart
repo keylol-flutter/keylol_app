@@ -13,4 +13,12 @@ class ConfigRepository {
   void setThemeColor(int value) {
     prefs.setInt('theme.color', value);
   }
+
+  bool getEnableDebug() {
+    return prefs.getBool('debug.enabled') ?? false;
+  }
+
+  void setEnableDebug(bool enabled) {
+    prefs.setBool('debug.enabled', enabled);
+  }
 }

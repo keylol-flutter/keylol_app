@@ -7,15 +7,20 @@ import 'package:keylol_flutter/screen/thread/view/thread_view.dart';
 
 class ThreadPage extends StatelessWidget {
   final String tid;
+  final String? pid;
 
-  const ThreadPage({super.key, required this.tid});
+  const ThreadPage({
+    super.key,
+    required this.tid,
+    this.pid,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => ThreadBloc(
           context.read<Keylol>(), context.read<FavoriteRepository>(), tid)
-        ..add(const ThreadRefreshed()),
+        ..add(ThreadRefreshed(pid: pid)),
       child: const ThreadView(),
     );
   }

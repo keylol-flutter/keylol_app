@@ -1,4 +1,3 @@
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -20,6 +19,7 @@ import 'package:keylol_flutter/repository/authentication_repository.dart';
 import 'package:keylol_flutter/repository/config_repository.dart';
 import 'package:keylol_flutter/repository/favorite_repository.dart';
 import 'package:keylol_flutter/repository/history_repository.dart';
+import 'package:keylol_flutter/widgets/adaptive_dynamic_color_builder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -55,30 +55,23 @@ void main() async {
   FlutterNativeSplash.remove();
 
   runApp(
-    UMEWidget(
-      enable: true,
-      child: MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider(create: (context) => ConfigRepository(prefs)),
-          RepositoryProvider.value(value: keylol),
-          RepositoryProvider.value(value: authenticationRepository),
-          RepositoryProvider.value(value: historyRepository),
-          RepositoryProvider.value(value: favoriteRepository),
-        ],
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (context) {
-                return AuthenticationBloc(
-                  context.read<Keylol>(),
-                  context.read<AuthenticationRepository>(),
-                )..add(AuthenticationStatusFetched());
-              },
-            ),
-          ],
-          child: const MyApp(),
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(create: (context) => ConfigRepository(prefs)),
+        RepositoryProvider.value(value: keylol),
+        RepositoryProvider.value(value: authenticationRepository),
+        RepositoryProvider.value(value: historyRepository),
+        RepositoryProvider.value(value: favoriteRepository),
+        BlocProvider(
+          create: (context) {
+            return AuthenticationBloc(
+              keylol,
+              authenticationRepository,
+            )..add(AuthenticationStatusFetched());
+          },
         ),
-      ),
+      ],
+      child: const MyApp(),
     ),
   );
 }
@@ -90,39 +83,25 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
-        return DynamicColorBuilder(
-          builder: (lightDynamic, darkDynamic) {
-            ColorScheme lightColorScheme;
-            ColorScheme darkColorScheme;
-
-            if (lightDynamic != null && darkDynamic != null) {
-              lightColorScheme = lightDynamic.harmonized();
-              darkColorScheme = darkDynamic.harmonized();
-            } else {
-              // Otherwise, use fallback schemes.
-              lightColorScheme = ColorScheme.fromSeed(
-                seedColor: Colors.deepPurple,
+        return UMEWidget(
+          enable: true,
+          child: AdaptiveDynamicColorBuilder(
+            builder: (lightColorScheme, darkColorScheme) {
+              return MaterialApp(
+                theme: ThemeData(
+                  useMaterial3: true,
+                  colorScheme: lightColorScheme,
+                ),
+                darkTheme: ThemeData(
+                  useMaterial3: true,
+                  colorScheme: darkColorScheme,
+                ),
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                routes: routes,
               );
-              darkColorScheme = ColorScheme.fromSeed(
-                seedColor: Colors.deepPurple,
-                brightness: Brightness.dark,
-              );
-            }
-
-            return MaterialApp(
-              theme: ThemeData(
-                useMaterial3: true,
-                colorScheme: lightColorScheme,
-              ),
-              darkTheme: ThemeData(
-                useMaterial3: true,
-                colorScheme: darkColorScheme,
-              ),
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              supportedLocales: AppLocalizations.supportedLocales,
-              routes: routes,
-            );
-          },
+            },
+          ),
         );
       },
     );
