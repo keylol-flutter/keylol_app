@@ -4,6 +4,7 @@ import 'package:sqflite/sqflite.dart';
 
 Future<CacheOptions> option() async {
   return CacheOptions(
-      store: DbCacheStore(databasePath: await getDatabasesPath()),
+      store: MemCacheStore(),
+      // store: DbCacheStore(databasePath: await getDatabasesPath()),
       keyBuilder: CacheOptions.defaultCacheKeyBuilder);
 }

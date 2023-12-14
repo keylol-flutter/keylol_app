@@ -48,7 +48,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildDrawer(BuildContext context, AuthenticationState state) {
-    final destinations = <NavigationDrawerDestination>[
+    final destinations = <Widget>[
+      Padding(
+        padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
+        child: Text(
+          AppLocalizations.of(context)!.homePageDrawerHeader,
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
+      ),
       NavigationDrawerDestination(
         icon: const Icon(Icons.home_outlined),
         label: Text(
@@ -67,20 +74,21 @@ class _HomePageState extends State<HomePage> {
           AppLocalizations.of(context)!.homePageDrawerListTileHistory,
         ),
       ),
+      const Padding(
+        padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
+        child: Divider(),
+      ),
+      NavigationDrawerDestination(
+        icon: const Icon(Icons.settings_outlined),
+        label: Text(
+          AppLocalizations.of(context)!.homePageDrawerListTileSettings,
+        ),
+      ),
     ];
 
     return NavigationDrawer(
       selectedIndex: -1,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
-          child: Text(
-            AppLocalizations.of(context)!.homePageDrawerHeader,
-            style: Theme.of(context).textTheme.titleSmall,
-          ),
-        ),
-        for (final destination in destinations) destination,
-      ],
+      children: destinations,
       onDestinationSelected: (index) {
         switch (index) {
           case 0:
@@ -89,6 +97,8 @@ class _HomePageState extends State<HomePage> {
             Navigator.of(context).pushNamed('/favorite');
           case 2:
             Navigator.of(context).pushNamed('/history');
+          case 3:
+            Navigator.of(context).pushNamed('/settings');
         }
       },
     );

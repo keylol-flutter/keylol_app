@@ -4,6 +4,7 @@ import 'package:keylol_flutter/screen/forum/forum_page.dart';
 import 'package:keylol_flutter/screen/history/history_page.dart';
 import 'package:keylol_flutter/screen/home/home_page.dart';
 import 'package:keylol_flutter/screen/login/login_page.dart';
+import 'package:keylol_flutter/screen/settings/settings_page.dart';
 import 'package:keylol_flutter/screen/space/space_list_page.dart';
 import 'package:keylol_flutter/screen/space/space_page.dart';
 import 'package:keylol_flutter/screen/thread/thread_page.dart';
@@ -37,7 +38,8 @@ final Map<String, WidgetBuilder> routes = {
   '/space/posts': (context) {
     final args = ModalRoute.of(context)!.settings.arguments as dynamic;
     return SpaceListPage(uid: args['uid'], initialIndex: 2);
-  }
+  },
+  '/settings': (context) => const SettingsPage(),
 };
 
 Future<void> urlRoute(BuildContext context, String url) async {
