@@ -1,3 +1,4 @@
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_ume_kit_ui/components/widget_detail_inspector/widget_det
 import 'package:flutter_ume_kit_ui/components/widget_info_inspector/widget_info_inspector.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/bloc/bloc/authentication_bloc.dart';
+import 'package:keylol_flutter/config/dio_cache.dart';
 import 'package:keylol_flutter/config/firebase_options.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keylol_flutter/config/router.dart';
@@ -37,6 +39,7 @@ void main() async {
 
   final prefs = await SharedPreferences.getInstance();
   final keylol = await Keylol.create();
+  keylol.addInterceptor(DioCacheInterceptor(options: await option()));
   final authenticationRepository = AuthenticationRepository();
   final authenticationInterceptor =
       AuthenticationInterceptor(authenticationRepository);

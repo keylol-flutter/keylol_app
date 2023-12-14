@@ -338,13 +338,21 @@ packages:
     source: hosted
     version: "5.3.4"
   dio_cache_interceptor:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: dio_cache_interceptor
-      sha256: "7c0cb435963f08aa751ae8769b360d462f01160adc1d2d5b80e3b8c450b386e3"
+      sha256: fb7905c0d12075d8786a6b63bffd64ae062d053f682cfaf28d145a2686507308
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.4.4"
+    version: "3.5.0"
+  dio_cache_interceptor_db_store:
+    dependency: "direct main"
+    description:
+      name: dio_cache_interceptor_db_store
+      sha256: "920d9984b97522dc5bdd78a7d228ab41f3e64df57704490c5a367ca28e682e72"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "5.1.1"
   dio_cookie_manager:
     dependency: transitive
     description:
@@ -368,6 +376,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.0"
+  drift:
+    dependency: transitive
+    description:
+      name: drift
+      sha256: "05363b695885c72036ed5c76287125bfc6f1deda20cb3aa044a09fe22792f81b"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.14.1"
   dynamic_color:
     dependency: "direct main"
     description:
@@ -1342,6 +1358,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.5.0+2"
+  sqlite3:
+    dependency: transitive
+    description:
+      name: sqlite3
+      sha256: "8922805564b78eb7aa9386c10056d377a541ac7270dc6a1589176277ebb4d15d"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.2.0"
   stack_trace:
     dependency: transitive
     description:

@@ -75,6 +75,8 @@ dependencies:
   flutter_html: ^3.0.0-beta.2
   skeletonizer: ^0.8.0
   flutter_native_splash: ^2.3.6
+  dio_cache_interceptor: ^3.5.0
+  dio_cache_interceptor_db_store: ^5.1.1
 
 dev_dependencies:
   flutter_test:
