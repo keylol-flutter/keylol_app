@@ -39,6 +39,7 @@ void main() async {
   };
 
   final prefs = await SharedPreferences.getInstance();
+  final settingsRepository = SettingsRepository(prefs);
   final keylol = await Keylol.create();
   keylol.addInterceptor(DioCacheInterceptor(options: await option()));
   final authenticationRepository = AuthenticationRepository();
@@ -61,7 +62,7 @@ void main() async {
   runApp(
     MultiRepositoryProvider(
       providers: [
-        RepositoryProvider(create: (context) => SettingsRepository(prefs)),
+        RepositoryProvider(create: (context) => settingsRepository),
         RepositoryProvider.value(value: keylol),
         RepositoryProvider.value(value: authenticationRepository),
         RepositoryProvider.value(value: historyRepository),
@@ -74,7 +75,7 @@ void main() async {
             )..add(AuthenticationStatusFetched());
           },
         ),
-        BlocProvider(create: (context) => SettingsCubit()),
+        BlocProvider(create: (context) => SettingsCubit(settingsRepository)),
       ],
       child: const MyApp(),
     ),

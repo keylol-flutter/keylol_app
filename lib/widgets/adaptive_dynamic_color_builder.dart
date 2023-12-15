@@ -1,5 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:keylol_flutter/repository/settings_repository.dart';
 
 typedef DynamicColorChildBuilder = Widget Function(
   ColorScheme lightColorScheme,
@@ -18,16 +20,23 @@ class AdaptiveDynamicColorBuilder extends StatelessWidget {
         ColorScheme lightColorScheme;
         ColorScheme darkColorScheme;
 
-        if (lightDynamic != null && darkDynamic != null) {
+        final dynamicColorEnabled =
+            context.read<SettingsRepository>().getEnableDynamicColor();
+        if (dynamicColorEnabled &&
+            (lightDynamic != null && darkDynamic != null)) {
           lightColorScheme = lightDynamic.harmonized();
           darkColorScheme = darkDynamic.harmonized();
         } else {
+          final colorValue =
+              context.read<SettingsRepository>().getThemeColorValue();
           // Otherwise, use fallback schemes.
           lightColorScheme = ColorScheme.fromSeed(
-            seedColor: Colors.deepPurple,
+            seedColor:
+                colorValue == null ? Colors.deepPurple : Color(colorValue),
           );
           darkColorScheme = ColorScheme.fromSeed(
-            seedColor: Colors.deepPurple,
+            seedColor:
+                colorValue == null ? Colors.deepPurple : Color(colorValue),
             brightness: Brightness.dark,
           );
         }

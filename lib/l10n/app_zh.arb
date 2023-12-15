@@ -2,6 +2,8 @@
   "title": "Keylol Flutter",
   "networkError": "连接出错了，请稍后重试~",
   "notLoginError": "请登录后查看~",
+  "confirm": "确认",
+  "cancel": "取消",
   "homePageDrawerHeader": "Keylol Flutter",
   "homePageDrawerListTileHome": "主页",
   "homePageDrawerListTileHistory": "历史",
@@ -79,5 +81,8 @@
   "spacePageStatisticsCredits4Unit": "点",
   "spacePageStatisticsCredits6": "积分",
   "spacePageStatisticsCredits8": "可用改名次数",
+  "settingsPageCommon": "通用",
+  "settingsPageDynamicColorEnabled": "使用动态配色",
+  "settingsPageThemeColor": "主题",
   "settingsPageEnableDebug": "调试模式"
 }

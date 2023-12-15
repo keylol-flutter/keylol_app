@@ -1,9 +1,19 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:keylol_flutter/repository/settings_repository.dart';
 
 class SettingsCubit extends Cubit<DateTime> {
-  SettingsCubit() : super(DateTime.now());
+  final SettingsRepository _repository;
+  late final StreamSubscription<DateTime> _streamSubscription;
 
-  void update() {
-    emit(DateTime.now());
+  SettingsCubit(this._repository) : super(DateTime.now()) {
+    _streamSubscription = _repository.version.listen((version) {
+      emit(version);
+    });
+  }
+
+  void dispose() {
+    _streamSubscription.cancel();
   }
 }
