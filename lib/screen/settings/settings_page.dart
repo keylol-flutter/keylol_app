@@ -47,7 +47,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     context.read<SettingsRepository>().getEnableDynamicColor(),
                 onToggle: (value) {
                   setState(() {
-                    context.read<SettingsRepository>().setEnableDebug(value);
+                    context
+                        .read<SettingsRepository>()
+                        .setEnableDynamicColor(value);
                   });
                 },
               ),
@@ -59,45 +61,46 @@ class _SettingsPageState extends State<SettingsPage> {
                   builder: (context) {
                     final currentColor =
                         context.read<SettingsRepository>().getThemeColorValue();
-                    return IconButton.filled(
-                      icon: currentColor == null
-                          ? const Icon(Icons.circle_outlined)
-                          : Icon(
-                              Icons.circle,
-                              color: Color(currentColor),
-                            ),
-                      onPressed: () {
-                        var tempColor = currentColor == null
-                            ? Color(currentColor!)
-                            : Theme.of(context).colorScheme.primary;
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              content: ColorPicker(
-                                pickerColor: tempColor,
-                                onColorChanged: (color) {
-                                  tempColor = color;
-                                },
-                              ),
-                              actions: [
-                                ElevatedButton(
-                                  child: Text(
-                                      AppLocalizations.of(context)!.confirm),
-                                  onPressed: () {
-                                    context
-                                        .read<SettingsRepository>()
-                                        .setThemeColor(tempColor.value);
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    );
+                    return currentColor == null
+                        ? const Icon(Icons.circle_outlined)
+                        : Icon(
+                            Icons.circle,
+                            color: Color(currentColor),
+                          );
                   },
                 ),
+                onPressed: (context) {
+                  final currentColor =
+                      context.read<SettingsRepository>().getThemeColorValue();
+                  var tempColor = currentColor == null
+                      ? Color(currentColor!)
+                      : Theme.of(context).colorScheme.primary;
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: ColorPicker(
+                          pickerColor: tempColor,
+                          onColorChanged: (color) {
+                            tempColor = color;
+                          },
+                        ),
+                        actions: [
+                          ElevatedButton(
+                            child: Text(AppLocalizations.of(context)!.confirm),
+                            onPressed: () {
+                              setState(() {
+                                context
+                                    .read<SettingsRepository>()
+                                    .setThemeColor(tempColor.value);
+                              });
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
               ),
             ],
           ),
