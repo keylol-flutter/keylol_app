@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
-import 'package:keylol_flutter/bloc/bloc/authentication_bloc.dart';
+import 'package:keylol_flutter/bloc/authentication/authentication_bloc.dart';
 import 'package:keylol_flutter/screen/forumIndex/bloc/forum_index_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keylol_flutter/widgets/selectable_button.dart';

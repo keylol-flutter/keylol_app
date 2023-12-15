@@ -12,13 +12,14 @@ import 'package:flutter_ume_kit_dio/flutter_ume_kit_dio.dart';
 import 'package:flutter_ume_kit_ui/components/widget_detail_inspector/widget_detail_inspector.dart';
 import 'package:flutter_ume_kit_ui/components/widget_info_inspector/widget_info_inspector.dart';
 import 'package:keylol_api/keylol_api.dart';
-import 'package:keylol_flutter/bloc/bloc/authentication_bloc.dart';
+import 'package:keylol_flutter/bloc/authentication/authentication_bloc.dart';
+import 'package:keylol_flutter/bloc/settings/settings_cubit.dart';
 import 'package:keylol_flutter/config/dio_cache.dart';
 import 'package:keylol_flutter/config/firebase_options.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keylol_flutter/config/router.dart';
 import 'package:keylol_flutter/repository/authentication_repository.dart';
-import 'package:keylol_flutter/repository/config_repository.dart';
+import 'package:keylol_flutter/repository/settings_repository.dart';
 import 'package:keylol_flutter/repository/favorite_repository.dart';
 import 'package:keylol_flutter/repository/history_repository.dart';
 import 'package:keylol_flutter/widgets/adaptive_dynamic_color_builder.dart';
@@ -60,7 +61,7 @@ void main() async {
   runApp(
     MultiRepositoryProvider(
       providers: [
-        RepositoryProvider(create: (context) => ConfigRepository(prefs)),
+        RepositoryProvider(create: (context) => SettingsRepository(prefs)),
         RepositoryProvider.value(value: keylol),
         RepositoryProvider.value(value: authenticationRepository),
         RepositoryProvider.value(value: historyRepository),
@@ -73,6 +74,7 @@ void main() async {
             )..add(AuthenticationStatusFetched());
           },
         ),
+        BlocProvider(create: (context) => SettingsCubit()),
       ],
       child: const MyApp(),
     ),
@@ -84,27 +86,32 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-      builder: (context, state) {
-        return UMEWidget(
-          enable: true,
-          child: AdaptiveDynamicColorBuilder(
-            builder: (lightColorScheme, darkColorScheme) {
-              return MaterialApp(
-                theme: ThemeData(
-                  useMaterial3: true,
-                  colorScheme: lightColorScheme,
-                ),
-                darkTheme: ThemeData(
-                  useMaterial3: true,
-                  colorScheme: darkColorScheme,
-                ),
-                localizationsDelegates: AppLocalizations.localizationsDelegates,
-                supportedLocales: AppLocalizations.supportedLocales,
-                routes: routes,
-              );
-            },
-          ),
+    return BlocBuilder<SettingsCubit, DateTime>(
+      builder: (context, _) {
+        return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+          builder: (context, state) {
+            return UMEWidget(
+              enable: context.read<SettingsRepository>().getEnableDebug(),
+              child: AdaptiveDynamicColorBuilder(
+                builder: (lightColorScheme, darkColorScheme) {
+                  return MaterialApp(
+                    theme: ThemeData(
+                      useMaterial3: true,
+                      colorScheme: lightColorScheme,
+                    ),
+                    darkTheme: ThemeData(
+                      useMaterial3: true,
+                      colorScheme: darkColorScheme,
+                    ),
+                    localizationsDelegates:
+                        AppLocalizations.localizationsDelegates,
+                    supportedLocales: AppLocalizations.supportedLocales,
+                    routes: routes,
+                  );
+                },
+              ),
+            );
+          },
         );
       },
     );

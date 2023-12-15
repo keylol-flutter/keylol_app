@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:keylol_flutter/bloc/bloc/authentication_bloc.dart';
+import 'package:keylol_flutter/bloc/authentication/authentication_bloc.dart';
 import 'package:keylol_flutter/screen/forumIndex/forum_index_page.dart';
 import 'package:keylol_flutter/screen/guide/guide_page.dart';
 import 'package:keylol_flutter/screen/index/index_page.dart';

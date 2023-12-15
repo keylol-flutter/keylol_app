@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ConfigRepository {
+class SettingsRepository {
   final SharedPreferences prefs;
 
-  ConfigRepository(this.prefs);
+  SettingsRepository(this.prefs);
+
 
   int getThemeColorValue() {
     return prefs.getInt('theme.color') ?? Colors.blue.value;

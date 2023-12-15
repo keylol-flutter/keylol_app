@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
-import 'package:keylol_flutter/bloc/bloc/authentication_bloc.dart';
+import 'package:keylol_flutter/bloc/authentication/authentication_bloc.dart';
 import 'package:keylol_flutter/repository/authentication_repository.dart';
 import 'package:keylol_flutter/screen/index/bloc/index_bloc.dart';
 import 'package:keylol_flutter/screen/index/widgets/carousel.dart';
