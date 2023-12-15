@@ -73,8 +73,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   final currentColor =
                       context.read<SettingsRepository>().getThemeColorValue();
                   var tempColor = currentColor == null
-                      ? Color(currentColor!)
-                      : Theme.of(context).colorScheme.primary;
+                      ? Theme.of(context).colorScheme.primary
+                      : Color(currentColor);
                   showDialog(
                     context: context,
                     builder: (context) {
