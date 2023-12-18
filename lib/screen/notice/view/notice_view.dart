@@ -1,13 +1,10 @@
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/bloc/authentication/authentication_bloc.dart';
-import 'package:keylol_flutter/config/router.dart';
 import 'package:keylol_flutter/screen/notice/bloc/notice_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:keylol_flutter/widgets/avatar.dart';
+import 'package:keylol_flutter/screen/notice/widgets/notice_item.dart';
 import 'package:keylol_flutter/widgets/load_more_list_view.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -76,39 +73,7 @@ class _NoticeViewState extends State<NoticeView> {
                     }
 
                     final notice = notices[index];
-                    final date = DateTime.fromMillisecondsSinceEpoch(
-                        notice.dateline * 1000);
-                    return ListTile(
-                      onTap: () {
-                        if (notice.noteVar != null) {
-                          final noteVar = notice.noteVar;
-                          Navigator.of(context).pushNamed(
-                            '/thread',
-                            arguments: {
-                              'tid': noteVar?.tid,
-                              'pid': noteVar?.pid,
-                            },
-                          );
-                        }
-                      },
-                      leading: Avatar(
-                        key: Key('Avatar${notice.authorId}'),
-                        uid: notice.authorId,
-                        username: notice.author,
-                        width: 40,
-                        height: 40,
-                      ),
-                      title: Html(
-                        data: notice.note..replaceAll('&nsbp;', ''),
-                        onLinkTap: (url, attributes, element) {
-                          if (url != null) {
-                            urlRoute(context, url);
-                          }
-                        },
-                      ),
-                      subtitle:
-                          Text(formatDate(date, [yyyy, '-', mm, '-', dd])),
-                    );
+                    return NoticeItem(notice: notice);
                   },
                   separatorBuilder: (context, index) {
                     if (index == notices.length) {
