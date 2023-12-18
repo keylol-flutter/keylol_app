@@ -12,7 +12,6 @@ class IndexBloc extends Bloc<IndexEvent, IndexState> {
 
   IndexBloc(this._client) : super(const IndexInitial()) {
     on<IndexFetched>(_onIndexFetched);
-    on<IndexPageChanged>(_onIndexPageChanged);
   }
 
   Future<void> _onIndexFetched(
@@ -26,12 +25,5 @@ class IndexBloc extends Bloc<IndexEvent, IndexState> {
       logger.e('加载聚焦失败', e, stack);
       emit(state.copyWith(status: IndexStatus.failure));
     }
-  }
-
-  Future<void> _onIndexPageChanged(
-    IndexPageChanged event,
-    Emitter<IndexState> emit,
-  ) async {
-    emit(state.copyWith(pageIndex: event.pageIndex));
   }
 }

@@ -5,19 +5,16 @@ enum IndexStatus { initial, success, failure }
 class IndexState extends Equatable {
   final IndexStatus status;
   final Index? index;
-  final int pageIndex;
 
-  const IndexState(this.status, this.index, this.pageIndex);
+  const IndexState(this.status, this.index);
 
   IndexState copyWith({
     IndexStatus? status,
     Index? index,
-    int? pageIndex,
   }) {
     return IndexState(
       status ?? this.status,
       index ?? this.index,
-      pageIndex ?? this.pageIndex,
     );
   }
 
@@ -26,5 +23,5 @@ class IndexState extends Equatable {
 }
 
 class IndexInitial extends IndexState {
-  const IndexInitial() : super(IndexStatus.initial, null, 0);
+  const IndexInitial() : super(IndexStatus.initial, null);
 }

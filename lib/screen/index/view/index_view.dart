@@ -43,6 +43,7 @@ class _IndexViewState extends State<IndexView> {
         } else {
           uid = state.profile.memberUid;
         }
+
         return BlocConsumer<IndexBloc, IndexState>(
           listener: (context, state) {
             if (state.status == IndexStatus.failure) {
@@ -185,7 +186,7 @@ class _IndexViewState extends State<IndexView> {
               (index) => Thread.fromJson({
                 'subject': 'Subject' * 4,
                 'author': 'Author',
-                'authorId': '',
+                'authorid': '0',
                 'dateline': '1970-01-01',
               }),
             ),

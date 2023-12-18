@@ -8,12 +8,3 @@ abstract class IndexEvent extends Equatable {
 }
 
 final class IndexFetched extends IndexEvent {}
-
-final class IndexPageChanged extends IndexEvent {
-  final int pageIndex;
-
-  const IndexPageChanged(this.pageIndex);
-
-  @override
-  List<Object> get props => [pageIndex];
-}
