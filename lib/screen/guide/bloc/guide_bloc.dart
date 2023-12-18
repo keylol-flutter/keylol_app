@@ -7,6 +7,26 @@ part 'guide_event.dart';
 
 part 'guide_state.dart';
 
+class HotGuideBloc extends GuideBloc {
+  HotGuideBloc(Keylol client) : super(client, 'hot');
+}
+
+class DigestGuideBloc extends GuideBloc {
+  DigestGuideBloc(Keylol client) : super(client, 'digest');
+}
+
+class NewThreadGuideBloc extends GuideBloc {
+  NewThreadGuideBloc(Keylol client) : super(client, 'newthread');
+}
+
+class NewGuideBloc extends GuideBloc {
+  NewGuideBloc(Keylol client) : super(client, 'new');
+}
+
+class SofaGuideBloc extends GuideBloc {
+  SofaGuideBloc(Keylol client) : super(client, 'sofa');
+}
+
 class GuideBloc extends Bloc<GuideEvent, GuideState> {
   final Keylol _client;
   final String _type;

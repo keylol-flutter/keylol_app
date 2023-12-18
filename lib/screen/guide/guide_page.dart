@@ -32,35 +32,38 @@ class GuidePage extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
-          children: [
+        body: MultiBlocProvider(
+          providers: [
             BlocProvider(
-              create: (context) => GuideBloc(context.read<Keylol>(), 'hot')
-                ..add(GuideRefreshed()),
-              child: const GuideView(),
+              create: (context) =>
+                  HotGuideBloc(context.read<Keylol>())..add(GuideRefreshed()),
             ),
             BlocProvider(
-              create: (context) => GuideBloc(context.read<Keylol>(), 'digest')
+              create: (context) => DigestGuideBloc(context.read<Keylol>())
                 ..add(GuideRefreshed()),
-              child: const GuideView(),
+            ),
+            BlocProvider(
+              create: (context) => NewThreadGuideBloc(context.read<Keylol>())
+                ..add(GuideRefreshed()),
             ),
             BlocProvider(
               create: (context) =>
-                  GuideBloc(context.read<Keylol>(), 'newthread')
-                    ..add(GuideRefreshed()),
-              child: const GuideView(),
+                  NewGuideBloc(context.read<Keylol>())..add(GuideRefreshed()),
             ),
             BlocProvider(
-              create: (context) => GuideBloc(context.read<Keylol>(), 'new')
-                ..add(GuideRefreshed()),
-              child: const GuideView(),
-            ),
-            BlocProvider(
-              create: (context) => GuideBloc(context.read<Keylol>(), 'sofa')
-                ..add(GuideRefreshed()),
-              child: const GuideView(),
+              create: (context) =>
+                  SofaGuideBloc(context.read<Keylol>())..add(GuideRefreshed()),
             ),
           ],
+          child: const TabBarView(
+            children: [
+              GuideView<HotGuideBloc>(),
+              GuideView<DigestGuideBloc>(),
+              GuideView<NewThreadGuideBloc>(),
+              GuideView<NewGuideBloc>(),
+              GuideView<SofaGuideBloc>(),
+            ],
+          ),
         ),
       ),
     );

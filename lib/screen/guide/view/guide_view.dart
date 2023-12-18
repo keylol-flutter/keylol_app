@@ -9,18 +9,18 @@ import 'package:keylol_flutter/widgets/load_more_list_view.dart';
 import 'package:keylol_flutter/widgets/thread_item.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class GuideView extends StatelessWidget {
+class GuideView<B extends GuideBloc> extends StatelessWidget {
   const GuideView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
-        context.read<GuideBloc>().add(GuideRefreshed());
+        context.read<B>().add(GuideRefreshed());
       },
       builder: (context, state) {
         final authenticationStatus = state.status;
-        return BlocConsumer<GuideBloc, GuideState>(
+        return BlocConsumer<B, GuideState>(
           listener: (context, state) {
             if (state.status == GuideStatus.failure) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -48,7 +48,7 @@ class GuideView extends StatelessWidget {
                 : state.threads;
             return RefreshIndicator(
               onRefresh: () async {
-                context.read<GuideBloc>().add(GuideRefreshed());
+                context.read<B>().add(GuideRefreshed());
               },
               child: Skeletonizer(
                 enabled: state.status == GuideStatus.initial,
@@ -56,7 +56,7 @@ class GuideView extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                   physics: const AlwaysScrollableScrollPhysics(),
                   callback: () {
-                    context.read<GuideBloc>().add(GuideFetched());
+                    context.read<B>().add(GuideFetched());
                   },
                   itemCount: threads.length + 1,
                   itemBuilder: (context, index) {
