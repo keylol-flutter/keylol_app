@@ -53,55 +53,55 @@ class _SettingsPageState extends State<SettingsPage> {
                   });
                 },
               ),
-              SettingsTile.navigation(
-                leading: const Icon(Icons.color_lens),
-                title:
-                    Text(AppLocalizations.of(context)!.settingsPageThemeColor),
-                trailing: Builder(
-                  builder: (context) {
-                    final currentColor =
-                        context.read<SettingsRepository>().getThemeColorValue();
-                    return currentColor == null
-                        ? const Icon(Icons.circle_outlined)
-                        : Icon(
-                            Icons.circle,
-                            color: Color(currentColor),
-                          );
-                  },
-                ),
-                onPressed: (context) {
-                  final currentColor =
-                      context.read<SettingsRepository>().getThemeColorValue();
-                  var tempColor = currentColor == null
-                      ? Theme.of(context).colorScheme.primary
-                      : Color(currentColor);
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        content: ColorPicker(
-                          pickerColor: tempColor,
-                          onColorChanged: (color) {
-                            tempColor = color;
-                          },
-                        ),
-                        actions: [
-                          ElevatedButton(
-                            child: Text(AppLocalizations.of(context)!.confirm),
-                            onPressed: () {
-                              setState(() {
-                                context
-                                    .read<SettingsRepository>()
-                                    .setThemeColor(tempColor.value);
-                              });
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-              ),
+              // SettingsTile.navigation(
+              //   leading: const Icon(Icons.color_lens),
+              //   title:
+              //       Text(AppLocalizations.of(context)!.settingsPageThemeColor),
+              //   trailing: Builder(
+              //     builder: (context) {
+              //       final currentColor =
+              //           context.read<SettingsRepository>().getThemeColorValue();
+              //       return currentColor == null
+              //           ? const Icon(Icons.circle_outlined)
+              //           : Icon(
+              //               Icons.circle,
+              //               color: Color(currentColor),
+              //             );
+              //     },
+              //   ),
+              //   onPressed: (context) {
+              //     final currentColor =
+              //         context.read<SettingsRepository>().getThemeColorValue();
+              //     var tempColor = currentColor == null
+              //         ? Theme.of(context).colorScheme.primary
+              //         : Color(currentColor);
+              //     showDialog(
+              //       context: context,
+              //       builder: (context) {
+              //         return AlertDialog(
+              //           content: ColorPicker(
+              //             pickerColor: tempColor,
+              //             onColorChanged: (color) {
+              //               tempColor = color;
+              //             },
+              //           ),
+              //           actions: [
+              //             ElevatedButton(
+              //               child: Text(AppLocalizations.of(context)!.confirm),
+              //               onPressed: () {
+              //                 setState(() {
+              //                   context
+              //                       .read<SettingsRepository>()
+              //                       .setThemeColor(tempColor.value);
+              //                 });
+              //               },
+              //             ),
+              //           ],
+              //         );
+              //       },
+              //     );
+              //   },
+              // ),
             ],
           ),
           SettingsSection(

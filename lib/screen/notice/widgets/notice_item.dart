@@ -60,7 +60,7 @@ class _NoticeItemState extends State<NoticeItem> {
     note = widget.notice.note
         .replaceAllMapped(
             RegExp(r'<a(?:[^>]*)>([^<]*)</a>'), (match) => match[1] ?? '')
-        .replaceAll('<div class=\\"quote\\"><blockquote>', '\n')
+        .replaceAll('<div class="quote"><blockquote>', '\n')
         .replaceAll('</blockquote></div>', '')
         .replaceAll('&nsbp;', '')
         .replaceFirstMapped(RegExp(r'查看$'), (match) => '');
