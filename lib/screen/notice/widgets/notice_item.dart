@@ -1,6 +1,5 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/widgets/avatar.dart';
 
@@ -15,6 +14,7 @@ class NoticeItem extends StatefulWidget {
 
 class _NoticeItemState extends State<NoticeItem> {
   late String dateStr;
+  late String note;
   late String pushName;
   late Map<String, dynamic> routeParams;
 
@@ -57,6 +57,14 @@ class _NoticeItemState extends State<NoticeItem> {
       };
     }
 
+    note = widget.notice.note
+        .replaceAllMapped(
+            RegExp(r'<a(?:[^>]*)>([^<]*)</a>'), (match) => match[1] ?? '')
+        .replaceAll('<div class=\\"quote\\"><blockquote>', '\n')
+        .replaceAll('</blockquote></div>', '')
+        .replaceAll('&nsbp;', '')
+        .replaceFirstMapped(RegExp(r'查看$'), (match) => '');
+
     super.initState();
   }
 
@@ -76,26 +84,7 @@ class _NoticeItemState extends State<NoticeItem> {
         width: 40,
         height: 40,
       ),
-      title: Html(
-        shrinkWrap: true,
-        data: widget.notice.note..replaceAll('&nsbp;', ''),
-        extensions: [
-          TagExtension(
-              tagsToExtend: {'a', 'blockquote'},
-              builder: (context) {
-                return Text(context.innerHtml);
-              }),
-        ],
-        style: {
-          'body': Style(
-            margin: Margins.zero,
-            padding: HtmlPaddings.zero,
-            fontSize: FontSize(
-              Theme.of(context).textTheme.bodyLarge!.fontSize!,
-            ),
-          )
-        },
-      ),
+      title: Text(note),
       subtitle: Text(dateStr),
     );
   }
