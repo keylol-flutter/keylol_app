@@ -971,16 +971,16 @@ class _ReplyModalState extends State<ReplyModal> {
   }
 
   void _sendReply(BuildContext context, Variables profile) {
-    if (widget.thread != null) {
+    if (widget.post != null) {
+      context.read<ThreadBloc>().add(ThreadReplied(
+        formHash: profile.formHash,
+        post: widget.post,
+        message: _controller.text,
+        aIds: _aidList,
+      ));
+    } else if (widget.thread != null) {
       context.read<ThreadBloc>().add(ThreadReplied(
             formHash: profile.formHash,
-            message: _controller.text,
-            aIds: _aidList,
-          ));
-    } else if (widget.post != null) {
-      context.read<ThreadBloc>().add(ThreadReplied(
-            formHash: profile.formHash,
-            post: widget.post,
             message: _controller.text,
             aIds: _aidList,
           ));
