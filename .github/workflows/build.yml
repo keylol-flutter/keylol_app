@@ -21,7 +21,7 @@ jobs:
       # Setup flutter environment
       - uses: subosito/flutter-action@v1
         with:
-          flutter_version: '3.19.0'
+          flutter_version: '3.16.9'
           channel: 'stable'
           
       - name: Update all submodules
