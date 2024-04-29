@@ -108,6 +108,7 @@ class FavoriteRepository {
 
     final favId = results[0]['fav_id'] as String;
     final resp = await _client.deleteFavThread(favId, formHash);
+    // TODO 错误处理
 
     await _db.delete('favorite', where: 'fav_id = ?', whereArgs: [favId]);
   }

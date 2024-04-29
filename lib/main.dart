@@ -5,11 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_ume/flutter_ume.dart';
-import 'package:flutter_ume_kit_console/flutter_ume_kit_console.dart';
-import 'package:flutter_ume_kit_dio/flutter_ume_kit_dio.dart';
-import 'package:flutter_ume_kit_ui/components/widget_detail_inspector/widget_detail_inspector.dart';
-import 'package:flutter_ume_kit_ui/components/widget_info_inspector/widget_info_inspector.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/bloc/authentication/authentication_bloc.dart';
 import 'package:keylol_flutter/bloc/settings/settings_cubit.dart';
@@ -50,12 +45,6 @@ void main() async {
   final favoriteRepository = FavoriteRepository(prefs, keylol);
   await favoriteRepository.initial();
 
-  PluginManager.instance
-    ..register(const WidgetInfoInspector())
-    ..register(const WidgetDetailInspector())
-    ..register(Console())
-    ..register(DioInspector(dio: keylol.dio()));
-
   FlutterNativeSplash.remove();
 
   runApp(
@@ -90,26 +79,23 @@ class MyApp extends StatelessWidget {
       builder: (context, _) {
         return BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
-            return UMEWidget(
-              enable: context.read<SettingsRepository>().getEnableDebug(),
-              child: AdaptiveDynamicColorBuilder(
-                builder: (lightColorScheme, darkColorScheme) {
-                  return MaterialApp(
-                    theme: ThemeData(
-                      useMaterial3: true,
-                      colorScheme: lightColorScheme,
-                    ),
-                    darkTheme: ThemeData(
-                      useMaterial3: true,
-                      colorScheme: darkColorScheme,
-                    ),
-                    localizationsDelegates:
-                        AppLocalizations.localizationsDelegates,
-                    supportedLocales: AppLocalizations.supportedLocales,
-                    routes: routes,
-                  );
-                },
-              ),
+            return AdaptiveDynamicColorBuilder(
+              builder: (lightColorScheme, darkColorScheme) {
+                return MaterialApp(
+                  theme: ThemeData(
+                    useMaterial3: true,
+                    colorScheme: lightColorScheme,
+                  ),
+                  darkTheme: ThemeData(
+                    useMaterial3: true,
+                    colorScheme: darkColorScheme,
+                  ),
+                  localizationsDelegates:
+                      AppLocalizations.localizationsDelegates,
+                  supportedLocales: AppLocalizations.supportedLocales,
+                  routes: routes,
+                );
+              },
             );
           },
         );

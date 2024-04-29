@@ -132,6 +132,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
         event.post,
       );
       final message = sendReplyResp.message;
+      // TODO 错误处理
 
       var page = state.page;
       final posts = state.posts;

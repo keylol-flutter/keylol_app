@@ -34,11 +34,6 @@ dependencies:
     path: packages/keylol_api/
   discuz_widgets:
     path: packages/discuz_widgets/
-  flutter_ume_kit_dio:
-    path: packages/flutter_ume_kit_dio/
-  flutter_ume_kit_ui: 
-    path: packages/flutter_ume_kit_ui/
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -63,8 +58,6 @@ dependencies:
   dynamic_color: ^1.6.5
   date_format: ^2.0.7
   percent_indicator: ^4.2.3
-  flutter_ume: ^1.1.2
-  flutter_ume_kit_console: ^1.0.0
   image_picker: ^1.0.4
   url_launcher: ^6.1.14
   scroll_to_index: ^3.0.1
