@@ -27,7 +27,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     namespace "com.cdgeass.keylol_flutter"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion Math.max(flutter.compileSdkVersion, 34)
     ndkVersion flutter.ndkVersion
 
     compileOptions {
