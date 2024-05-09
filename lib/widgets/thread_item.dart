@@ -43,7 +43,10 @@ class ThreadItem extends StatelessWidget {
       onTap: () {
         Navigator.of(context).pushNamed(
           '/thread',
-          arguments: {'tid': thread.tid},
+          arguments: {
+            'tid': thread.tid,
+            'thread': thread,
+          },
         );
       },
     );

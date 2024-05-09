@@ -8,11 +8,13 @@ import 'package:keylol_flutter/screen/thread/view/thread_view.dart';
 class ThreadPage extends StatelessWidget {
   final String tid;
   final String? pid;
+  final Thread? thread;
 
   const ThreadPage({
     super.key,
     required this.tid,
     this.pid,
+    this.thread,
   });
 
   @override

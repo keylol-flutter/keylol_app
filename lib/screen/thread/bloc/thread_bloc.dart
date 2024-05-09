@@ -15,8 +15,9 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
   final FavoriteRepository _favoriteRepository;
   final String _tid;
 
-  ThreadBloc(this._client, this._favoriteRepository, this._tid)
-      : super(ThreadInitial()) {
+  ThreadBloc(this._client, this._favoriteRepository, this._tid,
+      {Thread? thread})
+      : super(ThreadInitial(thread: thread)) {
     on<ThreadRefreshed>(_onThreadRefreshed);
     on<ThreadFetched>(_onThreadFetched);
     on<ThreadReplied>(_onReplied);

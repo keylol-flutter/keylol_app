@@ -77,7 +77,18 @@ class ThreadState extends Equatable {
 }
 
 class ThreadInitial extends ThreadState {
-  ThreadInitial({String? pid})
-      : super(ThreadStatus.initial, null, false, null, pid, 1, [], {}, false,
-            null, null);
+  ThreadInitial({String? pid, Thread? thread})
+      : super(
+          ThreadStatus.initial,
+          thread,
+          false,
+          null,
+          pid,
+          1,
+          [],
+          {},
+          false,
+          null,
+          null,
+        );
 }
