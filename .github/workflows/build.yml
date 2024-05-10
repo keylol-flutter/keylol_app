@@ -28,6 +28,20 @@ jobs:
           
       - name: Update all submodules
         run: git submodule update --recursive --remote --init
+      
+      - name: Create keystore file
+        env:
+          KEYSTORE_BASE64: ${{secrets.KEYSTORE_BASE64}}
+        run: echo $KEYSTORE_BASE64 | base64 -d > ./upload-keystore.jks
+
+      - name: Create key.properties
+        env:
+          KEYSTORE_PASSWORD: ${{secrets.KEYSTORE_PASSWORD}}
+        run: |
+          echo storePassword=$KEYSTORE_PASSWORD > ./android/key.properties
+          echo keyPassword=$KEYSTORE_PASSWORD >> ./android/key.properties
+          echo alias=upload >> ./android/key.properties
+          echo storeFile=./upload-keystore.jks >> ./android/key.properties
 
       - name: Build
         run: |
