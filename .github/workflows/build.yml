@@ -40,7 +40,7 @@ jobs:
         run: |
           echo storePassword=$KEYSTORE_PASSWORD > ./android/key.properties
           echo keyPassword=$KEYSTORE_PASSWORD >> ./android/key.properties
-          echo alias=upload >> ./android/key.properties
+          echo keyAlias=upload >> ./android/key.properties
           echo storeFile=../upload-keystore.jks >> ./android/key.properties
 
       - name: Build
