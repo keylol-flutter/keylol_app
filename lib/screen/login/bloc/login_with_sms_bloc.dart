@@ -79,6 +79,7 @@ class LoginWithSmsBloc extends Bloc<LoginWithSmsEvent, LoginWithSmsState> {
         cellphone: form.phone,
         sms: form.smsCode,
       );
+      emit(state.copyWith(status: LoginWithSmsStatus.success));
     } catch (e, stack) {
       if (e is String) {
         emit(state.copyWith(
