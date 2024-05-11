@@ -4,7 +4,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_debug_overlay/flutter_debug_overlay.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/bloc/authentication/authentication_bloc.dart';
@@ -18,9 +17,7 @@ import 'package:keylol_flutter/repository/settings_repository.dart';
 import 'package:keylol_flutter/repository/favorite_repository.dart';
 import 'package:keylol_flutter/repository/history_repository.dart';
 import 'package:keylol_flutter/widgets/adaptive_dynamic_color_builder.dart';
-import 'package:logger/logger.dart' hide LogEvent;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:collection/collection.dart';
 
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -48,20 +45,6 @@ void main() async {
   final favoriteRepository = FavoriteRepository(prefs, keylol);
   await favoriteRepository.initial();
 
-  Logger.addOutputListener((event) {
-    LogLevel? level = LogLevel.values
-        .firstWhereOrNull((element) => element.name == event.origin.level.name);
-    if (level == null) return;
-    MyApp.logBucket.add(LogEvent(
-      level: level,
-      message: event.origin.message,
-      error: event.origin.error,
-      stackTrace: event.origin.stackTrace,
-      time: event.origin.time,
-    ));
-  });
-  keylol.addInterceptor(DioLogInterceptor(MyApp.httpBucket));
-
   FlutterNativeSplash.remove();
   runApp(
     MultiRepositoryProvider(
@@ -87,9 +70,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  static final LogBucket logBucket = LogBucket();
-  static final HttpBucket httpBucket = HttpBucket();
-
   const MyApp({super.key});
 
   @override
@@ -113,12 +93,6 @@ class MyApp extends StatelessWidget {
                       AppLocalizations.localizationsDelegates,
                   supportedLocales: AppLocalizations.supportedLocales,
                   routes: routes,
-                  builder: context.read<SettingsRepository>().getEnableDebug()
-                      ? DebugOverlay.builder(
-                          logBucket: logBucket,
-                          httpBucket: httpBucket,
-                        )
-                      : null,
                 );
               },
             );

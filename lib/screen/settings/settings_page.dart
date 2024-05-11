@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keylol_flutter/repository/settings_repository.dart';
 import 'package:settings_ui/settings_ui.dart';
@@ -102,22 +101,6 @@ class _SettingsPageState extends State<SettingsPage> {
               //     );
               //   },
               // ),
-            ],
-          ),
-          SettingsSection(
-            tiles: [
-              SettingsTile.switchTile(
-                leading: const Icon(Icons.monitor_heart),
-                title:
-                    Text(AppLocalizations.of(context)!.settingsPageEnableDebug),
-                initialValue:
-                    context.read<SettingsRepository>().getEnableDebug(),
-                onToggle: (value) {
-                  setState(() {
-                    context.read<SettingsRepository>().setEnableDebug(value);
-                  });
-                },
-              ),
             ],
           ),
         ],
