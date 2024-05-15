@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+import 'package:keylol_flutter/bloc/settings/settings_cubit.dart';
 import 'package:keylol_flutter/repository/settings_repository.dart';
 import 'package:settings_ui/settings_ui.dart';
 
@@ -15,96 +17,116 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    return BlocBuilder<SettingsCubit, DateTime>(builder: (context, _) {
+      final enableDynamicColor =
+          context.read<SettingsRepository>().getEnableDynamicColor();
+      final currentColorValue =
+          context.read<SettingsRepository>().getThemeColorValue();
+      var currentColor = currentColorValue == null
+          ? Theme.of(context).colorScheme.primary
+          : Color(currentColorValue);
 
-    return Scaffold(
-      appBar: AppBar(
-        title:
-            Text(AppLocalizations.of(context)!.homePageDrawerListTileSettings),
-      ),
-      body: SettingsList(
-        lightTheme: SettingsThemeData(
-          settingsListBackground: colorScheme.background,
-          settingsSectionBackground: colorScheme.surfaceVariant,
-          dividerColor: colorScheme.background,
-          titleTextColor: colorScheme.secondary,
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(
+              AppLocalizations.of(context)!.homePageDrawerListTileSettings),
         ),
-        darkTheme: SettingsThemeData(
-          settingsListBackground: colorScheme.background,
-          settingsSectionBackground: colorScheme.surfaceVariant,
-          dividerColor: colorScheme.background,
-          titleTextColor: colorScheme.secondary,
-        ),
-        sections: [
-          SettingsSection(
-            title: Text(AppLocalizations.of(context)!.settingsPageCommon),
-            tiles: [
-              SettingsTile.switchTile(
-                leading: const Icon(Icons.format_paint),
-                title: Text(AppLocalizations.of(context)!
-                    .settingsPageDynamicColorEnabled),
-                initialValue:
-                    context.read<SettingsRepository>().getEnableDynamicColor(),
-                onToggle: (value) {
-                  setState(() {
-                    context
-                        .read<SettingsRepository>()
-                        .setEnableDynamicColor(value);
-                  });
-                },
-              ),
-              // SettingsTile.navigation(
-              //   leading: const Icon(Icons.color_lens),
-              //   title:
-              //       Text(AppLocalizations.of(context)!.settingsPageThemeColor),
-              //   trailing: Builder(
-              //     builder: (context) {
-              //       final currentColor =
-              //           context.read<SettingsRepository>().getThemeColorValue();
-              //       return currentColor == null
-              //           ? const Icon(Icons.circle_outlined)
-              //           : Icon(
-              //               Icons.circle,
-              //               color: Color(currentColor),
-              //             );
-              //     },
-              //   ),
-              //   onPressed: (context) {
-              //     final currentColor =
-              //         context.read<SettingsRepository>().getThemeColorValue();
-              //     var tempColor = currentColor == null
-              //         ? Theme.of(context).colorScheme.primary
-              //         : Color(currentColor);
-              //     showDialog(
-              //       context: context,
-              //       builder: (context) {
-              //         return AlertDialog(
-              //           content: ColorPicker(
-              //             pickerColor: tempColor,
-              //             onColorChanged: (color) {
-              //               tempColor = color;
-              //             },
-              //           ),
-              //           actions: [
-              //             ElevatedButton(
-              //               child: Text(AppLocalizations.of(context)!.confirm),
-              //               onPressed: () {
-              //                 setState(() {
-              //                   context
-              //                       .read<SettingsRepository>()
-              //                       .setThemeColor(tempColor.value);
-              //                 });
-              //               },
-              //             ),
-              //           ],
-              //         );
-              //       },
-              //     );
-              //   },
-              // ),
-            ],
+        body: SettingsList(
+          lightTheme: SettingsThemeData(
+            settingsListBackground: colorScheme.background,
+            settingsSectionBackground: colorScheme.surfaceVariant,
+            dividerColor: colorScheme.background,
+            titleTextColor: colorScheme.secondary,
           ),
-        ],
-      ),
-    );
+          darkTheme: SettingsThemeData(
+            settingsListBackground: colorScheme.background,
+            settingsSectionBackground: colorScheme.surfaceVariant,
+            dividerColor: colorScheme.background,
+            titleTextColor: colorScheme.secondary,
+          ),
+          sections: [
+            SettingsSection(
+              title: Text(AppLocalizations.of(context)!.settingsPageCommon),
+              tiles: [
+                SettingsTile.switchTile(
+                  leading: const Icon(Icons.format_paint),
+                  title: Text(AppLocalizations.of(context)!
+                      .settingsPageDynamicColorEnabled),
+                  initialValue: enableDynamicColor,
+                  onToggle: (value) {
+                    setState(() {
+                      context
+                          .read<SettingsRepository>()
+                          .setEnableDynamicColor(value);
+                    });
+                  },
+                ),
+                if (!enableDynamicColor)
+                  SettingsTile.navigation(
+                    leading: const Icon(Icons.color_lens),
+                    title: Text(
+                        AppLocalizations.of(context)!.settingsPageThemeColor),
+                    trailing: Builder(
+                      builder: (context) {
+                        return Material(
+                          shape: const CircleBorder(),
+                          child: CircleAvatar(
+                            radius: 16,
+                            backgroundColor: currentColor,
+                          ),
+                        );
+                      },
+                    ),
+                    onPressed: (context) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: MaterialColorPicker(
+                              colors: Colors.primaries,
+                              allowShades: false,
+                              selectedColor: currentColor,
+                              onMainColorChange: (color) {
+                                setState(() {
+                                  currentColor = color as Color;
+                                });
+                              },
+                            ),
+                            actions: [
+                              ElevatedButton(
+                                child:
+                                    Text(AppLocalizations.of(context)!.confirm),
+                                onPressed: () {
+                                  setState(() {
+                                    context
+                                        .read<SettingsRepository>()
+                                        .setThemeColor(currentColor.value);
+                                    Navigator.of(context).pop();
+                                  });
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+              ],
+            ),
+            SettingsSection(
+              tiles: [
+                SettingsTile.navigation(
+                  leading: const Icon(Icons.info),
+                  title: Text(AppLocalizations.of(context)!.settingsPageAbout),
+                  onPressed: (context) {
+                    Navigator.of(context).pushNamed('/about');
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keylol_flutter/screen/about/app_about_page.dart';
 import 'package:keylol_flutter/screen/favorite/favorite_page.dart';
 import 'package:keylol_flutter/screen/forum/forum_page.dart';
 import 'package:keylol_flutter/screen/history/history_page.dart';
@@ -41,6 +42,7 @@ final Map<String, WidgetBuilder> routes = {
     return SpaceListPage(uid: args['uid'], initialIndex: 2);
   },
   '/settings': (context) => const SettingsPage(),
+  '/about': (context) => const AppAboutPage(),
 };
 
 Future<void> urlRoute(BuildContext context, String url) async {

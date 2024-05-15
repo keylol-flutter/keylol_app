@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.32"
+  about:
+    dependency: "direct main"
+    description:
+      name: about
+      sha256: "65e34364ac29adf7ed1b3c5e2a57da74a0694e23db1d713a3773f5e1f53c0b00"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.3"
   analyzer:
     dependency: transitive
     description:
@@ -533,14 +541,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.2"
-  flutter_colorpicker:
-    dependency: "direct main"
-    description:
-      name: flutter_colorpicker
-      sha256: "458a6ed8ea480eb16ff892aedb4b7092b2804affd7e046591fb03127e8d8ef8b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.3"
   flutter_html:
     dependency: "direct main"
     description:
@@ -610,6 +610,22 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_markdown:
+    dependency: transitive
+    description:
+      name: flutter_markdown
+      sha256: "04c4722cc36ec5af38acc38ece70d22d3c2123c61305d555750a091517bbe504"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.23"
+  flutter_material_color_picker:
+    dependency: "direct main"
+    description:
+      name: flutter_material_color_picker
+      sha256: ca1e7749d228c9155ea24bce98e647cdbffa350e6f334f6c001f841cd3d9c987
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   flutter_native_splash:
     dependency: "direct main"
     description:
@@ -891,6 +907,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  markdown:
+    dependency: transitive
+    description:
+      name: markdown
+      sha256: ef2a1298144e3f985cc736b22e0ccdaf188b5b3970648f2d9dc13efd1d9df051
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.2.2"
   matcher:
     dependency: transitive
     description:
@@ -964,7 +988,7 @@ packages:
     source: hosted
     version: "2.1.0"
   package_info_plus:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: package_info_plus
       sha256: b93d8b4d624b4ea19b0a5a208b2d6eff06004bc3ce74c06040b120eeadd00ce0
@@ -1259,6 +1283,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  simple_mustache:
+    dependency: transitive
+    description:
+      name: simple_mustache
+      sha256: f9e9211586ba32dd6be9967c408c275b8c3493734836c8a0057c9f509a448fce
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   skeletonizer:
     dependency: "direct main"
     description:

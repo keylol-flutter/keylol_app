@@ -83,6 +83,9 @@
   "spacePageStatisticsCredits8": "可用改名次数",
   "settingsPageCommon": "通用",
   "settingsPageDynamicColorEnabled": "使用动态配色",
-  "settingsPageThemeColor": "主题",
-  "settingsPageEnableDebug": "调试模式"
+  "settingsPageThemeColor": "主题颜色",
+  "settingsPageAbout": "关于",
+  "aboutPageDescription": "使用Flutter编写的keylol.com第三方客户端",
+  "aboutPageLicense": "License",
+  "aboutPageGithub": "Github"
 }
