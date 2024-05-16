@@ -5,6 +5,7 @@ import 'package:keylol_flutter/screen/forum/forum_page.dart';
 import 'package:keylol_flutter/screen/history/history_page.dart';
 import 'package:keylol_flutter/screen/home/home_page.dart';
 import 'package:keylol_flutter/screen/login/login_page.dart';
+import 'package:keylol_flutter/screen/newThread/new_thread_page.dart';
 import 'package:keylol_flutter/screen/settings/settings_page.dart';
 import 'package:keylol_flutter/screen/space/space_list_page.dart';
 import 'package:keylol_flutter/screen/space/space_page.dart';
@@ -22,6 +23,10 @@ final Map<String, WidgetBuilder> routes = {
     final args = ModalRoute.of(context)!.settings.arguments as dynamic;
     return ThreadPage(
         tid: args['tid'], pid: args['pid'], thread: args['thread']);
+  },
+  '/newThread': (context) {
+    final args = ModalRoute.of(context)!.settings.arguments as dynamic;
+    return NewThreadPage(fid: args['fid']);
   },
   '/favorite': (context) => const FavoritePage(),
   '/history': (context) => const HistoryPage(),

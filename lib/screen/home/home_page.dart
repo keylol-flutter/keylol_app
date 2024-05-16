@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_flutter/bloc/authentication/authentication_bloc.dart';
+import 'package:keylol_flutter/repository/authentication_repository.dart';
 import 'package:keylol_flutter/screen/forumIndex/forum_index_page.dart';
 import 'package:keylol_flutter/screen/guide/guide_page.dart';
 import 'package:keylol_flutter/screen/index/index_page.dart';
@@ -79,6 +80,13 @@ class _HomePageState extends State<HomePage>
           AppLocalizations.of(context)!.homePageDrawerListTileHistory,
         ),
       ),
+      if (state.status == AuthenticationStatus.authenticated)
+        NavigationDrawerDestination(
+          icon: const Icon(Icons.edit_outlined),
+          label: Text(
+            AppLocalizations.of(context)!.homePageDrawerListTileNewThread,
+          ),
+        ),
       const Padding(
         padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
         child: Divider(),
@@ -103,6 +111,8 @@ class _HomePageState extends State<HomePage>
           case 2:
             Navigator.of(context).pushNamed('/history');
           case 3:
+            Navigator.of(context).pushNamed('/newThread');
+          case 4:
             Navigator.of(context).pushNamed('/settings');
         }
       },

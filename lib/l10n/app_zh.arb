@@ -8,6 +8,7 @@
   "homePageDrawerListTileHome": "主页",
   "homePageDrawerListTileHistory": "历史",
   "homePageDrawerListTileFavorite": "收藏",
+  "homePageDrawerListTileNewThread": "发新帖",
   "homePageDrawerListTileSettings": "设置",
   "homeBottomBarDestinationIndex": "聚焦",
   "homeBottomBarDestinationGuide": "导读",
@@ -85,6 +86,7 @@
   "settingsPageDynamicColorEnabled": "使用动态配色",
   "settingsPageThemeColor": "主题颜色",
   "settingsPageAbout": "关于",
+  "aboutPageTitle": "关于",
   "aboutPageDescription": "使用Flutter编写的keylol.com第三方客户端",
   "aboutPageLicense": "License",
   "aboutPageGithub": "Github"

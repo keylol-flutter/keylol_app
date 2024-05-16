@@ -32,9 +32,15 @@ class _AppAboutPageState extends State<AppAboutPage> {
         final packageInfo = snapShot.data!;
 
         return AboutPage(
-          applicationName: packageInfo.appName,
+          title: Text(AppLocalizations.of(context)!.aboutPageTitle),
+          applicationName: AppLocalizations.of(context)!.title,
           applicationVersion: packageInfo.version,
-          applicationIcon: Image.asset('images/launcher_icon-350x350.png'),
+          applicationIcon: Image.asset(
+            'images/launcher_icon-350x350.png',
+            width: 48,
+            height: 48,
+            fit: BoxFit.contain,
+          ),
           applicationDescription:
               Text(AppLocalizations.of(context)!.aboutPageDescription),
           children: [
