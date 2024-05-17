@@ -58,12 +58,46 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
         logger.e('获取帖子是否收藏失败', e, stack);
       }
 
+      /// 存在pid跳转一次性读取至对应回复
+      var page = 1;
+      if (event.pid != null && !posts.any((post) => post.pid == event.pid)) {
+        while (true) {
+          page = page++;
+          final subViewThreadResp = await _client.viewThread(_tid, page);
+          final message = subViewThreadResp.message;
+          if (message != null) {
+            emit(state.copyWith(
+              status: ThreadStatus.failure,
+              message: message.messageStr,
+            ));
+            return;
+          }
+
+          final subViewThread = subViewThreadResp.variables;
+          final subPostList = subViewThread.postList;
+          if (subPostList.isEmpty) {
+            break;
+          }
+          final subComments = subViewThread.comments;
+          for (var post in subPostList) {
+            if (!posts.any((p) => p.pid == post.pid)) {
+              posts.add(post);
+            }
+          }
+          comments.addAll(subComments);
+          if (subPostList.any((post) => post.pid == event.pid)) {
+            break;
+          }
+        }
+      }
+
       emit(state.copyWith(
         status: ThreadStatus.success,
         thread: thread,
+        pid: event.pid,
         favored: favored,
         firstPost: firstPost,
-        page: 1,
+        page: page,
         posts: posts,
         comments: comments,
         hasReachMax: posts.length >= thread.replies,
