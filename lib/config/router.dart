@@ -25,7 +25,7 @@ final Map<String, WidgetBuilder> routes = {
         tid: args['tid'], pid: args['pid'], thread: args['thread']);
   },
   '/newThread': (context) {
-    final args = ModalRoute.of(context)!.settings.arguments as dynamic;
+    final args = ModalRoute.of(context)!.settings.arguments as dynamic ?? {};
     return NewThreadPage(fid: args['fid']);
   },
   '/favorite': (context) => const FavoritePage(),

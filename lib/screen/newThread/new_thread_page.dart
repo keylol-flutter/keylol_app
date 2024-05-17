@@ -47,7 +47,7 @@ class _NewThreadPageState extends State<NewThreadPage> {
             }
 
             late final String url;
-            if (widget.fid != null) {
+            if (widget.fid == null) {
               url = 'https://keylol.com/forum.php?mod=misc&action=nav&mobile=2';
             } else {
               url =
@@ -55,6 +55,7 @@ class _NewThreadPageState extends State<NewThreadPage> {
             }
 
             return Scaffold(
+              appBar: AppBar(),
               body: InAppWebView(
                 initialUrlRequest: URLRequest(url: Uri.parse(url)),
               ),
