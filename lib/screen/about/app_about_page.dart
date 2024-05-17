@@ -36,7 +36,7 @@ class _AppAboutPageState extends State<AppAboutPage> {
           applicationName: AppLocalizations.of(context)!.title,
           applicationVersion: packageInfo.version,
           applicationIcon: Image.asset(
-            'images/launcher_icon-350x350.png',
+            'images/launcher_icon.png',
             width: 48,
             height: 48,
             fit: BoxFit.contain,
