@@ -184,7 +184,7 @@ class _ThreadViewState extends State<ThreadView> {
       index++;
     }
 
-    _controller.scrollToIndex(index - 1);
+    _controller.scrollToIndex(index);
   }
 }
 
