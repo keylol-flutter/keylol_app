@@ -44,12 +44,24 @@ class _ThreadViewState extends State<ThreadView> {
         if (state.status == ThreadStatus.failure) {
           final message =
               state.message ?? AppLocalizations.of(context)!.networkError;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(message),
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
+          final thread = state.thread;
+          if (message.contains('电脑版') && thread != null) {
+            Navigator.of(context).pushReplacementNamed(
+              '/thread',
+              arguments: {
+                'tid': thread.tid,
+                'thread': thread,
+                'desktop': true,
+              },
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(message),
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          }
         }
       },
       builder: (context, state) {
@@ -79,6 +91,14 @@ class _ThreadViewState extends State<ThreadView> {
         final posts = state.posts;
         final comments = state.comments;
         final poll = state.poll;
+        final appBar = ThreadAppBar(
+          tid: thread.tid,
+          title: thread.subject,
+          favored: state.favored ?? false,
+          textStyle: Theme.of(context).textTheme.titleLarge!,
+          width: MediaQuery.of(context).size.width,
+          topPadding: MediaQuery.of(context).padding.top,
+        );
         return Scaffold(
           floatingActionButton: FloatingActionButton(
               child: const Icon(Icons.add),
@@ -88,6 +108,7 @@ class _ThreadViewState extends State<ThreadView> {
                 );
               }),
           body: RefreshIndicator(
+            edgeOffset: appBar.maxExtent,
             onRefresh: () async {
               context.read<ThreadBloc>().add(const ThreadRefreshed());
             },
@@ -96,14 +117,7 @@ class _ThreadViewState extends State<ThreadView> {
               slivers: [
                 SliverPersistentHeader(
                   pinned: true,
-                  delegate: ThreadAppBar(
-                    tid: thread.tid,
-                    title: thread.subject,
-                    favored: state.favored ?? false,
-                    textStyle: Theme.of(context).textTheme.titleLarge!,
-                    width: MediaQuery.of(context).size.width,
-                    topPadding: MediaQuery.of(context).padding.top,
-                  ),
+                  delegate: appBar,
                 ),
                 if (firstPost != null)
                   SliverToBoxAdapter(

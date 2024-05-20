@@ -22,7 +22,11 @@ final Map<String, WidgetBuilder> routes = {
   '/thread': (context) {
     final args = ModalRoute.of(context)!.settings.arguments as dynamic;
     return ThreadPage(
-        tid: args['tid'], pid: args['pid'], thread: args['thread']);
+      tid: args['tid'],
+      pid: args['pid'],
+      thread: args['thread'],
+      desktop: args['desktop'],
+    );
   },
   '/newThread': (context) {
     final args = ModalRoute.of(context)!.settings.arguments as dynamic ?? {};

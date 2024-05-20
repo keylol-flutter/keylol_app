@@ -58,7 +58,7 @@ class _IndexViewState extends State<IndexView> {
           builder: (context, state) {
             final index = state.index;
             return RefreshIndicator(
-              edgeOffset: 56 + 40,
+              edgeOffset: kToolbarHeight + MediaQuery.of(context).padding.top,
               notificationPredicate: (notification) {
                 return notification.depth == 2;
               },

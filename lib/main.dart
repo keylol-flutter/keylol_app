@@ -1,7 +1,4 @@
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -9,7 +6,6 @@ import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/bloc/authentication/authentication_bloc.dart';
 import 'package:keylol_flutter/bloc/settings/settings_cubit.dart';
 import 'package:keylol_flutter/config/dio_cache.dart';
-import 'package:keylol_flutter/config/firebase_options.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keylol_flutter/config/router.dart';
 import 'package:keylol_flutter/repository/authentication_repository.dart';
@@ -22,15 +18,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-  PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    return true;
-  };
 
   final prefs = await SharedPreferences.getInstance();
   final settingsRepository = SettingsRepository(prefs);

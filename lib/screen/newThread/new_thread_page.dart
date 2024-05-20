@@ -26,7 +26,7 @@ class _NewThreadPageState extends State<NewThreadPage> {
   }
 
   Future<void> _setCookies() async {
-    final url = Uri.parse('https://keylol.com');
+    final url = WebUri('https://keylol.com');
     final cookies = await _client.cookies();
     for (final cookie in cookies) {
       cookie.forEach((name, value) {
@@ -57,7 +57,7 @@ class _NewThreadPageState extends State<NewThreadPage> {
             return Scaffold(
               appBar: AppBar(),
               body: InAppWebView(
-                initialUrlRequest: URLRequest(url: Uri.parse(url)),
+                initialUrlRequest: URLRequest(url: WebUri(url)),
               ),
             );
           },
