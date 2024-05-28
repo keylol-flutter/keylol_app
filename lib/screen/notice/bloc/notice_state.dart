@@ -1,6 +1,13 @@
 part of 'notice_bloc.dart';
 
-enum NoticeStatus { initial, success, failure }
+enum NoticeStatus {
+  initial,
+  success,
+  failure;
+
+  static NoticeStatus fromName(String name) =>
+      NoticeStatus.values.firstWhere((e) => e.name == name);
+}
 
 class NoticeState extends Equatable {
   final NoticeStatus status;
@@ -30,6 +37,24 @@ class NoticeState extends Equatable {
 
   @override
   List<Object?> get props => [status, notices, page, hasReachMax, message];
+
+  factory NoticeState.fromJson(Map<String, dynamic> json) => NoticeState(
+        NoticeStatus.fromName(json['status']),
+        (json['notices'] as List<dynamic>)
+            .map((json) => Note.fromJson(json))
+            .toList(),
+        json['page'],
+        json['hasReachMax'] ?? true,
+        json['message'],
+      );
+
+  Map<String, dynamic> toJson() => {
+        'status': status.name,
+        'notices': notices.map((note) => note.toJson()).toList(),
+        'page': page,
+        'hasReachMax': hasReachMax,
+        'message': message,
+      };
 }
 
 class NoticeInitial extends NoticeState {
