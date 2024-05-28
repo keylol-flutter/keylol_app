@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/config/logger.dart';
 
@@ -7,7 +7,7 @@ part 'index_event.dart';
 
 part 'index_state.dart';
 
-class IndexBloc extends Bloc<IndexEvent, IndexState> {
+class IndexBloc extends HydratedBloc<IndexEvent, IndexState> {
   final Keylol _client;
 
   IndexBloc(this._client) : super(const IndexInitial()) {
@@ -25,5 +25,15 @@ class IndexBloc extends Bloc<IndexEvent, IndexState> {
       logger.e('加载聚焦失败', e, stack);
       emit(state.copyWith(status: IndexStatus.failure));
     }
+  }
+
+  @override
+  IndexState? fromJson(Map<String, dynamic> json) {
+    return json.isEmpty ? const IndexInitial() : IndexState.fromJson(json);
+  }
+
+  @override
+  Map<String, dynamic>? toJson(IndexState state) {
+    return state.toJson();
   }
 }

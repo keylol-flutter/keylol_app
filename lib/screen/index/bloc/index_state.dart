@@ -1,6 +1,13 @@
 part of 'index_bloc.dart';
 
-enum IndexStatus { initial, success, failure }
+enum IndexStatus {
+  initial,
+  success,
+  failure;
+
+  static IndexStatus fromName(String name) =>
+      IndexStatus.values.firstWhere((e) => e.name == name);
+}
 
 class IndexState extends Equatable {
   final IndexStatus status;
@@ -20,6 +27,16 @@ class IndexState extends Equatable {
 
   @override
   List<Object?> get props => [status, index];
+
+  factory IndexState.fromJson(Map<String, dynamic> json) => IndexState(
+        IndexStatus.fromName(json['status']),
+        json['index'] == null ? null : Index.fromJson(json['index']),
+      );
+
+  Map<String, dynamic> toJson() => {
+        'status': status.name,
+        'index': index?.toJson(),
+      };
 }
 
 class IndexInitial extends IndexState {

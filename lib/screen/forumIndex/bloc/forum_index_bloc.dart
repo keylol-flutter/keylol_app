@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/config/logger.dart';
 
@@ -7,7 +7,7 @@ part 'forum_index_event.dart';
 
 part 'forum_index_state.dart';
 
-class ForumIndexBloc extends Bloc<ForumIndexEvent, ForumIndexState> {
+class ForumIndexBloc extends HydratedBloc<ForumIndexEvent, ForumIndexState> {
   final Keylol _client;
 
   ForumIndexBloc(this._client) : super(const ForumIndexInitial()) {
@@ -38,5 +38,17 @@ class ForumIndexBloc extends Bloc<ForumIndexEvent, ForumIndexState> {
       logger.e("加载版块索引失败", e, stack);
       emit(state.copyWith(status: ForumIndexStatus.failure));
     }
+  }
+
+  @override
+  ForumIndexState? fromJson(Map<String, dynamic> json) {
+    return json.isEmpty
+        ? const ForumIndexInitial()
+        : ForumIndexState.fromJson(json);
+  }
+
+  @override
+  Map<String, dynamic>? toJson(ForumIndexState state) {
+    return state.toJson();
   }
 }
