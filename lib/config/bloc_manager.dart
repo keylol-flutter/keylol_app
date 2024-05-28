@@ -50,9 +50,17 @@ class BlocManager {
 
   Widget appWrap(Widget app) {
     return MultiRepositoryProvider(
-      providers: _repositories.values
-          .map((repository) => RepositoryProvider.value(value: repository))
-          .toList(),
+      providers: [
+        RepositoryProvider.value(value: _repositories['keylol'] as Keylol),
+        RepositoryProvider.value(
+            value: _repositories['settings'] as SettingsRepository),
+        RepositoryProvider.value(
+            value: _repositories['authentication'] as AuthenticationRepository),
+        RepositoryProvider.value(
+            value: _repositories['history'] as HistoryRepository),
+        RepositoryProvider.value(
+            value: _repositories['favorite'] as FavoriteRepository),
+      ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -63,7 +71,7 @@ class BlocManager {
           ),
           BlocProvider(
               create: (context) => SettingsCubit(
-                  _repositories['settings'] as SettingsRepository))
+                  _repositories['settings'] as SettingsRepository)),
         ],
         child: app,
       ),
