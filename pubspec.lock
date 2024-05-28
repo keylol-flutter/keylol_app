@@ -277,10 +277,10 @@ packages:
     dependency: "direct main"
     description:
       name: cupertino_icons
-      sha256: ba631d1c7f7bef6b729a622b7b752645a2d076dba9976925b8f25725a30e1ee6
+      sha256: d57953e10f9f8327ce64a508a355f0b1ec902193f66288e8cb5070e7c47eeb2d
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.8"
+    version: "1.0.6"
   dart_style:
     dependency: transitive
     description:
@@ -1673,13 +1673,13 @@ packages:
     source: hosted
     version: "4.8.0"
   webview_flutter_android:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: webview_flutter_android
-      sha256: "2282ba2320af34b2bd5320156c664d73f3f022341ed78847bc87723bf88c142f"
+      sha256: dad3313c9ead95517bb1cae5e1c9d20ba83729d5a59e5e83c0a2d66203f27f91
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.16.2"
+    version: "3.16.1"
   webview_flutter_platform_interface:
     dependency: transitive
     description:
