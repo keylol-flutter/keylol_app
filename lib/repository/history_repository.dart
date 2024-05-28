@@ -6,16 +6,26 @@ const String ddl =
     'CREATE TABLE history (tid TEXT PRIMARY KEY, fid TEXT, author_id TEXT, author TEXT, subject TEXT, dateline TEXT, date TEXT)';
 
 class HistoryRepository {
-  late final Database _db;
+  final Database _db;
 
-  Future<void> initial() async {
-    _db = await openDatabase(
+  HistoryRepository._(this._db);
+
+  static HistoryRepository? _instance;
+
+  static Future<HistoryRepository> getInstance() async {
+    if (_instance != null) {
+      return _instance!;
+    }
+
+    final db = await openDatabase(
       join(await getDatabasesPath(), 'history.db'),
       onCreate: (db, version) async {
         await db.execute(ddl);
       },
       version: 1,
     );
+    _instance = HistoryRepository._(db);
+    return _instance!;
   }
 
   Future<void> insertHistory(Thread thread) async {

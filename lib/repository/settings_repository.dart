@@ -3,10 +3,22 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsRepository {
-  final SharedPreferences prefs;
+  final SharedPreferences _prefs;
   final _controller = StreamController<DateTime>();
 
-  SettingsRepository(this.prefs);
+  SettingsRepository._(this._prefs);
+
+  static SettingsRepository? _instance;
+
+  static Future<SettingsRepository> getInstance() async {
+    if (_instance != null) {
+      return _instance!;
+    }
+
+    final prefs = await SharedPreferences.getInstance();
+    _instance = SettingsRepository._(prefs);
+    return _instance!;
+  }
 
   Stream<DateTime> get version async* {
     yield DateTime.now();
@@ -18,29 +30,29 @@ class SettingsRepository {
   }
 
   bool getEnableDynamicColor() {
-    return !(prefs.getBool('theme.enabled') ?? false);
+    return !(_prefs.getBool('theme.enabled') ?? false);
   }
 
   void setEnableDynamicColor(bool enabled) {
-    prefs.setBool('theme.enabled', !enabled);
+    _prefs.setBool('theme.enabled', !enabled);
     _controller.add(DateTime.now());
   }
 
   int? getThemeColorValue() {
-    return prefs.getInt('theme.color');
+    return _prefs.getInt('theme.color');
   }
 
   void setThemeColor(int value) {
-    prefs.setInt('theme.color', value);
+    _prefs.setInt('theme.color', value);
     _controller.add(DateTime.now());
   }
 
   bool getEnableDebug() {
-    return prefs.getBool('debug.enabled') ?? false;
+    return _prefs.getBool('debug.enabled') ?? false;
   }
 
   void setEnableDebug(bool enabled) {
-    prefs.setBool('debug.enabled', enabled);
+    _prefs.setBool('debug.enabled', enabled);
     _controller.add(DateTime.now());
   }
 }

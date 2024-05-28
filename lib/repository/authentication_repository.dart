@@ -9,6 +9,13 @@ class AuthenticationRepository {
   final _controller = StreamController<AuthenticationStatus>();
   Variables _profile = DefaultVariables.fromJson(const {});
 
+  AuthenticationRepository._();
+
+  static AuthenticationRepository? _instance;
+
+  static AuthenticationRepository getInstance() =>
+      _instance ?? AuthenticationRepository._();
+
   void dispose() {
     _controller.close();
   }

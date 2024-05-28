@@ -11,7 +11,26 @@ class FavoriteRepository {
   final Keylol _client;
   late final Database _db;
 
-  FavoriteRepository(this._prefs, this._client);
+  FavoriteRepository._(this._prefs, this._client, this._db);
+
+  static FavoriteRepository? _instance;
+
+  static Future<FavoriteRepository> getInstance(Keylol client) async {
+    if (_instance != null) {
+      return _instance!;
+    }
+
+    final prefs = await SharedPreferences.getInstance();
+    final db = await openDatabase(
+      join(await getDatabasesPath(), 'favorite.db'),
+      onCreate: (db, version) async {
+        await db.execute(ddl);
+      },
+      version: 1,
+    );
+    _instance = FavoriteRepository._(prefs, client, db);
+    return _instance!;
+  }
 
   Future<void> initial() async {
     _db = await openDatabase(
@@ -32,7 +51,7 @@ class FavoriteRepository {
       final lastUpdateTime =
           DateTime.fromMicrosecondsSinceEpoch(lastUpdateTimeInt);
       isReload = DateTime.now()
-          .subtract(const Duration(hours: 12))
+          .subtract(const Duration(hours: 1))
           .isAfter(lastUpdateTime);
     }
 
