@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
-import 'package:keylol_flutter/config/logger.dart';
+import 'package:keylol_flutter/config/logger_manager.dart';
 
 part 'space_friends_event.dart';
 part 'space_friends_state.dart';
@@ -40,7 +40,7 @@ class SpaceFriendsBloc extends Bloc<SpaceFriendsEvent, SpaceFriendsState> {
         hasReachMax: friends.isEmpty || friends.length == count,
       ));
     } catch (e, stack) {
-      logger.e('获取用户好友列表失败', e, stack);
+      LoggerManager.e('获取用户好友列表失败', error: e, stackTrace: stack);
       emit(state.copyWith(
         status: SpaceFriendsStatus.failure,
       ));
@@ -74,7 +74,7 @@ class SpaceFriendsBloc extends Bloc<SpaceFriendsEvent, SpaceFriendsState> {
         hasReachMax: tempFriends.isEmpty || friends.length == count,
       ));
     } catch (e, stack) {
-      logger.e('获取用户好友列表失败', e, stack);
+      LoggerManager.e('获取用户好友列表失败', error: e, stackTrace: stack);
       emit(state.copyWith(
         status: SpaceFriendsStatus.failure,
       ));

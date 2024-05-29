@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
-import 'package:keylol_flutter/config/logger.dart';
+import 'package:keylol_flutter/config/logger_manager.dart';
 
 part 'index_event.dart';
 
@@ -22,7 +22,7 @@ class IndexBloc extends HydratedBloc<IndexEvent, IndexState> {
       final index = await _client.index();
       emit(state.copyWith(status: IndexStatus.success, index: index));
     } catch (e, stack) {
-      logger.e('加载聚焦失败', e, stack);
+      LoggerManager.e('加载聚焦失败', error: e, stackTrace: stack);
       emit(state.copyWith(status: IndexStatus.failure));
     }
   }

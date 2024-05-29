@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
-import 'package:keylol_flutter/config/logger.dart';
+import 'package:keylol_flutter/config/logger_manager.dart';
 
 part 'forum_index_event.dart';
 
@@ -35,7 +35,7 @@ class ForumIndexBloc extends HydratedBloc<ForumIndexEvent, ForumIndexState> {
         message: null,
       ));
     } catch (e, stack) {
-      logger.e("加载版块索引失败", e, stack);
+      LoggerManager.e("加载版块索引失败", error: e, stackTrace: stack);
       emit(state.copyWith(status: ForumIndexStatus.failure));
     }
   }

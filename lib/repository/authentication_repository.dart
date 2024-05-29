@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:keylol_api/keylol_api.dart';
-import 'package:keylol_flutter/config/logger.dart';
+import 'package:keylol_flutter/config/logger_manager.dart';
 
 enum AuthenticationStatus { authenticated, unauthenticated }
 
@@ -51,7 +51,7 @@ class AuthenticationInterceptor extends KeylolInterceptor {
       final resp = ApiResponse.empty(response.data);
       _repository.profile = resp.variables;
     } catch (e, stack) {
-      logger.e('拦截器获取用户信息失败', e, stack);
+      LoggerManager.e('拦截器获取用户信息失败', error: e, stackTrace: stack);
       rethrow;
     }
   }

@@ -1,4 +1,5 @@
 import 'package:keylol_api/keylol_api.dart';
+import 'package:keylol_flutter/config/logger_manager.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
@@ -127,7 +128,9 @@ class FavoriteRepository {
 
     final favId = results[0]['fav_id'] as String;
     final resp = await _client.deleteFavThread(favId, formHash);
-    // TODO 错误处理
+    if (resp.message != null) {
+      LoggerManager.e('取消收藏帖子失败 message: ${resp.message}');
+    }
 
     await _db.delete('favorite', where: 'fav_id = ?', whereArgs: [favId]);
   }

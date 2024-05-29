@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
-import 'package:keylol_flutter/config/logger.dart';
+import 'package:keylol_flutter/config/logger_manager.dart';
 
 part 'forum_event.dart';
 
@@ -64,7 +64,7 @@ class ForumBloc extends Bloc<ForumEvent, ForumState> {
         null,
       ));
     } catch (e, stack) {
-      logger.e('加载版块信息失败: $fid', e, stack);
+      LoggerManager.e('加载版块信息失败: $fid', error: e, stackTrace: stack);
       emit(state.copyWith(status: ForumStatus.failure));
     }
   }
@@ -105,7 +105,7 @@ class ForumBloc extends Bloc<ForumEvent, ForumState> {
         hasReachMax: threads.length < 20,
       ));
     } catch (e, stack) {
-      logger.e('加载版块信息失败: $fid', e, stack);
+      LoggerManager.e('加载版块信息失败: $fid', error: e, stackTrace: stack);
       emit(state.copyWith(status: ForumStatus.failure));
     }
   }

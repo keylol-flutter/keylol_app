@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
-import 'package:keylol_flutter/config/logger.dart';
+import 'package:keylol_flutter/config/logger_manager.dart';
 
 part 'notice_event.dart';
 
@@ -42,7 +42,7 @@ class NoticeBloc extends HydratedBloc<NoticeEvent, NoticeState> {
         message: null,
       ));
     } catch (e, stack) {
-      logger.e('加载通知列表失败', e, stack);
+      LoggerManager.e('加载通知列表失败', error: e, stackTrace: stack);
       emit(state.copyWith(status: NoticeStatus.failure));
     }
   }
@@ -73,7 +73,7 @@ class NoticeBloc extends HydratedBloc<NoticeEvent, NoticeState> {
         message: null,
       ));
     } catch (e, stack) {
-      logger.e('加载通知列表失败', e, stack);
+      LoggerManager.e('加载通知列表失败', error: e, stackTrace: stack);
       emit(state.copyWith(status: NoticeStatus.failure));
     }
   }

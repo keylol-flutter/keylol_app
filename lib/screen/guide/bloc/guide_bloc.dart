@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:keylol_api/keylol_api.dart';
-import 'package:keylol_flutter/config/logger.dart';
+import 'package:keylol_flutter/config/logger_manager.dart';
 
 part 'guide_event.dart';
 
@@ -50,7 +50,7 @@ class GuideBloc extends Bloc<GuideEvent, GuideState> {
         hasReachMax: 1 >= guide.count,
       ));
     } catch (e, stack) {
-      logger.e('加载导读列表失败 type: $_type', e, stack);
+      LoggerManager.e('加载导读列表失败 type: $_type', error: e, stackTrace: stack);
       emit(state.copyWith(status: GuideStatus.failure));
     }
   }
@@ -73,7 +73,7 @@ class GuideBloc extends Bloc<GuideEvent, GuideState> {
         hasReachMax: page < guide.count,
       ));
     } catch (e, stack) {
-      logger.e('加载导读列表失败 type: $_type', e, stack);
+      LoggerManager.e('加载导读列表失败 type: $_type', error: e, stackTrace: stack);
       emit(state.copyWith(status: GuideStatus.failure));
     }
   }

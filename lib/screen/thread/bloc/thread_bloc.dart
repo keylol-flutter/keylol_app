@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
-import 'package:keylol_flutter/config/logger.dart';
+import 'package:keylol_flutter/config/logger_manager.dart';
 import 'package:keylol_flutter/repository/favorite_repository.dart';
 
 part 'thread_event.dart';
@@ -55,7 +55,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
       try {
         favored = await _favoriteRepository.favored(_tid);
       } catch (e, stack) {
-        logger.e('获取帖子是否收藏失败', e, stack);
+        LoggerManager.e('获取帖子是否收藏失败', error: e, stackTrace: stack);
       }
 
       /// 存在pid跳转一次性读取至对应回复
@@ -104,7 +104,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
         poll: poll,
       ));
     } catch (e, stack) {
-      logger.e('加载帖子失败', e, stack);
+      LoggerManager.e('加载帖子失败', error: e, stackTrace: stack);
       emit(state.copyWith(status: ThreadStatus.failure));
     }
   }
@@ -149,7 +149,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
         hasReachMax: posts.length + 1 >= thread.replies,
       ));
     } catch (e, stack) {
-      logger.e('加载帖子失败', e, stack);
+      LoggerManager.e('加载帖子失败', error: e, stackTrace: stack);
       emit(state.copyWith(status: ThreadStatus.failure));
     }
   }
@@ -167,7 +167,13 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
         event.post,
       );
       final message = sendReplyResp.message;
-      // TODO 错误处理
+      if (message != null) {
+        emit(state.copyWith(
+          status: ThreadStatus.failure,
+          message: message.messageStr,
+        ));
+        return;
+      }
 
       var page = state.page;
       final posts = state.posts;
@@ -209,7 +215,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
         hasReachMax: hasReachMax,
       ));
     } catch (e, stack) {
-      logger.e('回复帖子失败', e, stack);
+      LoggerManager.e('回复帖子失败', error: e, stackTrace: stack);
       emit(state.copyWith(status: ThreadStatus.failure));
     }
   }
@@ -234,7 +240,6 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
     await _favoriteRepository.remove(_tid, event.formHash);
 
     final favored = await _favoriteRepository.favored(_tid);
-
     emit(state.copyWith(
       favored: favored,
     ));

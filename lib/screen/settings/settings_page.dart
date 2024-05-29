@@ -33,15 +33,15 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
         body: SettingsList(
           lightTheme: SettingsThemeData(
-            settingsListBackground: colorScheme.background,
-            settingsSectionBackground: colorScheme.surfaceVariant,
-            dividerColor: colorScheme.background,
+            settingsListBackground: colorScheme.surface,
+            settingsSectionBackground: colorScheme.surfaceContainerHighest,
+            dividerColor: colorScheme.surface,
             titleTextColor: colorScheme.secondary,
           ),
           darkTheme: SettingsThemeData(
-            settingsListBackground: colorScheme.background,
-            settingsSectionBackground: colorScheme.surfaceVariant,
-            dividerColor: colorScheme.background,
+            settingsListBackground: colorScheme.surface,
+            settingsSectionBackground: colorScheme.surfaceContainerHighest,
+            dividerColor: colorScheme.surface,
             titleTextColor: colorScheme.secondary,
           ),
           sections: [
@@ -115,6 +115,13 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             SettingsSection(
               tiles: [
+                SettingsTile.navigation(
+                  leading: const Icon(Icons.library_books),
+                  title: Text(AppLocalizations.of(context)!.settingsPageLog),
+                  onPressed: (context) {
+                    Navigator.of(context).pushNamed('/log');
+                  },
+                ),
                 SettingsTile.navigation(
                   leading: const Icon(Icons.info),
                   title: Text(AppLocalizations.of(context)!.settingsPageAbout),

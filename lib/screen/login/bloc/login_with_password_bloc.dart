@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:keylol_api/keylol_api.dart';
-import 'package:keylol_flutter/config/logger.dart';
+import 'package:keylol_flutter/config/logger_manager.dart';
 import 'package:keylol_flutter/screen/login/model/login_with_password_model.dart';
 
 part 'login_with_password_event.dart';
@@ -76,7 +76,7 @@ class LoginWithPasswordBloc
           error: e,
         ));
       }
-      logger.e('登录失败', e, stack);
+      LoggerManager.e('登录失败', error: e, stackTrace: stack);
       emit(state.copyWith(
         status: LoginWithPasswordStatus.failure,
         error: '',
@@ -103,7 +103,7 @@ class LoginWithPasswordBloc
         secCodeData: secCodeData,
       ));
     } catch (e, stack) {
-      logger.e('获取验证码失败', e, stack);
+      LoggerManager.e('获取验证码失败', error: e, stackTrace: stack);
       emit(state.copyWith(
         status: LoginWithPasswordStatus.failure,
         error: '',
