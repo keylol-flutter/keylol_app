@@ -54,7 +54,7 @@ final Map<String, WidgetBuilder> routes = {
   '/settings': (context) => const SettingsPage(),
   '/log': (context) {
     final args = ModalRoute.of(context)!.settings.arguments as dynamic;
-    final logFile = args['logFile'];
+    final logFile = args?['logFile'];
     if (logFile == null) {
       return const LogPage();
     } else {
