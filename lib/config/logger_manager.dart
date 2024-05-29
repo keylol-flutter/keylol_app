@@ -21,16 +21,16 @@ class LoggerManager {
     directory = Directory('${directory.path}/log');
 
     /// 删除7天之前文件
-    final deletedDateInt = int.parse(formatDate(
-        DateTime.now().subtract(const Duration(days: 7)), [yyyy, mm, dd]));
-    final logFiles = directory.listSync();
-    for (final file in logFiles) {
-      final fileDateInt =
-          int.parse(file.path.split('/').last.replaceFirst('.log', ''));
-      if (fileDateInt < deletedDateInt) {
-        await file.delete();
-      }
-    }
+    // final deletedDateInt = int.parse(formatDate(
+    //     DateTime.now().subtract(const Duration(days: 7)), [yyyy, mm, dd]));
+    // final logFiles = directory.listSync();
+    // for (final file in logFiles) {
+    //   final fileDateInt =
+    //       int.parse(file.path.split('/').last.replaceFirst('.log', ''));
+    //   if (fileDateInt < deletedDateInt) {
+    //     await file.delete();
+    //   }
+    // }
 
     final fileName = '${formatDate(DateTime.now(), [yyyy, mm, dd])}.log';
     var file = File('${directory.path}/$fileName');
