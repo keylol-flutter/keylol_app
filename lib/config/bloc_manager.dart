@@ -5,7 +5,6 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/bloc/authentication/authentication_bloc.dart';
 import 'package:keylol_flutter/bloc/settings/settings_cubit.dart';
-import 'package:keylol_flutter/config/dio_cache.dart';
 import 'package:keylol_flutter/repository/authentication_repository.dart';
 import 'package:keylol_flutter/repository/favorite_repository.dart';
 import 'package:keylol_flutter/repository/history_repository.dart';
@@ -33,7 +32,12 @@ class BlocManager {
     final historyRepository = await HistoryRepository.getInstance();
 
     final keylol = await Keylol.create();
-    keylol.addInterceptor(DioCacheInterceptor(options: await option()));
+    keylol.addInterceptor(DioCacheInterceptor(
+      options: CacheOptions(
+        store: MemCacheStore(),
+        keyBuilder: CacheOptions.defaultCacheKeyBuilder,
+      ),
+    ));
     keylol.addInterceptor(AuthenticationInterceptor(authenticationRepository));
 
     final favoriteRepository = await FavoriteRepository.getInstance(keylol);

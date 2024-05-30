@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _buildDrawer(BuildContext context, AuthenticationState state) {
-    final destinations = <Widget>[
+    final destinations = [
       Padding(
         padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
         child: Text(
@@ -99,21 +99,21 @@ class _HomePageState extends State<HomePage>
       ),
     ];
 
+    final onDestinationSelected = [
+      () => Navigator.of(context).pushReplacementNamed('/'),
+      () => Navigator.of(context).pushNamed('/favorite'),
+      () => Navigator.of(context).pushNamed('/history'),
+      if (state.status == AuthenticationStatus.authenticated)
+        () => Navigator.of(context).pushNamed('/newThread'),
+      () => Navigator.of(context).pushNamed('/settings'),
+    ];
+
     return NavigationDrawer(
       selectedIndex: -1,
       children: destinations,
       onDestinationSelected: (index) {
-        switch (index) {
-          case 0:
-            Navigator.of(context).pushReplacementNamed('/');
-          case 1:
-            Navigator.of(context).pushNamed('/favorite');
-          case 2:
-            Navigator.of(context).pushNamed('/history');
-          case 3:
-            Navigator.of(context).pushNamed('/newThread');
-          case 4:
-            Navigator.of(context).pushNamed('/settings');
+        if (index < onDestinationSelected.length) {
+          onDestinationSelected[index].call();
         }
       },
     );
