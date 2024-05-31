@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/bloc/authentication/authentication_bloc.dart';
 import 'package:keylol_flutter/repository/authentication_repository.dart';
 import 'package:keylol_flutter/screen/forumIndex/forum_index_page.dart';
@@ -97,6 +98,13 @@ class _HomePageState extends State<HomePage>
           AppLocalizations.of(context)!.homePageDrawerListTileSettings,
         ),
       ),
+      Expanded(child: Container()),
+      NavigationDrawerDestination(
+        icon: const Icon(Icons.logout_outlined),
+        label: Text(
+          AppLocalizations.of(context)!.homePageDrawerListTileLoginout,
+        ),
+      ),
     ];
 
     final onDestinationSelected = [
@@ -106,6 +114,13 @@ class _HomePageState extends State<HomePage>
       if (state.status == AuthenticationStatus.authenticated)
         () => Navigator.of(context).pushNamed('/newThread'),
       () => Navigator.of(context).pushNamed('/settings'),
+      () async {
+        await context.read<Keylol>().cleanCookies();
+        if (!context.mounted) return;
+        context.read<AuthenticationBloc>().add(
+            const AuthenticationStatusChanged(
+                AuthenticationStatus.unauthenticated));
+      }
     ];
 
     return NavigationDrawer(
