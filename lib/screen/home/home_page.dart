@@ -98,12 +98,13 @@ class _HomePageState extends State<HomePage>
           AppLocalizations.of(context)!.homePageDrawerListTileSettings,
         ),
       ),
-      NavigationDrawerDestination(
-        icon: const Icon(Icons.logout_outlined),
-        label: Text(
-          AppLocalizations.of(context)!.homePageDrawerListTileLoginout,
+      if (state.status == AuthenticationStatus.authenticated)
+        NavigationDrawerDestination(
+          icon: const Icon(Icons.logout_outlined),
+          label: Text(
+            AppLocalizations.of(context)!.homePageDrawerListTileLoginout,
+          ),
         ),
-      ),
     ];
 
     final onDestinationSelected = [
@@ -113,13 +114,14 @@ class _HomePageState extends State<HomePage>
       if (state.status == AuthenticationStatus.authenticated)
         () => Navigator.of(context).pushNamed('/newThread'),
       () => Navigator.of(context).pushNamed('/settings'),
-      () async {
-        await context.read<Keylol>().cleanCookies();
-        if (!context.mounted) return;
-        context.read<AuthenticationBloc>().add(
-            const AuthenticationStatusChanged(
-                AuthenticationStatus.unauthenticated));
-      }
+      if (state.status == AuthenticationStatus.authenticated)
+        () async {
+          await context.read<Keylol>().cleanCookies();
+          if (!context.mounted) return;
+          context.read<AuthenticationBloc>().add(
+              const AuthenticationStatusChanged(
+                  AuthenticationStatus.unauthenticated));
+        }
     ];
 
     return NavigationDrawer(
