@@ -62,8 +62,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
       var page = 1;
       if (event.pid != null && !posts.any((post) => post.pid == event.pid)) {
         while (true) {
-          page = page++;
-          final subViewThreadResp = await _client.viewThread(_tid, page);
+          final subViewThreadResp = await _client.viewThread(_tid, ++page);
           final message = subViewThreadResp.message;
           if (message != null) {
             emit(state.copyWith(
