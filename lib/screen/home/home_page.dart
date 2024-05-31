@@ -98,7 +98,6 @@ class _HomePageState extends State<HomePage>
           AppLocalizations.of(context)!.homePageDrawerListTileSettings,
         ),
       ),
-      Expanded(child: Container()),
       NavigationDrawerDestination(
         icon: const Icon(Icons.logout_outlined),
         label: Text(
