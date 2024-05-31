@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
+import 'package:keylol_flutter/config/logger_manager.dart';
 import 'package:keylol_flutter/config/router.dart';
 import 'package:keylol_flutter/widgets/async_search_anchor.dart';
 
@@ -68,17 +69,22 @@ class _IndexSearchButtonState extends State<IndexSearchButton> {
     );
     final document = parse(resp.data);
 
-    final resultElements = document.getElementsByClassName('result');
-    final results = resultElements.map((r) {
-      final title = r.getElementsByClassName('result__a')[0].text;
-      final subTitle = r.getElementsByClassName('result__snippet')[0].text;
-      final url = r.getElementsByClassName('result__url')[0].text.trim();
-      return {
-        'title': title,
-        'subTitle': subTitle,
-        'url': Uri.decodeFull(url),
-      };
-    }).toList();
-    return results;
+    try {
+      final resultElements = document.getElementsByClassName('result');
+      final results = resultElements.map((r) {
+        final title = r.getElementsByClassName('result__a')[0].text;
+        final subTitle = r.getElementsByClassName('result__snippet')[0].text;
+        final url = r.getElementsByClassName('result__url')[0].text.trim();
+        return {
+          'title': title,
+          'subTitle': subTitle,
+          'url': Uri.decodeFull(url),
+        };
+      }).toList();
+      return results;
+    } catch (e, stack) {
+      talker.error('解析 duckduckgo 返回失败', e, stack);
+      return [];
+    }
   }
 }

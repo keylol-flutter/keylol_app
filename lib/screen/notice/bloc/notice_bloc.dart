@@ -42,7 +42,7 @@ class NoticeBloc extends HydratedBloc<NoticeEvent, NoticeState> {
         message: null,
       ));
     } catch (e, stack) {
-      LoggerManager.e('加载通知列表失败', error: e, stackTrace: stack);
+      talker.error('加载通知列表失败', e, stack);
       emit(state.copyWith(status: NoticeStatus.failure));
     }
   }
@@ -73,7 +73,7 @@ class NoticeBloc extends HydratedBloc<NoticeEvent, NoticeState> {
         message: null,
       ));
     } catch (e, stack) {
-      LoggerManager.e('加载通知列表失败', error: e, stackTrace: stack);
+      talker.error('加载通知列表失败', e, stack);
       emit(state.copyWith(status: NoticeStatus.failure));
     }
   }

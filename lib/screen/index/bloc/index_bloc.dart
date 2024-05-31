@@ -22,7 +22,7 @@ class IndexBloc extends HydratedBloc<IndexEvent, IndexState> {
       final index = await _client.index();
       emit(state.copyWith(status: IndexStatus.success, index: index));
     } catch (e, stack) {
-      LoggerManager.e('加载聚焦失败', error: e, stackTrace: stack);
+      talker.error('加载聚焦失败', e, stack);
       emit(state.copyWith(status: IndexStatus.failure));
     }
   }

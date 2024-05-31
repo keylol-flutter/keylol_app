@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:keylol_flutter/config/logger_manager.dart';
 import 'package:keylol_flutter/screen/about/app_about_page.dart';
 import 'package:keylol_flutter/screen/favorite/favorite_page.dart';
 import 'package:keylol_flutter/screen/forum/forum_page.dart';
 import 'package:keylol_flutter/screen/history/history_page.dart';
 import 'package:keylol_flutter/screen/home/home_page.dart';
-import 'package:keylol_flutter/screen/log/log_page.dart';
 import 'package:keylol_flutter/screen/login/login_page.dart';
 import 'package:keylol_flutter/screen/newThread/new_thread_page.dart';
 import 'package:keylol_flutter/screen/settings/settings_page.dart';
 import 'package:keylol_flutter/screen/space/space_list_page.dart';
 import 'package:keylol_flutter/screen/space/space_page.dart';
 import 'package:keylol_flutter/screen/thread/thread_page.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 final Map<String, WidgetBuilder> routes = {
@@ -52,15 +53,7 @@ final Map<String, WidgetBuilder> routes = {
     return SpaceListPage(uid: args['uid'], initialIndex: 2);
   },
   '/settings': (context) => const SettingsPage(),
-  '/log': (context) {
-    final args = ModalRoute.of(context)!.settings.arguments as dynamic;
-    final logFile = args?['logFile'];
-    if (logFile == null) {
-      return const LogPage();
-    } else {
-      return LogFilePage(fileName: logFile);
-    }
-  },
+  '/log': (context) => TalkerScreen(talker: talker),
   '/about': (context) => const AppAboutPage(),
 };
 

@@ -32,7 +32,7 @@ class SpaceThreadsBloc extends Bloc<SpaceThreadsEvent, SpaceThreadsState> {
         hasReachMax: threads.isEmpty,
       ));
     } catch (e, stack) {
-      LoggerManager.e('获取用户帖子列表失败', error: e, stackTrace: stack);
+      talker.error('获取用户帖子列表失败', e, stack);
       emit(state.copyWith(
         status: SpaceThreadsStatus.failure,
       ));
@@ -56,7 +56,7 @@ class SpaceThreadsBloc extends Bloc<SpaceThreadsEvent, SpaceThreadsState> {
         hasReachMax: threads.isEmpty,
       ));
     } catch (e, stack) {
-      LoggerManager.e('获取用户帖子列表失败', error: e, stackTrace: stack);
+      talker.error('获取用户帖子列表失败', e, stack);
       emit(state.copyWith(
         status: SpaceThreadsStatus.failure,
       ));

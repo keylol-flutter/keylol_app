@@ -51,7 +51,7 @@ class AuthenticationInterceptor extends KeylolInterceptor {
       final resp = ApiResponse.empty(response.data);
       _repository.profile = resp.variables;
     } catch (e, stack) {
-      LoggerManager.e('拦截器获取用户信息失败', error: e, stackTrace: stack);
+      talker.error('拦截器获取用户信息失败', e, stack);
       rethrow;
     }
   }

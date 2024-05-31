@@ -50,7 +50,7 @@ class GuideBloc extends Bloc<GuideEvent, GuideState> {
         hasReachMax: 1 >= guide.count,
       ));
     } catch (e, stack) {
-      LoggerManager.e('加载导读列表失败 type: $_type', error: e, stackTrace: stack);
+      talker.error('加载导读列表失败 type: $_type', e, stack);
       emit(state.copyWith(status: GuideStatus.failure));
     }
   }
@@ -73,7 +73,7 @@ class GuideBloc extends Bloc<GuideEvent, GuideState> {
         hasReachMax: page < guide.count,
       ));
     } catch (e, stack) {
-      LoggerManager.e('加载导读列表失败 type: $_type', error: e, stackTrace: stack);
+      talker.error('加载导读列表失败 type: $_type', e, stack);
       emit(state.copyWith(status: GuideStatus.failure));
     }
   }

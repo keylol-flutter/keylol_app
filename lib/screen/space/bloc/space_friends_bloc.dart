@@ -40,7 +40,7 @@ class SpaceFriendsBloc extends Bloc<SpaceFriendsEvent, SpaceFriendsState> {
         hasReachMax: friends.isEmpty || friends.length == count,
       ));
     } catch (e, stack) {
-      LoggerManager.e('获取用户好友列表失败', error: e, stackTrace: stack);
+      talker.error('获取用户好友列表失败', e, stack);
       emit(state.copyWith(
         status: SpaceFriendsStatus.failure,
       ));
@@ -74,7 +74,7 @@ class SpaceFriendsBloc extends Bloc<SpaceFriendsEvent, SpaceFriendsState> {
         hasReachMax: tempFriends.isEmpty || friends.length == count,
       ));
     } catch (e, stack) {
-      LoggerManager.e('获取用户好友列表失败', error: e, stackTrace: stack);
+      talker.error('获取用户好友列表失败', e, stack);
       emit(state.copyWith(
         status: SpaceFriendsStatus.failure,
       ));

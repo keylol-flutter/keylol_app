@@ -35,7 +35,7 @@ class ForumIndexBloc extends HydratedBloc<ForumIndexEvent, ForumIndexState> {
         message: null,
       ));
     } catch (e, stack) {
-      LoggerManager.e("加载版块索引失败", error: e, stackTrace: stack);
+      talker.error("加载版块索引失败", e, stack);
       emit(state.copyWith(status: ForumIndexStatus.failure));
     }
   }

@@ -36,7 +36,7 @@ class SpaceBloc extends Bloc<SpaceEvent, SpaceState> {
         profile: profile,
       ));
     } catch (e, stack) {
-      LoggerManager.e('获取用户信息失败', error: e, stackTrace: stack);
+      talker.error('获取用户信息失败', e, stack);
       emit(state.copyWith(status: SpaceStatus.failure));
     }
   }

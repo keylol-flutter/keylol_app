@@ -76,7 +76,7 @@ class LoginWithPasswordBloc
           error: e,
         ));
       }
-      LoggerManager.e('登录失败', error: e, stackTrace: stack);
+      talker.error('登录失败', e, stack);
       emit(state.copyWith(
         status: LoginWithPasswordStatus.failure,
         error: '',
@@ -103,7 +103,7 @@ class LoginWithPasswordBloc
         secCodeData: secCodeData,
       ));
     } catch (e, stack) {
-      LoggerManager.e('获取验证码失败', error: e, stackTrace: stack);
+      talker.error('获取验证码失败', e, stack);
       emit(state.copyWith(
         status: LoginWithPasswordStatus.failure,
         error: '',

@@ -64,7 +64,7 @@ class ForumBloc extends Bloc<ForumEvent, ForumState> {
         null,
       ));
     } catch (e, stack) {
-      LoggerManager.e('加载版块信息失败: $fid', error: e, stackTrace: stack);
+      talker.error('加载版块信息失败: $fid', e, stack);
       emit(state.copyWith(status: ForumStatus.failure));
     }
   }
@@ -105,7 +105,7 @@ class ForumBloc extends Bloc<ForumEvent, ForumState> {
         hasReachMax: threads.length < 20,
       ));
     } catch (e, stack) {
-      LoggerManager.e('加载版块信息失败: $fid', error: e, stackTrace: stack);
+      talker.error('加载版块信息失败: $fid', e, stack);
       emit(state.copyWith(status: ForumStatus.failure));
     }
   }

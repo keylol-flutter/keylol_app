@@ -87,7 +87,7 @@ class LoginWithSmsBloc extends Bloc<LoginWithSmsEvent, LoginWithSmsState> {
           error: e,
         ));
       }
-      LoggerManager.e('登录失败', error: e, stackTrace: stack);
+      talker.error('登录失败', e, stack);
       emit(state.copyWith(
         status: LoginWithSmsStatus.failure,
         error: '',

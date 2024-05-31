@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -8,16 +10,23 @@ import 'package:keylol_flutter/config/bloc_manager.dart';
 import 'package:keylol_flutter/config/logger_manager.dart';
 import 'package:keylol_flutter/config/router.dart';
 import 'package:keylol_flutter/widgets/adaptive_dynamic_color_builder.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 void main() async {
-  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  runZonedGuarded(
+    () async {
+      final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+      FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  await LoggerManager.initial();
-  final blocManager = await BlocManager.getInstance();
+      final blocManager = await BlocManager.getInstance();
 
-  FlutterNativeSplash.remove();
-  runApp(blocManager.appWrap(const MyApp()));
+      FlutterNativeSplash.remove();
+      runApp(blocManager.appWrap(const MyApp()));
+    },
+    (error, stack) {
+      talker.error('', error, stack);
+    },
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -44,6 +53,9 @@ class MyApp extends StatelessWidget {
                       AppLocalizations.localizationsDelegates,
                   supportedLocales: AppLocalizations.supportedLocales,
                   routes: routes,
+                  navigatorObservers: [
+                    TalkerRouteObserver(talker),
+                  ],
                 );
               },
             );

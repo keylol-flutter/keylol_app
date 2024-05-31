@@ -5,11 +5,14 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/bloc/authentication/authentication_bloc.dart';
 import 'package:keylol_flutter/bloc/settings/settings_cubit.dart';
+import 'package:keylol_flutter/config/logger_manager.dart';
 import 'package:keylol_flutter/repository/authentication_repository.dart';
 import 'package:keylol_flutter/repository/favorite_repository.dart';
 import 'package:keylol_flutter/repository/history_repository.dart';
 import 'package:keylol_flutter/repository/settings_repository.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:talker_bloc_logger/talker_bloc_logger_observer.dart';
+import 'package:talker_dio_logger/talker_dio_logger.dart';
 
 class BlocManager {
   final Map<String, Object> _repositories;
@@ -39,8 +42,11 @@ class BlocManager {
       ),
     ));
     keylol.addInterceptor(AuthenticationInterceptor(authenticationRepository));
+    keylol.addInterceptor(TalkerDioLogger(talker: talker));
 
     final favoriteRepository = await FavoriteRepository.getInstance(keylol);
+
+    Bloc.observer = TalkerBlocObserver(talker: talker);
 
     _instance = BlocManager._({
       'keylol': keylol,

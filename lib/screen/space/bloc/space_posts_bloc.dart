@@ -32,7 +32,7 @@ class SpacePostsBloc extends Bloc<SpacePostsEvent, SpacePostsState> {
         hasReachMax: posts.isEmpty,
       ));
     } catch (e, stack) {
-      LoggerManager.e('获取用户回复列表失败', error: e, stackTrace: stack);
+      talker.error('获取用户回复列表失败', e, stack);
       emit(state.copyWith(
         status: SpacePostsStatus.failure,
       ));
@@ -56,7 +56,7 @@ class SpacePostsBloc extends Bloc<SpacePostsEvent, SpacePostsState> {
         hasReachMax: posts.isEmpty,
       ));
     } catch (e, stack) {
-      LoggerManager.e('获取用户回复列表失败', error: e, stackTrace: stack);
+      talker.error('获取用户回复列表失败', e, stack);
       emit(state.copyWith(
         status: SpacePostsStatus.failure,
       ));

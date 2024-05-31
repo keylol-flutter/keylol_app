@@ -55,7 +55,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
       try {
         favored = await _favoriteRepository.favored(_tid);
       } catch (e, stack) {
-        LoggerManager.e('获取帖子是否收藏失败', error: e, stackTrace: stack);
+        talker.error('获取帖子是否收藏失败', e, stack);
       }
 
       /// 存在pid跳转一次性读取至对应回复
@@ -104,7 +104,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
         poll: poll,
       ));
     } catch (e, stack) {
-      LoggerManager.e('加载帖子失败', error: e, stackTrace: stack);
+      talker.error('加载帖子失败', e, stack);
       emit(state.copyWith(status: ThreadStatus.failure));
     }
   }
@@ -149,7 +149,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
         hasReachMax: posts.length + 1 >= thread.replies,
       ));
     } catch (e, stack) {
-      LoggerManager.e('加载帖子失败', error: e, stackTrace: stack);
+      talker.error('加载帖子失败', e, stack);
       emit(state.copyWith(status: ThreadStatus.failure));
     }
   }
@@ -215,7 +215,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
         hasReachMax: hasReachMax,
       ));
     } catch (e, stack) {
-      LoggerManager.e('回复帖子失败', error: e, stackTrace: stack);
+      talker.error('回复帖子失败', e, stack);
       emit(state.copyWith(status: ThreadStatus.failure));
     }
   }
