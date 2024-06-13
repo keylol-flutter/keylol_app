@@ -166,7 +166,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
         event.post,
       );
       final message = sendReplyResp.message;
-      if (message != null) {
+      if (message != null && !message.messageStr.contains('回复成功')) {
         emit(state.copyWith(
           status: ThreadStatus.failure,
           message: message.messageStr,
