@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/config/logger_manager.dart';
 import 'package:keylol_flutter/repository/favorite_repository.dart';
-import 'package:keylol_flutter/utils/list_utils.dart';
+import 'package:keylol_flutter/utils/collection_utils.dart';
 
 part 'thread_event.dart';
 
@@ -80,7 +80,11 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
           }
           final subComments = subViewThread.comments;
 
-          posts.addAllDistinct(subPostList, (post) => post.pid);
+          posts.addAllDistinct(
+            subPostList,
+            (post) => post.pid,
+            filter: (post) => post.pid != firstPost?.pid,
+          );
           comments.addAll(subComments);
 
           if (subPostList.any((post) => post.pid == event.pid)) {
@@ -133,7 +137,11 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
       final comments = viewThread.comments;
 
       final posts = state.posts;
-      posts.addAllDistinct(postList, (post) => post.pid);
+      posts.addAllDistinct(
+        postList,
+        (post) => post.pid,
+        filter: (post) => post.pid != state.firstPost?.pid,
+      );
 
       emit(state.copyWith(
         status: ThreadStatus.success,
@@ -162,7 +170,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
         event.post,
       );
       final message = sendReplyResp.message;
-      if (message != null && !message.messageStr.contains('回复成功')) {
+      if (message != null && !message.messageStr.contains('回复发布成功')) {
         emit(state.copyWith(
           status: ThreadStatus.failure,
           message: message.messageStr,
@@ -189,7 +197,11 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
         final viewThread = viewThreadResp.variables;
         thread = viewThread.thread;
         final postList = viewThread.postList;
-        posts.addAllDistinct(postList, (post) => post.pid);
+        posts.addAllDistinct(
+          postList,
+          (post) => post.pid,
+          filter: (post) => post.pid != state.firstPost?.pid,
+        );
 
         hasReachMax = posts.length + 1 >= thread.replies;
       }
