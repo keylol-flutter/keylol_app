@@ -1,13 +1,14 @@
 import 'package:equatable/equatable.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/config/logger_manager.dart';
+import 'package:keylol_flutter/utils/collection_utils.dart';
 
 part 'notice_event.dart';
 
 part 'notice_state.dart';
 
-class NoticeBloc extends HydratedBloc<NoticeEvent, NoticeState> {
+class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
   final Keylol _client;
 
   NoticeBloc(this._client) : super(const NoticeInitial()) {
@@ -67,7 +68,7 @@ class NoticeBloc extends HydratedBloc<NoticeEvent, NoticeState> {
       final notices = myNoteList.list;
       emit(state.copyWith(
         status: NoticeStatus.success,
-        notices: state.notices..addAll(notices),
+        notices: state.notices..addAllDistinct(notices, (notice) => notice.id),
         page: page,
         hasReachMax: notices.length < myNoteList.perPage,
         message: null,
@@ -76,15 +77,5 @@ class NoticeBloc extends HydratedBloc<NoticeEvent, NoticeState> {
       talker.error('加载通知列表失败', e, stack);
       emit(state.copyWith(status: NoticeStatus.failure));
     }
-  }
-
-  @override
-  NoticeState? fromJson(Map<String, dynamic> json) {
-    return json.isEmpty ? const NoticeInitial() : NoticeState.fromJson(json);
-  }
-
-  @override
-  Map<String, dynamic>? toJson(NoticeState state) {
-    return state.toJson();
   }
 }

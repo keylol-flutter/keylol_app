@@ -1039,10 +1039,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_android
-      sha256: "9c96da072b421e98183f9ea7464898428e764bc0ce5567f27ec8693442e72514"
+      sha256: bca87b0165ffd7cdb9cad8edd22d18d2201e886d9a9f19b4fb3452ea7df3a72a
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.5"
+    version: "2.2.6"
   path_provider_foundation:
     dependency: transitive
     description:
@@ -1372,10 +1372,10 @@ packages:
     dependency: transitive
     description:
       name: sqlite3
-      sha256: b384f598b813b347c5a7e5ffad82cbaff1bec3d1561af267041e66f6f0899295
+      sha256: "6d17989c0b06a5870b2190d391925186f944cb943e5262d0d3f778fcfca3bc6e"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.3"
+    version: "2.4.4"
   stack_trace:
     dependency: transitive
     description:
@@ -1428,42 +1428,42 @@ packages:
     dependency: "direct main"
     description:
       name: talker
-      sha256: cbe978382c3c70e1cdfbe21851d1e396fd40aaa59bdfab1ba4a94482f54d9420
+      sha256: d44c5cb4add0a5bd46d97201eb459e4ada805bf6af0cbe9f1bb867ffabd5880a
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.4"
+    version: "4.3.2"
   talker_bloc_logger:
     dependency: "direct main"
     description:
       name: talker_bloc_logger
-      sha256: "0d3318e3b0764aaa6b882f41057c83d64f4e3f69b63dac93402f8bc41683a186"
+      sha256: "49aaadabe70a0bce6796d5360ae2ccf29f5303adef8aec610fb7c432e32dab6c"
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.4"
+    version: "4.3.2"
   talker_dio_logger:
     dependency: "direct main"
     description:
       name: talker_dio_logger
-      sha256: d853c16eaa724913dcbe8b8790d12b9b10ce2a508dd69676cd08b007afb3ec98
+      sha256: "29ba16ac633e8d665954d2af3bd67c0f056df27153a185b38d4aeca0402c7592"
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.4"
+    version: "4.3.2"
   talker_flutter:
     dependency: "direct main"
     description:
       name: talker_flutter
-      sha256: a8463780ef8e878177f17da6f2f039c53d6b8d649a7afc5670fb193674509c4e
+      sha256: ac4c81f233c7055b8e1e572e7ce4dc683d9a397a1e6a62a7e330a76c20c235d8
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.4"
+    version: "4.3.2"
   talker_logger:
     dependency: transitive
     description:
       name: talker_logger
-      sha256: be5a50074e6a7fb76d188b65c7aaf7b73955d665fc8459b0634d4fc30f3239f1
+      sha256: c913434aae8b6e3952eb8dd721d018da1bf50fda101469cb1dd625f1cffa4afb
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.4"
+    version: "4.3.2"
   term_glyph:
     dependency: transitive
     description:
@@ -1628,18 +1628,18 @@ packages:
     dependency: transitive
     description:
       name: video_player
-      sha256: aced48e701e24c02b0b7f881a8819e4937794e46b5a5821005e2bf3b40a324cc
+      sha256: e30df0d226c4ef82e2c150ebf6834b3522cf3f654d8e2f9419d376cdc071425d
       url: "https://pub.dev"
     source: hosted
-    version: "2.8.7"
+    version: "2.9.1"
   video_player_android:
     dependency: transitive
     description:
       name: video_player_android
-      sha256: "9529001630e42988f755772972d5014d30121610700e8e502278a245939f8fc8"
+      sha256: "3ff2da7e5a9274bef9b5deb9084f73a77920211c463e0e836361b14146e67339"
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.0"
+    version: "2.5.1"
   video_player_avfoundation:
     dependency: transitive
     description:

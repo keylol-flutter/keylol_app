@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/config/logger_manager.dart';
 import 'package:keylol_flutter/repository/favorite_repository.dart';
+import 'package:keylol_flutter/utils/list_utils.dart';
 
 part 'thread_event.dart';
 
@@ -78,12 +79,10 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
             break;
           }
           final subComments = subViewThread.comments;
-          for (var post in subPostList) {
-            if (!posts.any((p) => p.pid == post.pid)) {
-              posts.add(post);
-            }
-          }
+
+          posts.addAllDistinct(subPostList, (post) => post.pid);
           comments.addAll(subComments);
+
           if (subPostList.any((post) => post.pid == event.pid)) {
             break;
           }
@@ -132,12 +131,9 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
       final thread = viewThread.thread;
       final postList = viewThread.postList;
       final comments = viewThread.comments;
+
       final posts = state.posts;
-      for (var post in postList) {
-        if (!posts.any((p) => p.pid == post.pid)) {
-          posts.add(post);
-        }
-      }
+      posts.addAllDistinct(postList, (post) => post.pid);
 
       emit(state.copyWith(
         status: ThreadStatus.success,
@@ -193,14 +189,7 @@ class ThreadBloc extends Bloc<ThreadEvent, ThreadState> {
         final viewThread = viewThreadResp.variables;
         thread = viewThread.thread;
         final postList = viewThread.postList;
-        for (var post in postList) {
-          if (post.pid == state.firstPost?.pid) {
-            continue;
-          }
-          if (!posts.any((p) => p.pid == post.pid)) {
-            posts.add(post);
-          }
-        }
+        posts.addAllDistinct(postList, (post) => post.pid);
 
         hasReachMax = posts.length + 1 >= thread.replies;
       }
