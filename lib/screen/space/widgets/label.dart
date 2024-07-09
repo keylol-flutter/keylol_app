@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 class Label extends StatelessWidget {
   final String label;
   final String value;
+  final Function? onTap;
 
   const Label({
-    Key? key,
+    super.key,
     required this.label,
     required this.value,
-  }) : super(key: key);
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    final content = Column(
       children: [
         Text(label),
         const SizedBox(height: 8.0),
@@ -22,5 +24,13 @@ class Label extends StatelessWidget {
         ),
       ],
     );
+    if (onTap == null) {
+      return content;
+    } else {
+      return InkWell(
+        onTap: onTap!.call(),
+        child: content,
+      );
+    }
   }
 }

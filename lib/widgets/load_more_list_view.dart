@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:keylol_flutter/config/logger_manager.dart';
 
 class LoadMoreListView extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
@@ -23,16 +26,30 @@ class LoadMoreListView extends StatefulWidget {
 }
 
 class _LoadMoreListViewState extends State<LoadMoreListView> {
-  final ScrollController _controller = ScrollController();
+  late final ScrollController _controller;
+  bool _isLoading = false;
+  Timer? _loadMoreTimer;
 
   @override
   void initState() {
+    _controller = ScrollController();
+
     _controller.addListener(() {
       final maxScroll = _controller.position.maxScrollExtent;
       final pixels = _controller.position.pixels;
 
-      if (maxScroll == pixels) {
-        widget.callback();
+      if (maxScroll == pixels && !_isLoading) {
+        _isLoading = true;
+
+        _loadMoreTimer = Timer(const Duration(milliseconds: 300), () {
+          try {
+            widget.callback();
+          } catch (error, stackTrace) {
+            talker.error('List load more error', error, stackTrace);
+          } finally {
+            _isLoading = false;
+          }
+        });
       }
     });
     super.initState();
@@ -41,6 +58,7 @@ class _LoadMoreListViewState extends State<LoadMoreListView> {
   @override
   void dispose() {
     _controller.dispose();
+    _loadMoreTimer?.cancel();
     super.dispose();
   }
 

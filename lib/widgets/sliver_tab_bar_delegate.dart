@@ -4,7 +4,11 @@ class SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
   final TabBar tabBar;
   final Color? background;
 
-  const SliverTabBarDelegate({Key? key, required this.tabBar, this.background});
+  const SliverTabBarDelegate({
+    Key? key,
+    required this.tabBar,
+    this.background,
+  });
 
   @override
   Widget build(
@@ -26,6 +30,12 @@ class SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    if (oldDelegate is SliverTabBarDelegate) {
+      if (tabBar != oldDelegate.tabBar ||
+          background != oldDelegate.background) {
+        return true;
+      }
+    }
     return false;
   }
 }

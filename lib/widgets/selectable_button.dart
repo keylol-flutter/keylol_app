@@ -19,48 +19,52 @@ class SelectableButton extends StatefulWidget {
 }
 
 class _SelectedButton extends State<SelectableButton> {
-  late final MaterialStatesController statesController;
+  late final WidgetStatesController _statesController;
+  late ButtonStyle _cachedStyle;
 
   @override
   void initState() {
     super.initState();
-    statesController = MaterialStatesController(
-        <MaterialState>{if (widget.selected) MaterialState.selected});
+    _statesController = WidgetStatesController(
+        <WidgetState>{if (widget.selected) WidgetState.selected});
+    _cachedStyle = _buildButtonStyle();
   }
 
   @override
   void didUpdateWidget(SelectableButton oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.selected != oldWidget.selected) {
-      statesController.update(MaterialState.selected, widget.selected);
+      _statesController.update(WidgetState.selected, widget.selected);
+      _cachedStyle = _buildButtonStyle();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      statesController: statesController,
-      style: widget.style ??
-          ButtonStyle(
-            foregroundColor: MaterialStateProperty.resolveWith<Color>(
-              (Set<MaterialState> states) {
-                return Theme.of(context).textTheme.displayMedium!.color!;
-              },
-            ),
-            backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-              (Set<MaterialState> states) {
-                if (states.contains(MaterialState.selected)) {
-                  return Theme.of(context)
-                      .colorScheme
-                      .primary
-                      .withOpacity(0.12);
-                }
-                return null; // defer to the defaults
-              },
-            ),
-          ),
+      statesController: _statesController,
+      style: _cachedStyle,
       onPressed: widget.onPressed,
       child: widget.child,
     );
+  }
+
+  ButtonStyle _buildButtonStyle() {
+    return widget.style ??
+        ButtonStyle(
+          foregroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
+              return Theme.of(context).textTheme.displayMedium!.color!;
+            },
+          ),
+          backgroundColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.selected)) {
+                return Theme.of(context).colorScheme.primary.withOpacity(0.12);
+              }
+              return null; // defer to the defaults
+            },
+          ),
+        );
   }
 }

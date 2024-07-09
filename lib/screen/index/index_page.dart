@@ -11,7 +11,9 @@ class IndexPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => IndexBloc(context.read<Keylol>())..add(IndexFetched()),
-      child: const IndexView(),
+      child: const SafeArea(
+        child: IndexView(),
+      ),
     );
   }
 }

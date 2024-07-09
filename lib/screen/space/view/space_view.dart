@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/screen/space/bloc/space_bloc.dart';
 import 'package:keylol_flutter/screen/space/widgets/label.dart';
+import 'package:keylol_flutter/utils/ui_utils.dart';
 import 'package:keylol_flutter/widgets/avatar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -15,8 +16,20 @@ class SpaceView extends StatefulWidget {
   State<StatefulWidget> createState() => _SpaceState();
 }
 
-class _SpaceState extends State<SpaceView> {
-  int _currentIndex = 0;
+class _SpaceState extends State<SpaceView> with SingleTickerProviderStateMixin {
+  late final TabController _controller;
+
+  @override
+  void initState() {
+    _controller = TabController(length: 3, vsync: this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +38,7 @@ class _SpaceState extends State<SpaceView> {
         if (state.status == SpaceStatus.failure) {
           final message =
               state.message ?? AppLocalizations.of(context)!.networkError;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(message),
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
+          showFloatingSnackBar(context, message);
         }
       },
       builder: (context, state) {
@@ -49,114 +57,11 @@ class _SpaceState extends State<SpaceView> {
             padding: const EdgeInsets.only(left: 16, right: 16),
             physics: const ClampingScrollPhysics(),
             children: [
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: Avatar(
-                  uid: space.uid,
-                  username: space.username,
-                  width: 56,
-                  height: 56,
-                ),
-                title: Text(space.username),
-                subtitle: Text('ID: ${space.uid}'),
-              ),
+              _buildUserInfo(space),
               const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InkWell(
-                    child: Label(
-                      label: AppLocalizations.of(context)!.spacePageFriends,
-                      value: '${space.friends}',
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        '/space/friends',
-                        arguments: {
-                          'uid': space.uid,
-                        },
-                      );
-                    },
-                  ),
-                  const VerticalDivider(),
-                  InkWell(
-                    child: Label(
-                      label: AppLocalizations.of(context)!.spacePageThreads,
-                      value: '${space.threads}',
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        '/space/threads',
-                        arguments: {
-                          'uid': space.uid,
-                        },
-                      );
-                    },
-                  ),
-                  const VerticalDivider(),
-                  InkWell(
-                    child: Label(
-                      label: AppLocalizations.of(context)!.spacePagePosts,
-                      value: '${space.posts}',
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        '/space/posts',
-                        arguments: {
-                          'uid': space.uid,
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
+              _buildCountData(space),
               const SizedBox(height: 16),
-              if (space.signHtml.isNotEmpty)
-                Text(AppLocalizations.of(context)!.spacePageSign),
-              if (space.signHtml.isNotEmpty) const SizedBox(height: 8),
-              if (space.signHtml.isNotEmpty)
-                Html(
-                  data: space.signHtml,
-                  style: {
-                    'body': Style(
-                      margin: Margins.all(0),
-                      padding: HtmlPaddings.all(0),
-                    )
-                  },
-                ),
-              if (space.signHtml.isNotEmpty) const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: SegmentedButton(
-                  showSelectedIcon: false,
-                  selected: {_currentIndex},
-                  onSelectionChanged: (set) {
-                    setState(() {
-                      _currentIndex = set.first;
-                    });
-                  },
-                  segments: [
-                    ButtonSegment(
-                      value: 0,
-                      label: Text(
-                        AppLocalizations.of(context)!.spacePageMedals,
-                      ),
-                    ),
-                    ButtonSegment(
-                      value: 1,
-                      label: Text(
-                        AppLocalizations.of(context)!.spacePageActivity,
-                      ),
-                    ),
-                    ButtonSegment(
-                      value: 2,
-                      label: Text(
-                        AppLocalizations.of(context)!.spacePageStatistics,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              _buildSign(space),
               const SizedBox(height: 16),
               _buildData(space),
             ],
@@ -166,16 +71,121 @@ class _SpaceState extends State<SpaceView> {
     );
   }
 
-  Widget _buildData(Space space) {
-    switch (_currentIndex) {
-      case 0:
-        return _buildMedals(space);
-      case 1:
-        return _buildActivity(space);
-      case 2:
-        return _buildStatistics(space);
+  Widget _buildUserInfo(Space space) {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      leading: Avatar(
+        uid: space.uid,
+        username: space.username,
+        width: 56,
+        height: 56,
+      ),
+      title: Text(space.username),
+      subtitle: Text('ID: ${space.uid}'),
+    );
+  }
+
+  Widget _buildCountData(Space space) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Label(
+            label: AppLocalizations.of(context)!.spacePageFriends,
+            value: '${space.friends}',
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                '/space/friends',
+                arguments: {
+                  'uid': space.uid,
+                },
+              );
+            }),
+        const VerticalDivider(),
+        Label(
+          label: AppLocalizations.of(context)!.spacePageThreads,
+          value: '${space.threads}',
+          onTap: () {
+            Navigator.of(context).pushNamed(
+              '/space/threads',
+              arguments: {
+                'uid': space.uid,
+              },
+            );
+          },
+        ),
+        const VerticalDivider(),
+        Label(
+          label: AppLocalizations.of(context)!.spacePagePosts,
+          value: '${space.posts}',
+          onTap: () {
+            Navigator.of(context).pushNamed(
+              '/space/posts',
+              arguments: {
+                'uid': space.uid,
+              },
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSign(Space space) {
+    if (space.signHtml.isNotEmpty) {
+      return Column(
+        children: [
+          Text(AppLocalizations.of(context)!.spacePageSign),
+          const SizedBox(height: 8),
+          Html(
+            shrinkWrap: true,
+            data: space.signHtml,
+            style: {
+              'body': Style(
+                margin: Margins.all(0),
+                padding: HtmlPaddings.all(0),
+              )
+            },
+          ),
+        ],
+      );
     }
-    return Container();
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildData(Space space) {
+    return Card(
+      child: DefaultTabController(
+        length: 3,
+        child: Column(
+          children: [
+            _buildDataTab(),
+            Expanded(child: _buildDataView(space)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDataTab() {
+    return TabBar(
+      controller: _controller,
+      tabs: [
+        Tab(text: AppLocalizations.of(context)!.spacePageMedals),
+        Tab(text: AppLocalizations.of(context)!.spacePageActivity),
+        Tab(text: AppLocalizations.of(context)!.spacePageStatistics),
+      ],
+    );
+  }
+
+  Widget _buildDataView(Space space) {
+    return TabBarView(
+      controller: _controller,
+      children: [
+        _buildMedals(space),
+        _buildActivity(space),
+        _buildStatistics(space),
+      ],
+    );
   }
 
   // 勋章

@@ -4,6 +4,7 @@ import 'package:html/parser.dart';
 import 'package:keylol_flutter/config/logger_manager.dart';
 import 'package:keylol_flutter/config/router.dart';
 import 'package:keylol_flutter/widgets/async_search_anchor.dart';
+import 'package:talker_dio_logger/talker_dio_logger.dart';
 
 class IndexSearchButton extends StatefulWidget {
   const IndexSearchButton({
@@ -16,6 +17,12 @@ class IndexSearchButton extends StatefulWidget {
 
 class _IndexSearchButtonState extends State<IndexSearchButton> {
   final _dio = Dio(BaseOptions(baseUrl: 'https://duckduckgo.com'));
+
+  @override
+  void initState() {
+    _dio.interceptors.add(TalkerDioLogger(talker: talker));
+    super.initState();
+  }
 
   @override
   void dispose() {

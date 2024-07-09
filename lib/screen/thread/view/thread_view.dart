@@ -83,7 +83,7 @@ class _ThreadViewState extends State<ThreadView> {
 
         if (state.pid != null) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            _scrollTo(state.pid!);
+            _scrollTo(context, state.pid!);
           });
         }
 
@@ -160,7 +160,7 @@ class _ThreadViewState extends State<ThreadView> {
                           thread: thread,
                           post: post,
                           comments: comments[post.pid] ?? [],
-                          scrollTo: _scrollTo,
+                          scrollTo: (pid) => _scrollTo(context, pid),
                         ),
                       );
                     },
@@ -187,7 +187,7 @@ class _ThreadViewState extends State<ThreadView> {
     );
   }
 
-  void _scrollTo(String pid) {
+  void _scrollTo(BuildContext context, String pid) {
     final state = context.read<ThreadBloc>().state;
     final posts = state.posts;
     int index = 0;
@@ -200,14 +200,4 @@ class _ThreadViewState extends State<ThreadView> {
 
     _controller.scrollToIndex(index);
   }
-}
-
-Size boundingTextSize(String text, TextStyle style,
-    {int maxLines = 2 ^ 31, double maxWidth = double.infinity}) {
-  final TextPainter textPainter = TextPainter(
-      textDirection: TextDirection.ltr,
-      text: TextSpan(text: text, style: style),
-      maxLines: maxLines)
-    ..layout(maxWidth: maxWidth);
-  return textPainter.size;
 }
