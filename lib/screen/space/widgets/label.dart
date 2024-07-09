@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Label extends StatelessWidget {
   final String label;
   final String value;
-  final Function? onTap;
+  final void Function()? onTap;
 
   const Label({
     super.key,
@@ -28,7 +28,7 @@ class Label extends StatelessWidget {
       return content;
     } else {
       return InkWell(
-        onTap: onTap!.call(),
+        onTap: onTap,
         child: content,
       );
     }

@@ -52,18 +52,24 @@ class _SpaceState extends State<SpaceView> with SingleTickerProviderStateMixin {
 
         final space = profile.space;
         return Scaffold(
-          appBar: AppBar(),
-          body: ListView(
-            padding: const EdgeInsets.only(left: 16, right: 16),
-            physics: const ClampingScrollPhysics(),
-            children: [
-              _buildUserInfo(space),
-              const SizedBox(height: 16),
-              _buildCountData(space),
-              const SizedBox(height: 16),
-              _buildSign(space),
-              const SizedBox(height: 16),
-              _buildData(space),
+          body: CustomScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            slivers: [
+              const SliverAppBar(
+                pinned: true,
+              ),
+              SliverToBoxAdapter(
+                child: _buildUserInfo(space),
+              ),
+              SliverToBoxAdapter(
+                child: _buildSign(space),
+              ),
+              SliverToBoxAdapter(
+                child: _buildDataTab(),
+              ),
+              SliverFillRemaining(
+                child: _buildDataView(space),
+              )
             ],
           ),
         );
@@ -72,102 +78,95 @@ class _SpaceState extends State<SpaceView> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildUserInfo(Space space) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      leading: Avatar(
-        uid: space.uid,
-        username: space.username,
-        width: 56,
-        height: 56,
-      ),
-      title: Text(space.username),
-      subtitle: Text('ID: ${space.uid}'),
-    );
-  }
-
-  Widget _buildCountData(Space space) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       children: [
-        Label(
-            label: AppLocalizations.of(context)!.spacePageFriends,
-            value: '${space.friends}',
-            onTap: () {
-              Navigator.of(context).pushNamed(
-                '/space/friends',
-                arguments: {
-                  'uid': space.uid,
+        ListTile(
+          contentPadding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+          leading: Avatar(
+            uid: space.uid,
+            username: space.username,
+            width: 56,
+            height: 56,
+          ),
+          title: Text(space.username),
+          subtitle: Text('ID: ${space.uid}'),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Label(
+                label: AppLocalizations.of(context)!.spacePageFriends,
+                value: '${space.friends}',
+                onTap: () {
+                  Navigator.of(context).pushNamed(
+                    '/space/friends',
+                    arguments: {
+                      'uid': space.uid,
+                    },
+                  );
                 },
-              );
-            }),
-        const VerticalDivider(),
-        Label(
-          label: AppLocalizations.of(context)!.spacePageThreads,
-          value: '${space.threads}',
-          onTap: () {
-            Navigator.of(context).pushNamed(
-              '/space/threads',
-              arguments: {
-                'uid': space.uid,
-              },
-            );
-          },
-        ),
-        const VerticalDivider(),
-        Label(
-          label: AppLocalizations.of(context)!.spacePagePosts,
-          value: '${space.posts}',
-          onTap: () {
-            Navigator.of(context).pushNamed(
-              '/space/posts',
-              arguments: {
-                'uid': space.uid,
-              },
-            );
-          },
-        ),
+              ),
+            ),
+            const VerticalDivider(thickness: 4, color: Colors.black),
+            Expanded(
+              child: Label(
+                label: AppLocalizations.of(context)!.spacePageThreads,
+                value: '${space.threads}',
+                onTap: () {
+                  Navigator.of(context).pushNamed(
+                    '/space/threads',
+                    arguments: {
+                      'uid': space.uid,
+                    },
+                  );
+                },
+              ),
+            ),
+            const VerticalDivider(thickness: 4, color: Colors.black),
+            Expanded(
+              child: Label(
+                label: AppLocalizations.of(context)!.spacePagePosts,
+                value: '${space.posts}',
+                onTap: () {
+                  Navigator.of(context).pushNamed(
+                    '/space/posts',
+                    arguments: {
+                      'uid': space.uid,
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        )
       ],
     );
   }
 
   Widget _buildSign(Space space) {
     if (space.signHtml.isNotEmpty) {
-      return Column(
-        children: [
-          Text(AppLocalizations.of(context)!.spacePageSign),
-          const SizedBox(height: 8),
-          Html(
-            shrinkWrap: true,
-            data: space.signHtml,
-            style: {
-              'body': Style(
-                margin: Margins.all(0),
-                padding: HtmlPaddings.all(0),
-              )
-            },
-          ),
-        ],
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(AppLocalizations.of(context)!.spacePageSign),
+            const SizedBox(height: 8),
+            Html(
+              shrinkWrap: true,
+              data: space.signHtml,
+            ),
+          ],
+        ),
       );
     }
     return const SizedBox.shrink();
   }
 
-  Widget _buildData(Space space) {
-    return Card(
-      child: DefaultTabController(
-        length: 3,
-        child: Column(
-          children: [
-            _buildDataTab(),
-            Expanded(child: _buildDataView(space)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDataTab() {
+  TabBar _buildDataTab() {
     return TabBar(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
       controller: _controller,
       tabs: [
         Tab(text: AppLocalizations.of(context)!.spacePageMedals),
@@ -178,46 +177,46 @@ class _SpaceState extends State<SpaceView> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildDataView(Space space) {
-    return TabBarView(
-      controller: _controller,
-      children: [
-        _buildMedals(space),
-        _buildActivity(space),
-        _buildStatistics(space),
-      ],
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      child: TabBarView(
+        controller: _controller,
+        children: [
+          _buildMedals(space),
+          _buildActivity(space),
+          _buildStatistics(space),
+        ],
+      ),
     );
   }
 
   // 勋章
   Widget _buildMedals(Space space) {
     final medals = space.medals;
-
-    if (medals.isEmpty) {
-      return Container();
-    }
-
-    return Column(
-      children: medals.map(
-        (medal) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(medal.name),
-              Text(medal.description),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  CachedNetworkImage(
-                    height: 30.0,
-                    imageUrl:
-                        'https://keylol.com/static/image/common/${medal.image}',
-                  ),
-                ],
-              ),
-            ],
-          );
-        },
-      ).toList(),
+    return ListView.separated(
+      padding: const EdgeInsets.all(0),
+      itemCount: medals.length,
+      itemBuilder: (context, index) {
+        final medal = medals[index];
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(medal.name),
+            Text(medal.description),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                CachedNetworkImage(
+                  height: 30.0,
+                  imageUrl:
+                      'https://keylol.com/static/image/common/${medal.image}',
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+      separatorBuilder: (context, index) => const SizedBox(height: 8),
     );
   }
 
