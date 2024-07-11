@@ -36,21 +36,19 @@ class _HomePageState extends State<HomePage>
     super.build(context);
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
-        return SafeArea(
-          child: Scaffold(
-            drawer: _buildDrawer(context, state),
-            body: PageView(
-              controller: _controller,
-              physics: const NeverScrollableScrollPhysics(),
-              children: const [
-                IndexPage(),
-                GuidePage(),
-                ForumIndexPage(),
-                NoticePage(),
-              ],
-            ),
-            bottomNavigationBar: _buildBottomNavigationBar(context, state),
+        return Scaffold(
+          drawer: _buildDrawer(context, state),
+          body: PageView(
+            controller: _controller,
+            physics: const NeverScrollableScrollPhysics(),
+            children: const [
+              IndexPage(),
+              GuidePage(),
+              ForumIndexPage(),
+              NoticePage(),
+            ],
           ),
+          bottomNavigationBar: _buildBottomNavigationBar(context, state),
         );
       },
     );
