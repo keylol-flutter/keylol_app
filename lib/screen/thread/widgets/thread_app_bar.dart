@@ -133,7 +133,7 @@ class ThreadAppBar extends SliverPersistentHeaderDelegate {
     } else {
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
+        builder: (_) => AlertDialog(
           title:
               Text(AppLocalizations.of(context)!.threadAddFavoriteDescription),
           content: TextField(
