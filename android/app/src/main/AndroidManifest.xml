@@ -6,7 +6,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="keylol_flutter"
+        android:label="KeylolF"
         android:enableOnBackInvokedCallback="true">
         <activity
             android:name=".MainActivity"
