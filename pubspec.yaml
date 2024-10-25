@@ -31,9 +31,9 @@ dependencies:
   flutter:
     sdk: flutter
   keylol_api:
-    path: packages/keylol_api/
+    git: https://github.com/keylol-flutter/keylol_api.git
   discuz_widgets:
-    path: packages/discuz_widgets/
+    git: https://github.com/keylol-flutter/discuz_widgets.git
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
