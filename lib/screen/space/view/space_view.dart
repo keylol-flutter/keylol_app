@@ -6,7 +6,7 @@ import 'package:keylol_flutter/screen/space/bloc/space_bloc.dart';
 import 'package:keylol_flutter/screen/space/widgets/label.dart';
 import 'package:keylol_flutter/utils/ui_utils.dart';
 import 'package:keylol_flutter/widgets/avatar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:keylol_flutter/l10n/app_localizations.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class SpaceView extends StatefulWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:keylol_api/keylol_api.dart';
-import 'package:keylol_flutter/config/logger_manager.dart';
+import 'package:keylol_flutter/config/logger.dart';
 import 'package:keylol_flutter/screen/login/model/login_with_password_model.dart';
 
 part 'login_with_password_event.dart';

@@ -1,5 +1,5 @@
 import 'package:keylol_api/keylol_api.dart';
-import 'package:keylol_flutter/config/logger_manager.dart';
+import 'package:keylol_flutter/config/logger.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
@@ -12,36 +12,7 @@ class FavoriteRepository {
   final Keylol _client;
   late final Database _db;
 
-  FavoriteRepository._(this._prefs, this._client, this._db);
-
-  static FavoriteRepository? _instance;
-
-  static Future<FavoriteRepository> getInstance(Keylol client) async {
-    if (_instance != null) {
-      return _instance!;
-    }
-
-    final prefs = await SharedPreferences.getInstance();
-    final db = await openDatabase(
-      join(await getDatabasesPath(), 'favorite.db'),
-      onCreate: (db, version) async {
-        await db.execute(ddl);
-      },
-      version: 1,
-    );
-    _instance = FavoriteRepository._(prefs, client, db);
-    return _instance!;
-  }
-
-  Future<void> initial() async {
-    _db = await openDatabase(
-      join(await getDatabasesPath(), 'favorite.db'),
-      onCreate: (db, version) async {
-        await db.execute(ddl);
-      },
-      version: 1,
-    );
-  }
+  FavoriteRepository(this._prefs, this._db, this._client);
 
   Future<void> autoReload() async {
     final lastUpdateTimeInt = _prefs.getInt('favorite.lastUpdateTime');

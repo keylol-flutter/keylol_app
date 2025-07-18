@@ -7,7 +7,7 @@ import 'package:keylol_flutter/screen/space/bloc/space_threads_bloc.dart';
 import 'package:keylol_flutter/screen/space/view/space_friends_view.dart';
 import 'package:keylol_flutter/screen/space/view/space_posts_view.dart';
 import 'package:keylol_flutter/screen/space/view/space_threads_view.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:keylol_flutter/l10n/app_localizations.dart';
 
 class SpaceListPage extends StatelessWidget {
   final String uid;

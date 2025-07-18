@@ -7,7 +7,7 @@ import 'package:keylol_flutter/screen/thread/bloc/thread_bloc.dart';
 import 'package:keylol_flutter/screen/thread/widgets/poll.dart';
 import 'package:keylol_flutter/screen/thread/widgets/reply_modal.dart';
 import 'package:keylol_flutter/widgets/avatar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:keylol_flutter/l10n/app_localizations.dart';
 import 'package:html/dom.dart' as html;
 
 typedef ScrollToFunction = void Function(String pid);

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/screen/guide/bloc/guide_bloc.dart';
 import 'package:keylol_flutter/screen/guide/view/guide_view.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:keylol_flutter/l10n/app_localizations.dart';
 
 class GuidePage extends StatelessWidget {
   const GuidePage({super.key});

@@ -1,5 +1,4 @@
 import 'package:keylol_api/keylol_api.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 const String ddl =
@@ -8,25 +7,7 @@ const String ddl =
 class HistoryRepository {
   final Database _db;
 
-  HistoryRepository._(this._db);
-
-  static HistoryRepository? _instance;
-
-  static Future<HistoryRepository> getInstance() async {
-    if (_instance != null) {
-      return _instance!;
-    }
-
-    final db = await openDatabase(
-      join(await getDatabasesPath(), 'history.db'),
-      onCreate: (db, version) async {
-        await db.execute(ddl);
-      },
-      version: 1,
-    );
-    _instance = HistoryRepository._(db);
-    return _instance!;
-  }
+  HistoryRepository(this._db);
 
   Future<void> insertHistory(Thread thread) async {
     await _db.insert(

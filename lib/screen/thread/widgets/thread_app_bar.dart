@@ -5,7 +5,7 @@ import 'package:keylol_flutter/repository/authentication_repository.dart';
 import 'package:keylol_flutter/screen/thread/bloc/thread_bloc.dart';
 import 'package:keylol_flutter/utils/text_utils.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:keylol_flutter/l10n/app_localizations.dart';
 
 class ThreadAppBar extends SliverPersistentHeaderDelegate {
   final String tid;

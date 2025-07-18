@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/bloc/authentication/authentication_bloc.dart';
 import 'package:keylol_flutter/screen/notice/bloc/notice_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:keylol_flutter/l10n/app_localizations.dart';
 import 'package:keylol_flutter/screen/notice/widgets/notice_item.dart';
 import 'package:keylol_flutter/widgets/load_more_list_view.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -16,6 +16,13 @@ class NoticeView extends StatefulWidget {
 }
 
 class _NoticeViewState extends State<NoticeView> {
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<NoticeBloc>().add(NoticeRefreshed());
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(

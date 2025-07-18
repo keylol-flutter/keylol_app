@@ -5,7 +5,7 @@ import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/bloc/authentication/authentication_bloc.dart';
 import 'package:keylol_flutter/config/router.dart';
 import 'package:keylol_flutter/screen/forum/bloc/forum_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:keylol_flutter/l10n/app_localizations.dart';
 import 'package:keylol_flutter/widgets/load_more_list_view.dart';
 import 'package:keylol_flutter/widgets/thread_item.dart';
 

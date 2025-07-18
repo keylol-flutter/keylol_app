@@ -1,7 +1,7 @@
 import 'package:about/about.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:keylol_flutter/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class AppAboutPage extends StatefulWidget {

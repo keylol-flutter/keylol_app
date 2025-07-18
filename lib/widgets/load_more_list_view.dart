@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:keylol_flutter/config/logger_manager.dart';
+import 'package:keylol_flutter/config/logger.dart';
 
 class LoadMoreListView extends StatefulWidget {
   final EdgeInsetsGeometry? padding;

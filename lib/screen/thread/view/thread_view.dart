@@ -5,7 +5,7 @@ import 'package:keylol_flutter/screen/thread/bloc/thread_bloc.dart';
 import 'package:keylol_flutter/screen/thread/widgets/post_item.dart';
 import 'package:keylol_flutter/screen/thread/widgets/reply_modal.dart';
 import 'package:keylol_flutter/screen/thread/widgets/thread_app_bar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:keylol_flutter/l10n/app_localizations.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 class ThreadView extends StatefulWidget {

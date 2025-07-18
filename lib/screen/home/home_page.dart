@@ -8,7 +8,7 @@ import 'package:keylol_flutter/screen/guide/guide_page.dart';
 import 'package:keylol_flutter/screen/index/index_page.dart';
 import 'package:keylol_flutter/screen/notice/notice_page.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:keylol_flutter/l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

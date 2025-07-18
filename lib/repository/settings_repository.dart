@@ -6,19 +6,7 @@ class SettingsRepository {
   final SharedPreferences _prefs;
   final _controller = StreamController<DateTime>();
 
-  SettingsRepository._(this._prefs);
-
-  static SettingsRepository? _instance;
-
-  static Future<SettingsRepository> getInstance() async {
-    if (_instance != null) {
-      return _instance!;
-    }
-
-    final prefs = await SharedPreferences.getInstance();
-    _instance = SettingsRepository._(prefs);
-    return _instance!;
-  }
+  SettingsRepository(this._prefs);
 
   Stream<DateTime> get version async* {
     yield DateTime.now();

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_flutter/screen/history/bloc/history_bloc.dart';
 import 'package:keylol_flutter/widgets/load_more_list_view.dart';
 import 'package:keylol_flutter/widgets/thread_item.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:keylol_flutter/l10n/app_localizations.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
 class HistoryView extends StatefulWidget {

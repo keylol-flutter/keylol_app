@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
-import 'package:keylol_flutter/config/logger_manager.dart';
+import 'package:keylol_flutter/config/logger.dart';
 import 'package:keylol_flutter/config/router.dart';
 import 'package:keylol_flutter/widgets/async_search_anchor.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';

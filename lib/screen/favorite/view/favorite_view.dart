@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_flutter/screen/favorite/bloc/favorite_bloc.dart';
 import 'package:keylol_flutter/screen/favorite/widgets/favorite_thread_item.dart';
 import 'package:keylol_flutter/widgets/load_more_list_view.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:keylol_flutter/l10n/app_localizations.dart';
 
 class FavoriteView extends StatefulWidget {
   const FavoriteView({super.key});

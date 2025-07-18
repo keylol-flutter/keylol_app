@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keylol_flutter/config/logger_manager.dart';
+import 'package:keylol_flutter/config/logger.dart';
 import 'package:keylol_flutter/screen/about/app_about_page.dart';
 import 'package:keylol_flutter/screen/favorite/favorite_page.dart';
 import 'package:keylol_flutter/screen/forum/forum_page.dart';

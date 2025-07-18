@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/screen/notice/bloc/notice_bloc.dart';
 import 'package:keylol_flutter/screen/notice/view/notice_view.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:keylol_flutter/l10n/app_localizations.dart';
 
 class NoticePage extends StatelessWidget {
   const NoticePage({super.key});
