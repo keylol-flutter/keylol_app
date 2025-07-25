@@ -1,9 +1,6 @@
 import 'package:keylol_api/keylol_api.dart';
 import 'package:sqflite/sqflite.dart';
 
-const String ddl =
-    'CREATE TABLE history (tid TEXT PRIMARY KEY, fid TEXT, author_id TEXT, author TEXT, subject TEXT, dateline TEXT, date TEXT)';
-
 class HistoryRepository {
   final Database _db;
 

@@ -77,7 +77,7 @@ class PostItem extends StatelessWidget {
               Poll(
                 tid: post.tid,
                 poll: poll!,
-                callback: (context) {
+                callback: () {
                   context.read<ThreadBloc>().add(const ThreadRefreshed());
                 },
               ),
@@ -99,9 +99,9 @@ class PostItem extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                    color: Colors.deepOrangeAccent.withOpacity(0.1),
+                    color: Colors.deepOrangeAccent.withValues(alpha: 0.1),
                     border: Border.all(
-                        color: Colors.deepOrangeAccent.withOpacity(0.1)),
+                        color: Colors.deepOrangeAccent.withValues(alpha: 0.1)),
                     borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(12),
                       bottomRight: Radius.circular(12),
@@ -113,13 +113,13 @@ class PostItem extends StatelessWidget {
                       Icon(
                         Icons.circle_outlined,
                         size: 12,
-                        color: Colors.deepOrangeAccent.withOpacity(0.6),
+                        color: Colors.deepOrangeAccent.withValues(alpha: 0.6),
                       ),
                       const SizedBox(width: 8),
                       Text(
                         AppLocalizations.of(context)!.threadPageComment,
                         style: TextStyle(
-                          color: Colors.deepOrangeAccent.withOpacity(0.6),
+                          color: Colors.deepOrangeAccent.withValues(alpha: 0.6),
                         ),
                       )
                     ],

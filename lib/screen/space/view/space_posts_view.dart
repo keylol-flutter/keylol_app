@@ -55,7 +55,7 @@ class SpacePostsView extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: Divider(
                   height: 0,
-                  color: Theme.of(context).dividerColor.withOpacity(0.2),
+                  color: Theme.of(context).dividerColor.withValues(alpha: 0.2),
                 ),
               );
             },

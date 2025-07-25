@@ -64,7 +64,7 @@ class CarouselItem extends StatelessWidget {
     final footer = Container(
       color: Colors.transparent,
       child: GridTileBar(
-        backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
         title: Text(
           thread.subject,
           style: Theme.of(context).textTheme.labelLarge?.copyWith(

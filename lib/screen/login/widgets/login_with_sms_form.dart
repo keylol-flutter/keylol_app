@@ -197,10 +197,10 @@ class SmsCountDownButton extends StatefulWidget {
   final bool Function() onPressed;
 
   const SmsCountDownButton({
-    Key? key,
+    super.key,
     required this.form,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => _SmsCountDownButtonState();

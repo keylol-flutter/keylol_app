@@ -7,71 +7,71 @@ import 'package:keylol_flutter/repository/authentication_repository.dart';
 import 'package:keylol_flutter/screen/thread/bloc/thread_bloc.dart';
 import 'package:keylol_flutter/widgets/sliver_tab_bar_delegate.dart';
 
-const SMILEY_MAP = {
+const smileyMap = {
   '茸茸1': [
     {
       'https://keylol.com/static/image/smiley/kylo_1/r2emo_08_googoo.png':
-      '{:kylo1_24:}'
+          '{:kylo1_24:}'
     },
     {
       'https://keylol.com/static/image/smiley/kylo_1/r2emo_05_kitten.png':
-      '{:kylo1_26:}'
+          '{:kylo1_26:}'
     },
     {
       'https://keylol.com/static/image/smiley/kylo_1/r2emo_13_backstab.png':
-      '{:kylo1_25:}'
+          '{:kylo1_25:}'
     },
     {
       'https://keylol.com/static/image/smiley/kylo_1/r2emo_15_yummy.png':
-      '{:kylo1_27:}'
+          '{:kylo1_27:}'
     },
     {
       'https://keylol.com/static/image/smiley/kylo_1/r2emo_03_dalao.png':
-      '{:kylo1_21:}'
+          '{:kylo1_21:}'
     },
     {
       'https://keylol.com/static/image/smiley/kylo_1/r2emo_01_gkd.png':
-      '{:kylo1_28:}'
+          '{:kylo1_28:}'
     },
     {
       'https://keylol.com/static/image/smiley/kylo_1/r2emo_09_love.png':
-      '{:kylo1_16:}'
+          '{:kylo1_16:}'
     },
     {
       'https://keylol.com/static/image/smiley/kylo_1/r2emo_12_plus.png':
-      '{:kylo1_12:}'
+          '{:kylo1_12:}'
     },
     {
       'https://keylol.com/static/image/smiley/kylo_1/r2emo_11_minus.png':
-      '{:kylo1_17:}'
+          '{:kylo1_17:}'
     },
     {
       'https://keylol.com/static/image/smiley/kylo_1/r2emo_11_minus.png':
-      '{:kylo1_18:}'
+          '{:kylo1_18:}'
     },
     {
       'https://keylol.com/static/image/smiley/kylo_1/r2emo_06_grass.png':
-      '{:kylo1_19:}'
+          '{:kylo1_19:}'
     },
     {
       'https://keylol.com/static/image/smiley/kylo_1/r2emo_04b_lemon-sour.png':
-      '{:kylo1_20:}'
+          '{:kylo1_20:}'
     },
     {
       'https://keylol.com/static/image/smiley/kylo_1/r2emo_04a_lemon-sad.png':
-      '{:kylo1_11:}'
+          '{:kylo1_11:}'
     },
     {
       'https://keylol.com/static/image/smiley/kylo_1/r2emo_16_ahhh.png':
-      '{:kylo1_13:}'
+          '{:kylo1_13:}'
     },
     {
       'https://keylol.com/static/image/smiley/kylo_1/r2emo_02_kp.png':
-      '{:kylo1_14:}'
+          '{:kylo1_14:}'
     },
     {
       'https://keylol.com/static/image/smiley/kylo_1/r2emo_10_liver-killer.png':
-      '{:kylo1_15:}'
+          '{:kylo1_15:}'
     }
   ],
   '茸茸2': [
@@ -592,14 +592,14 @@ const SMILEY_MAP = {
     },
     {
       'https://keylol.com/static/image/smiley/steamcn_8/kbc187.gif':
-      ':+:{买买买gog}'
+          ':+:{买买买gog}'
     },
     {'https://keylol.com/static/image/smiley/steamcn_8/kbc172.gif': ':+:{闪卡}'},
     {'https://keylol.com/static/image/smiley/steamcn_8/kbc174.gif': ':+:{买买}'},
     {'https://keylol.com/static/image/smiley/steamcn_8/kbc175.gif': ':+:{好人卡}'},
     {
       'https://keylol.com/static/image/smiley/steamcn_8/kbc176.gif':
-      ':+:{再买就剁手}'
+          ':+:{再买就剁手}'
     },
     {'https://keylol.com/static/image/smiley/steamcn_8/kbc177.gif': ':+:{随便花}'},
     {'https://keylol.com/static/image/smiley/steamcn_8/kbc178.gif': ':+:{单身狗}'},
@@ -720,7 +720,7 @@ const SMILEY_MAP = {
     },
     {
       'https://keylol.com/static/image/smiley/sonkwo/1%20(14).gif':
-      '{:19_1060:}'
+          '{:19_1060:}'
     },
     {
       'https://keylol.com/static/image/smiley/sonkwo/2%20(5).gif': '{:19_1061:}'
@@ -736,22 +736,22 @@ const SMILEY_MAP = {
     },
     {
       'https://keylol.com/static/image/smiley/sonkwo/1%20(16).gif':
-      '{:19_1065:}'
+          '{:19_1065:}'
     },
     {
       'https://keylol.com/static/image/smiley/sonkwo/2%20(3).gif': '{:19_1066:}'
     },
     {
       'https://keylol.com/static/image/smiley/sonkwo/1%20(11).gif':
-      '{:19_1067:}'
+          '{:19_1067:}'
     },
     {
       'https://keylol.com/static/image/smiley/sonkwo/1%20(13).gif':
-      '{:19_1068:}'
+          '{:19_1068:}'
     },
     {
       'https://keylol.com/static/image/smiley/sonkwo/1%20(12).gif':
-      '{:19_1069:}'
+          '{:19_1069:}'
     },
     {
       'https://keylol.com/static/image/smiley/sonkwo/1%20(5).gif': '{:19_1070:}'
@@ -764,11 +764,11 @@ const SMILEY_MAP = {
     },
     {
       'https://keylol.com/static/image/smiley/sonkwo/1%20(15).gif':
-      '{:19_1073:}'
+          '{:19_1073:}'
     },
     {
       'https://keylol.com/static/image/smiley/sonkwo/1%20(10).gif':
-      '{:19_1074:}'
+          '{:19_1074:}'
     },
     {
       'https://keylol.com/static/image/smiley/sonkwo/2%20(9).gif': '{:19_1075:}'
@@ -797,7 +797,6 @@ const SMILEY_MAP = {
     {'https://keylol.com/static/image/smiley/sonkwo/1%20(6).gif': '{:19_1083:}'}
   ]
 };
-
 
 typedef ReplyCallback = void Function();
 
@@ -838,10 +837,10 @@ class ReplyModal extends StatefulWidget {
   final Post? post;
 
   const ReplyModal({
-    Key? key,
+    super.key,
     this.thread,
     this.post,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => _ReplyModalState();
@@ -859,7 +858,7 @@ class _ReplyModalState extends State<ReplyModal> {
     final profile = context.read<AuthenticationRepository>().profile;
     final keylol = context.read<Keylol>();
     return Scaffold(
-      backgroundColor: Colors.black12.withOpacity(0.75),
+      backgroundColor: Colors.black12.withValues(alpha: 0.75),
       body: Column(
         children: [
           Expanded(
@@ -973,11 +972,11 @@ class _ReplyModalState extends State<ReplyModal> {
   void _sendReply(BuildContext context, Variables profile) {
     if (widget.post != null) {
       context.read<ThreadBloc>().add(ThreadReplied(
-        formHash: profile.formHash,
-        post: widget.post,
-        message: _controller.text,
-        aIds: _aidList,
-      ));
+            formHash: profile.formHash,
+            post: widget.post,
+            message: _controller.text,
+            aIds: _aidList,
+          ));
     } else if (widget.thread != null) {
       context.read<ThreadBloc>().add(ThreadReplied(
             formHash: profile.formHash,
@@ -994,12 +993,12 @@ typedef SmileySelectCallback = void Function(String emoji);
 class _SmileyPicker extends StatelessWidget {
   final SmileySelectCallback onSelect;
 
-  const _SmileyPicker({Key? key, required this.onSelect}) : super(key: key);
+  const _SmileyPicker({required this.onSelect});
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: SMILEY_MAP.keys.length,
+      length: smileyMap.keys.length,
       child: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
@@ -1009,14 +1008,14 @@ class _SmileyPicker extends StatelessWidget {
                   delegate: SliverTabBarDelegate(
                       tabBar: TabBar(
                           isScrollable: true,
-                          tabs: SMILEY_MAP.keys
+                          tabs: smileyMap.keys
                               .map((key) => Tab(child: Text(key)))
                               .toList()))),
             ];
           },
           body: TabBarView(
-              children: SMILEY_MAP.keys.map((key) {
-            var emojis = SMILEY_MAP[key]!;
+              children: smileyMap.keys.map((key) {
+            var emojis = smileyMap[key]!;
             return GridView.count(
               crossAxisCount: 5,
               children: emojis.map((pair) {

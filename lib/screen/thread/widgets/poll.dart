@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keylol_api/keylol_api.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-typedef PollCallback = void Function(BuildContext context);
+typedef PollCallback = void Function();
 
 class Poll extends StatefulWidget {
   final String tid;
@@ -11,11 +11,11 @@ class Poll extends StatefulWidget {
   final PollCallback? callback;
 
   const Poll({
-    Key? key,
+    super.key,
     required this.tid,
     required this.poll,
     this.callback,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => _PollState();
@@ -100,12 +100,12 @@ class _PollState extends State<Poll> {
       children.add(Row(children: [
         ElevatedButton(
           child: const Text('投票'),
-          onPressed: () {
+          onPressed: () async {
             if (pollAnswers.isNotEmpty) {
               context
                   .read<Keylol>()
                   .pollVote(widget.tid, pollAnswers)
-                  .then((value) => widget.callback?.call(context));
+                  .then((value) => widget.callback?.call());
             }
           },
         ),

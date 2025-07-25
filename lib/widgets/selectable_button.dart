@@ -60,7 +60,10 @@ class _SelectedButton extends State<SelectableButton> {
           backgroundColor: WidgetStateProperty.resolveWith<Color?>(
             (Set<WidgetState> states) {
               if (states.contains(WidgetState.selected)) {
-                return Theme.of(context).colorScheme.primary.withOpacity(0.12);
+                return Theme.of(context)
+                    .colorScheme
+                    .primary
+                    .withValues(alpha: 0.12);
               }
               return null; // defer to the defaults
             },

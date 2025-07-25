@@ -36,7 +36,9 @@ void main() async {
       await databaseService.init();
 
       HydratedBloc.storage = await HydratedStorage.build(
-        storageDirectory: await getApplicationDocumentsDirectory(),
+        storageDirectory: HydratedStorageDirectory(
+          (await getTemporaryDirectory()).path,
+        ),
       );
 
       Bloc.observer = TalkerBlocObserver(talker: talker);

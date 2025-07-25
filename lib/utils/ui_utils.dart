@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-showFloatingSnackBar(
+void showFloatingSnackBar(
   BuildContext context,
   String message,
 ) {

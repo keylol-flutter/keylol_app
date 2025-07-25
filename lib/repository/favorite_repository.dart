@@ -1,11 +1,7 @@
 import 'package:keylol_api/keylol_api.dart';
 import 'package:keylol_flutter/config/logger.dart';
-import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
-
-const String ddl =
-    'CREATE TABLE favorite (fav_id TEXT PRIMARY KEY, uid TEXT, id TEXT, id_type TEXT, space_uid TEXT, title TEXT, description TEXT, dateline TEXT, icon TEXT, url TEXT, author TEXT)';
 
 class FavoriteRepository {
   final SharedPreferences _prefs;

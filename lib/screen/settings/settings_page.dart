@@ -100,7 +100,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   setState(() {
                                     context
                                         .read<SettingsRepository>()
-                                        .setThemeColor(currentColor.value);
+                                        .setThemeColor(currentColor.toARGB32());
                                     Navigator.of(context).pop();
                                   });
                                 },

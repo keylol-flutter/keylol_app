@@ -132,7 +132,8 @@ class _ThreadViewState extends State<ThreadView> {
                 if (firstPost != null)
                   SliverToBoxAdapter(
                     child: Divider(
-                      color: Theme.of(context).dividerColor.withOpacity(0.2),
+                      color:
+                          Theme.of(context).dividerColor.withValues(alpha: 0.2),
                     ),
                   ),
                 if (posts.isNotEmpty)
@@ -174,7 +175,7 @@ class _ThreadViewState extends State<ThreadView> {
                         child: Divider(
                           height: 0,
                           color:
-                              Theme.of(context).dividerColor.withOpacity(0.2),
+                              Theme.of(context).dividerColor.withValues(alpha: 0.2),
                         ),
                       );
                     },

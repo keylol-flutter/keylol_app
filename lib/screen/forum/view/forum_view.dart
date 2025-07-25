@@ -130,7 +130,7 @@ class _ForumState extends State<ForumView> {
                         );
                       },
                     );
-                  }).toList(),
+                  }),
                 ])
               ],
             ),
@@ -365,7 +365,8 @@ class _ForumState extends State<ForumView> {
                   padding: const EdgeInsets.only(left: 16.0 + 56, right: 16.0),
                   child: Divider(
                     height: 0,
-                    color: Theme.of(context).dividerColor.withOpacity(0.2),
+                    color:
+                        Theme.of(context).dividerColor.withValues(alpha: 0.2),
                   ),
                 );
               },

@@ -47,7 +47,7 @@ class _HistoryState extends State<HistoryView> {
                               Theme.of(context).colorScheme.surfaceTint,
                               3,
                             )
-                          : Theme.of(context).colorScheme.background,
+                          : Theme.of(context).colorScheme.surface,
                       padding: const EdgeInsets.only(left: 16, right: 16),
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -73,8 +73,9 @@ class _HistoryState extends State<HistoryView> {
                             const EdgeInsets.only(left: 16.0 + 56, right: 16.0),
                         child: Divider(
                           height: 0,
-                          color:
-                              Theme.of(context).dividerColor.withOpacity(0.2),
+                          color: Theme.of(context)
+                              .dividerColor
+                              .withValues(alpha: 0.2),
                         ),
                       );
                     },
