@@ -358,7 +358,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "192ce5a99dddb09fc345cdf2cc102f9980fb993c"
+      resolved-ref: f8275640a31d19861e5f83452173e3b8fe7c1228
       url: "https://github.com/keylol-flutter/discuz_widgets.git"
     source: git
     version: "1.0.0+1"
@@ -806,14 +806,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1+1"
-  image_save:
-    dependency: transitive
-    description:
-      name: image_save
-      sha256: "0560945314ea842d03325a50c78bd00849c2e70da1f43fd9154e46fa42896526"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.0.0"
   intl:
     dependency: "direct main"
     description:
@@ -1680,10 +1672,10 @@ packages:
     dependency: transitive
     description:
       name: video_player_android
-      sha256: "4a5135754a62dbc827a64a42ef1f8ed72c962e191c97e2d48744225c2b9ebb73"
+      sha256: "9d5af2d233ba69df803dcf2f31e66d9a4c6206f2d96178df06b09b0ec3056b39"
       url: "https://pub.dev"
     source: hosted
-    version: "2.8.7"
+    version: "2.8.9"
   video_player_avfoundation:
     dependency: transitive
     description:
