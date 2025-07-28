@@ -65,7 +65,6 @@ dependencies:
   skeletonizer: ^2.1.0+1
   flutter_native_splash: ^2.3.6
   dio_cache_interceptor: ^3.5.0
-  dio_cache_interceptor_db_store: ^6.0.0
   settings_ui: ^2.0.2
   flutter_material_color_picker: ^1.2.0
   about: ^2.1.3

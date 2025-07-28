@@ -337,14 +337,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.5.1"
-  dio_cache_interceptor_db_store:
-    dependency: "direct main"
-    description:
-      name: dio_cache_interceptor_db_store
-      sha256: "2c17538d7c00f62ee74941e497b31187d91d256b63507106ad79f8fcd797a775"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.0"
   dio_cookie_manager:
     dependency: transitive
     description:
@@ -378,14 +370,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
-  drift:
-    dependency: transitive
-    description:
-      name: drift
-      sha256: dce2723fb0dd03563af21f305f8f96514c27f870efba934b4fe84d4fedb4eff7
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.28.0"
   dynamic_color:
     dependency: "direct main"
     description:
@@ -1436,14 +1420,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.0"
-  sqlite3:
-    dependency: transitive
-    description:
-      name: sqlite3
-      sha256: "608b56d594e4c8498c972c8f1507209f9fd74939971b948ddbbfbfd1c9cb3c15"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.7.7"
   stack_trace:
     dependency: transitive
     description:
