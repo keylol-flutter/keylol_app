@@ -70,26 +70,39 @@ void main() async {
               return client;
             },
             child: MultiRepositoryProvider(
-              providers: [
-                RepositoryProvider(
-                  create: (context) =>
-                      SettingsRepository(context.read<SharedPreferences>()),
-                ),
-                RepositoryProvider(
-                  create: (context) => HistoryRepository(
-                    context.read<DatabaseService>().instance,
+                providers: [
+                  RepositoryProvider(
+                    create: (context) =>
+                        SettingsRepository(context.read<SharedPreferences>()),
                   ),
-                ),
-                RepositoryProvider(
-                  create: (context) => FavoriteRepository(
-                    context.read<SharedPreferences>(),
-                    context.read<DatabaseService>().instance,
-                    context.read<Keylol>(),
+                  RepositoryProvider(
+                    create: (context) => HistoryRepository(
+                      context.read<DatabaseService>().instance,
+                    ),
                   ),
-                ),
-              ],
-              child: const MyApp(),
-            ),
+                  RepositoryProvider(
+                    create: (context) => FavoriteRepository(
+                      context.read<SharedPreferences>(),
+                      context.read<DatabaseService>().instance,
+                      context.read<Keylol>(),
+                    ),
+                  ),
+                ],
+                child: MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (context) =>
+                          SettingsCubit(context.read<SettingsRepository>()),
+                    ),
+                    BlocProvider(
+                      create: (context) => AuthenticationBloc(
+                        context.read<Keylol>(),
+                        context.read<AuthenticationRepository>(),
+                      ),
+                    )
+                  ],
+                  child: const MyApp(),
+                )),
           ),
         ),
       ));
